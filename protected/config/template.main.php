@@ -18,10 +18,12 @@ return array(
     'import'=>array(
         'application.models.*',
         'application.components.*',
-        //'application.behaviors.*',
+        'application.modules.user.models.*',
+        'application.modules.user.components.*',
     ),
     'aliases'=>array(
         'appext'=>'application.extensions',
+        'bootstrap'=>'application.extensions.yiistrap',
     ),
     'modules'=>array(
         // uncomment the following to enable the Gii tool
@@ -37,18 +39,39 @@ return array(
             //	'appext.imagesgallery.GalleryBehavior',
             //),
         ),
-        'admin'=>array(
-        ),
-        'email'=>array(
-
+        'admin',
+        'email',
+        'auth',
+        'user' => array(
+            'hash' => 'md5',
+            'sendActivationMail' => true,
+            'loginNotActiv' => false,
+            'activeAfterRegister' => false,
+            'autoLogin' => true,
+            'registrationUrl' => array('/user/registration'),
+            'recoveryUrl' => array('/user/recovery'),
+            'loginUrl' => array('/user/login'),
+            'returnUrl' => array('/user/profile'),
+            'returnLogoutUrl' => array('/user/login'),
         ),
     ),
 
     // application components
     'components'=>array(
+        'authManager' => array(
+            'class' => 'CDbAuthManager',// 'auth.components.CachedDbAuthManager',
+            //'cachingDuration' => 0,
+            'itemTable' => '{{authitem}}',
+            'itemChildTable' => '{{authitemchild}}',
+            'assignmentTable' => '{{authassignment}}',
+            'behaviors' => array(
+                'auth' => array(
+                    'class' => 'auth.components.AuthBehavior',
+                ),
+            ),
+        ),
         'user'=>array(
-            // enable cookie-based authentication
-            'allowAutoLogin'=>true,
+            'class' => 'user.components.WebUser',
         ),
         'bootstrap'=>array(
             'class'=>'appext.yiistrap.components.TbApi',
@@ -65,8 +88,10 @@ return array(
             'showScriptName'=>false,
             'urlFormat'=>'path',
             'rules'=>array(
+                '/'=>'site/index',
                 'gii'=>'gii',
                 'admin'=>'admin/start/index',
+                'auth'=>'auth/assignment',
                 '<controller:\w+>'=>'<controller>/index',
                 '<controller:\w+>/<id:\d+>'=>'<controller>/view',
                 '<controller:\w+>/<action:\w+>/<id:\d+>'=>'<controller>/<action>',
@@ -98,17 +123,17 @@ return array(
         'log'=>array(
             'class'=>'CLogRouter',
             'routes'=>array(
-                array(
-                    'class'=>'CFileLogRoute',
-                    'levels'=>'error, warning',
-                ),
-                ///*
+                //array(
+                //    'class'=>'CFileLogRoute',
+                //    'levels'=>'error, warning',
+                //),
+                /*
                 array(
                     'class'=>'CWebLogRoute',
                     'levels'=>'error, warning, trace, profile, info',
                     'enabled'=>true,
                 ),
-                //*/
+                */
             ),
         ),
     ),

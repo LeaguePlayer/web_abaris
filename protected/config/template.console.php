@@ -35,6 +35,20 @@ return array(
             ),
         ),
     ),
+    'modules' => array(
+        'user' => array(
+            'hash' => 'md5',
+            'sendActivationMail' => true,
+            'loginNotActiv' => false,
+            'activeAfterRegister' => false,
+            'autoLogin' => true,
+            'registrationUrl' => array('/user/registration'),
+            'recoveryUrl' => array('/user/recovery'),
+            'loginUrl' => array('/user/login'),
+            'returnUrl' => array('/user/profile'),
+            'returnLogoutUrl' => array('/user/login'),
+        ),
+    ),
     'commandMap' => array(
         'migrate' => array(
             // псевдоним директории, в которую распаковано расширение
@@ -48,7 +62,8 @@ return array(
             // определяем все модули, для которых нужны миграции
             'modulePaths' => array(
                 'email'      => 'application.modules.email.migrations',
-                'user'      => 'application.modules.user.migrations',
+                'user'       => 'application.modules.user.migrations',
+                'auth'       => 'application.modules.auth.migrations',
             ),
             // отключаем некоторые модули
             'disabledModules' => array(
