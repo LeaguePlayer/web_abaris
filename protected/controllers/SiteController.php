@@ -27,6 +27,7 @@ class SiteController extends FrontController
 	 */
 	public function actionIndex()
 	{
+        $this->layout = '//layouts/headband';
 		$this->render('index');
 	}
 
@@ -35,6 +36,7 @@ class SiteController extends FrontController
 	 */
 	public function actionError()
 	{
+        $this->layout = '//layouts/error';
 		if($error=Yii::app()->errorHandler->error)
 		{
 			if(Yii::app()->request->isAjaxRequest)

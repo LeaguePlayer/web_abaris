@@ -34,7 +34,7 @@
 					'class'=>'bootstrap.widgets.TbNav',
 					'htmlOptions'=>array('class'=>'pull-right'),
 					'items'=>array(
-						array('label'=>'Выйти', 'url'=>'/admin/user/logout'),
+						array('label'=>'Выйти', 'url'=>'/user/logout'),
 					),
 				),
 			),

@@ -17,7 +17,7 @@ class AuthWebUser extends CWebUser
 	/**
 	 * @var string[] a list of names for the users that should be treated as administrators.
 	 */
-	public $admins = array();
+	public $admins = array('admin');
 
 	/**
 	 * Initializes the component.

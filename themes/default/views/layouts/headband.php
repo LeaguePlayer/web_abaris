@@ -1,18 +1,18 @@
 <?php
 
-	$cs = Yii::app()->clientScript;
-	$cs->registerCssFile($this->getAssetsUrl().'/css/bootstrap.min.css');
-	$cs->registerCssFile($this->getAssetsUrl().'/css/bootstrap-responsive.min.css');
-    $cs->registerCssFile($this->getAssetsUrl().'/css/fancybox/jquery.fancybox.css');
-    $cs->registerCssFile($this->getAssetsUrl().'/css/main.css');
-    $cs->registerCssFile($this->getAssetsUrl().'/css/form.css');
-    $cs->registerCssFile($this->getAssetsUrl().'/css/catalog.css');
-	
-	$cs->registerCoreScript('jquery');
-	$cs->registerScriptFile($this->getAssetsUrl().'/js/vendor/fancybox/jquery.fancybox.pack.js', CClientScript::POS_END);
-	$cs->registerScriptFile($this->getAssetsUrl().'/js/vendor/bootstrap.min.js', CClientScript::POS_END);
-	$cs->registerScriptFile($this->getAssetsUrl().'/js/main.js', CClientScript::POS_END);
-	$cs->registerScriptFile($this->getAssetsUrl().'/js/catalog.js', CClientScript::POS_END);
+$cs = Yii::app()->clientScript;
+$cs->registerCssFile($this->getAssetsUrl().'/css/bootstrap.min.css');
+$cs->registerCssFile($this->getAssetsUrl().'/css/bootstrap-responsive.min.css');
+$cs->registerCssFile($this->getAssetsUrl().'/css/fancybox/jquery.fancybox.css');
+$cs->registerCssFile($this->getAssetsUrl().'/css/main.css');
+$cs->registerCssFile($this->getAssetsUrl().'/css/form.css');
+$cs->registerCssFile($this->getAssetsUrl().'/css/catalog.css');
+
+$cs->registerCoreScript('jquery');
+$cs->registerScriptFile($this->getAssetsUrl().'/js/vendor/fancybox/jquery.fancybox.pack.js', CClientScript::POS_END);
+$cs->registerScriptFile($this->getAssetsUrl().'/js/vendor/bootstrap.min.js', CClientScript::POS_END);
+$cs->registerScriptFile($this->getAssetsUrl().'/js/main.js', CClientScript::POS_END);
+$cs->registerScriptFile($this->getAssetsUrl().'/js/catalog.js', CClientScript::POS_END);
 ?>
 <!DOCTYPE html>
 <!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
@@ -70,29 +70,6 @@
             </header>
         </div>
         <!-- end header block-->
-        <!-- begin breadcrumbs -->
-        <div class="container align-center">
-            <ul class="breadcrumbs clearfix">
-                <li><a class="home" href="/">Главная</a></li>
-                <li class="sep"></li>
-                <li><a href="/">Главная</a></li>
-                <li class="sep"></li>
-                <li><a href="/">Главная</a></li>
-                <li class="sep"></li>
-                <li><a href="/">Главная</a></li>
-                <li class="sep"></li>
-                <li><a href="/">Главная</a></li>
-                <li class="sep"></li>
-                <li class="current">Главная</li>
-            </ul>
-            <form class="search-form">
-                <div class="input-wrap clearfix">
-                    <input class="search-input" type="search" name="search-text" placeholder="поиск..."/>
-                    <input class="search-button" type="submit" value=""/>
-                </div>
-            </form>
-        </div>
-        <!-- end breadcrumbs -->
 
         <?php echo $content; ?>
 
