@@ -1,0 +1,165 @@
+/* form_in_fancy */
+.stretch {
+  min-width: 400px; }
+
+.abaris-form .span4 {
+  line-height: 1.2;
+  min-height: 20px; }
+.abaris-form .row-fluid {
+  margin-top: 5px; }
+.abaris-form .text-input {
+  width: 95%;
+  background: none;
+  border: 1px solid black;
+  color: #717171;
+  height: 25px;
+  padding: 0 2%; }
+.abaris-form textarea.text-input {
+  height: auto;
+  padding: 2%;
+  font-family: Arial; }
+.abaris-form label {
+  color: #252525; }
+.abaris-form .info {
+  font-size: 10px;
+  color: #717171;
+  line-height: 1.2;
+  padding: 2px 0; }
+.abaris-form .error {
+  color: red; }
+.abaris-form .error-input {
+  border: 1px solid red;
+  color: red; }
+.abaris-form .text-input:focus {
+  outline: none; }
+.abaris-form input[type=checkbox].css-checkbox,
+.abaris-form input[type=radio].css-checkbox {
+  position: absolute;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  height: 1px;
+  width: 1px;
+  margin: -1px;
+  padding: 0;
+  border: 0; }
+.abaris-form input[type=checkbox].css-checkbox + label.css-label,
+.abaris-form input[type=radio].css-checkbox + label.css-label {
+  padding-left: 15px;
+  height: 11px;
+  display: inline-block;
+  line-height: 11px;
+  background-repeat: no-repeat;
+  background-position: 0 0;
+  font-size: 11px;
+  vertical-align: middle;
+  cursor: pointer; }
+.abaris-form input[type=checkbox].css-checkbox:checked + label.css-label,
+.abaris-form input[type=radio].css-checkbox:checked + label.css-label {
+  background-position: 0 -11px; }
+.abaris-form .login-submit, .abaris-form .login-submit:visited {
+  width: 100%;
+  color: white;
+  background-color: #296bb1;
+  border: none;
+  padding: 10px 0;
+  display: block;
+  text-align: center;
+  text-decoration: none;
+  margin-top: 10px; }
+.abaris-form .css-label {
+  background-image: url("../img/checkbox.png");
+  color: #717171;
+  margin-top: 8px; }
+.abaris-form a, .abaris-form a:visited {
+  color: #296bb1; }
+.abaris-form .lock {
+  padding-left: 20px;
+  display: block;
+  height: 16px;
+  background: no-repeat left center url("../img/lock_a.gif"); }
+.abaris-form .steps {
+  color: #717171; }
+.abaris-form .type {
+  padding: 7px 0; }
+  .abaris-form .type label {
+    color: #717171; }
+.abaris-form .required {
+  font-size: 18px;
+  color: red; }
+.abaris-form .organization {
+  margin: 30px 0;
+  border-left: 1px solid red;
+  padding-left: 15px; }
+.abaris-form select.text-input {
+  padding: 0;
+  width: 100%; }
+.abaris-form .req-info {
+  padding-left: 20px;
+  color: #717171;
+  margin-bottom: 10px; }
+.abaris-form .garant {
+  height: 23px;
+  padding-left: 25px;
+  background: no-repeat left center url("../img/garant.gif");
+  margin-bottom: 20px; }
+.abaris-form .cancel-signup {
+  padding: 10px;
+  display: block;
+  text-align: center; }
+.abaris-form .next-step, .abaris-form .prev-step {
+  width: 100%;
+  padding: 10px 0;
+  border: none;
+  text-align: center;
+  display: block;
+  color: white;
+  background-color: #296bb1;
+  text-decoration: none;
+  margin-bottom: 5px; }
+.abaris-form .next-step:visited, .abaris-form .prev-step:visited {
+  color: white; }
+.abaris-form .next-step i, .abaris-form .prev-step i {
+  width: 11px;
+  height: 22px;
+  display: block; }
+.abaris-form .next-step i {
+  float: right;
+  margin-right: 30px;
+  background: no-repeat -11px 0 url("../img/step_arrows.gif"); }
+.abaris-form .prev-step i {
+  float: left;
+  margin-left: 30px;
+  background: no-repeat 0 0 url("../img/step_arrows.gif"); }
+.abaris-form .sms-info {
+  font-size: 12px;
+  color: #717171;
+  line-height: 1.2;
+  padding: 15px 0; }
+.abaris-form .red-button, .abaris-form .red-button:visited {
+  background-color: #ff665d;
+  display: block;
+  padding: 4px;
+  color: white;
+  text-align: center;
+  text-decoration: none;
+  font-size: 11px; }
+.abaris-form .features {
+  max-width: 450px;
+  margin: 25px 0; }
+.abaris-form .sign-info {
+  max-width: 450px; }
+.abaris-form .blue {
+  color: #296bb1; }
+.abaris-form .big-number {
+  font-size: 53px;
+  display: block;
+  float: left;
+  margin: 0 10px 15px 0;
+  line-height: 1; }
+.abaris-form .add-auto span {
+  font-size: 50px;
+  display: block;
+  float: left;
+  margin-right: 15px; }
+.abaris-form .sep {
+  height: 20px; }

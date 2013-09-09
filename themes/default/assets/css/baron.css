@@ -1,0 +1,38 @@
+/* CSS styles in this file are need for proper Baron work */
+.wrapper {
+    position: relative;
+    overflow: hidden;
+    max-height: 500px;
+    max-width: 400px;
+}
+.scroller {
+    overflow-y: scroll;
+    /* -webkit-overflow-scrolling: touch; *//* uncomment to accelerate scrolling on iOS */
+}
+.scroll-container{
+    padding-right: 15px;
+}
+.scroller::-webkit-scrollbar { /* Preventing webkit cross-direction scrolling bug */
+    width: 0;
+}
+.scroller__track {
+    display: none; /* Invisible by default */
+    position: absolute;
+    right: 4px;
+    top: 10px;
+    bottom: 4px;
+    width: 6px;
+    background: repeat-y center url('../img/bg_scroller.gif');
+}
+.baron .scroller__track {
+    display: block; /* Visible when scrolling is possible */
+}
+.scroller__bar { /* The bar. You should define width, right position and background */
+    position: absolute;    
+    z-index: 1;
+    right: 0;
+    width: 6px;
+    background: #686868;
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+}

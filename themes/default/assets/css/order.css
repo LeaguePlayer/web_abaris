@@ -1,0 +1,93 @@
+.order a, .order a:visited {
+  color: #296bb1; }
+.order .steps {
+  color: #717171;
+  font-size: 12px; }
+  .order .steps span {
+    color: #ff665d; }
+.order .step-type {
+  color: #ff665d;
+  padding: 25px 0;
+  font-size: 18px; }
+.order .abaris-form {
+  padding: 40px 0; }
+.order .row {
+  font-size: 12px;
+  margin-bottom: 30px; }
+.order .card {
+  width: 29px;
+  height: 20px;
+  margin-top: -5px; }
+.order .visa {
+  background: no-repeat 0 0 url("../img/payment_cards.gif"); }
+.order .mastercard {
+  background: no-repeat 0 -20px url("../img/payment_cards.gif"); }
+.order .cards, .order .types {
+  float: left; }
+.order .cards {
+  width: 29px;
+  margin-left: 10px;
+  margin-top: 10px; }
+.order .grey {
+  color: #717171; }
+.order .req-info {
+  padding: 0; }
+.order .call span {
+  color: #ff665d; }
+.order .tt {
+  position: relative;
+  text-align: left;
+  cursor: pointer; }
+.order .tooltip {
+  opacity: 1; }
+  .order .tooltip .tooltip-inner {
+    background-color: white;
+    color: #717171;
+    border-radius: 0;
+    border: 1px solid red; }
+  .order .tooltip .tooltip-arrow {
+    background: no-repeat center url("../img/corner.png");
+    width: 18px;
+    height: 14px;
+    bottom: -8px;
+    margin-left: -5px;
+    border-width: none;
+    border: none; }
+  .order .tooltip.top {
+    margin-top: -15px; }
+
+.order-step3 {
+  color: #717171;
+  margin-top: 0; }
+  .order-step3 .black {
+    color: black; }
+  .order-step3 .clear {
+    padding: 0;
+    margin-bottom: 0; }
+  .order-step3 .abaris-form {
+    padding-top: 0; }
+
+#order-form-step2 .row {
+  margin-bottom: 10px; }
+#order-form-step2 .offset {
+  margin-bottom: 20px; }
+
+.subtotal {
+  background-color: #656565;
+  color: white;
+  font-size: 12px;
+  text-align: center;
+  margin-bottom: 10px; }
+  .subtotal .span2, .subtotal .span1 {
+    padding: 10px 0; }
+  .subtotal span {
+    font-size: 24px;
+    display: block;
+    padding-bottom: 5px; }
+
+.catalog-container {
+  margin-bottom: 0 !important; }
+  .catalog-container .left p {
+    text-align: left; }
+  .catalog-container a, .catalog-container a:visited {
+    color: #296bb1; }

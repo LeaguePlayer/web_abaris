@@ -1,0 +1,715 @@
+@import "helper"
+
+$blue: #296bb1
+$grey: #717171
+$red: #ff665d
+
+html, body
+  height: 100%
+  font-family: Arial
+
+input:focus, select
+  outline: none
+.clear
+  clear: both
+.grey
+  color: $grey
+.blue
+  color: $blue
+.red
+  color: $red
+.grey-border
+  border-bottom: 1px solid #ccc
+
+a.b-button, a.b-button:visited
+  text-decoration: none
+  display: block
+  padding: 7px 0
+  text-align: center
+  border: none
+  color: #fff
+
+a.b-button-blue
+  background-color: $blue
+
+a.b-button-red
+  background-color: $red
+
+/* ====================
+ *  User-panel
+ * ====================*/
+
+.user-panel-container
+  background: repeat-x whitesmoke url('../img/bg_user_panel.gif') center
+  border-bottom: 1px solid #dcdcdc
+
+.user-panel
+  float: right
+  list-style: none
+  padding: 0
+  margin: 0
+
+.up-item
+  float: left
+  line-height: 1
+  border-right: 1px solid #dcdcdc
+  a
+    font-size: 10px
+    color: #777
+    padding-top: -2px
+    text-decoration: none
+    display: inline-block
+    padding: 10px
+
+    &:visited
+      font-size: 10px
+      color: #777
+      text-decoration: none
+    &:hover .icon, &:active, &.active .icon
+      background-position-y: -16px
+  span
+    color: #ff665d
+.no-link
+  font-size: 10px
+  color: #777
+  padding: 10px
+
+.icon
+  width: 18px
+  height: 16px
+  margin-right: 5px
+  display: inline-block
+  float: left
+  margin-top: -2px
+
+.i-user
+  background: no-repeat 0 0 url('../img/user_icons.png')
+
+.i-msg
+  background: no-repeat -18px 0 url('../img/user_icons.png')
+
+.i-adm
+  background: no-repeat -36px 0 url('../img/user_icons.png')
+
+.i-cart
+  background: no-repeat -54px 0 url('../img/user_icons.png')
+
+.i-logout
+  background: no-repeat -72px 0 url('../img/user_icons.png')
+
+/* ====================
+ *  Four-block in header
+ * ====================*/
+
+.header-container
+  .title
+    text-indent: -9999px
+    background: no-repeat center url('../img/logo.png')
+    width: 160px
+    height: 50px
+    float: left
+    display: block
+  h1
+    display: inline-block
+    width: 160px
+    height: 50px
+    margin: 10% auto 0 auto
+  .wrapper
+    border-bottom: 1px dashed #e6e6e6
+
+.header-block
+  text-align: center
+  height: 100px
+
+.selected-block
+  margin-top: 10%
+  text-align: center
+
+.selected-mark
+  font-size: 10px
+  color: #717171
+  line-height: 1.2
+  display: inline-block
+  text-align: left
+  margin-right: 5px
+  a
+    color: #1059a9
+    text-decoration: none
+    border-bottom: 1px dashed #1059a9
+
+.cog
+  padding-top: 10px
+  a
+    height: 53px
+    background: no-repeat center url('../img/cogwheel.png')
+    font-size: 14px
+    color: #296bb1
+    padding: 20px 5% 0 5%
+    display: inline-block
+    text-decoration: none
+    &:visited
+      height: 53px
+      background: no-repeat center url('../img/cogwheel.png')
+      font-size: 14px
+      color: #296bb1
+      padding: 20px 5% 0 5%
+      display: inline-block
+      text-decoration: none
+
+.header-phone
+  font-size: 18px
+  font-weight: bold
+  text-align: right
+  line-height: 1
+  margin-top: 30px
+  display: inline-block
+  span
+    color: #ff665d
+  a
+    font-size: 10px
+    font-weight: normal
+    color: #1059a9
+    text-decoration: none
+    border-bottom: 1px dashed #1059a9
+
+.main-wrapper
+  min-height: 100%
+  height: auto !important
+  height: 100%
+  margin: 0 auto -302px
+
+/* ====================
+ *  Breadcrumbs
+ * ====================*/
+
+.breadcrumbs
+  float: left
+  list-style: none
+  padding: 0
+  margin: 10px 0 0 2%
+  li
+    font-size: 12px
+    float: left
+    color: #ff665d
+    margin-right: 10px
+    padding-bottom: 10px
+  a
+    color: #717171
+    text-decoration: none
+    &:visited
+      color: #717171
+      text-decoration: none
+    &.home
+      color: #000
+  .sep
+    width: 6px
+    height: 11px
+    background: no-repeat center url('../img/bread_sep.gif')
+
+.search-form
+  margin-top: 10px
+  .input-wrap
+    float: right
+    border: 1px solid #dadada
+    border-radius: 20px
+    padding: 2px 10px
+
+.search-input
+  height: 14px
+  background: none
+  border: none
+  color: #555
+  font-size: 10px
+  width: 170px
+  float: left
+  &:focus
+    border: none
+    outline: none
+
+.search-button
+  float: left
+  border: none
+  border-left: 1px solid #ccc
+  width: 18px
+  height: 16px
+  margin: 0 5px
+  background: no-repeat -90px -16px url('../img/user_icons.png')
+
+/* ====================
+ *  main page
+ * ====================*/
+
+.black-line
+  margin: 20px 0
+  .container
+    background-color: #000
+    height: 9px
+.big-title
+  margin-bottom: 20px
+  h2
+    font: bold 30px Arial
+    text-align: center
+    margin-bottom: 10px
+  .we-help
+    text-align: center
+    color: $grey
+    font-size: 18px
+    width: 40%
+    margin: 0 auto
+    padding-bottom: 30px
+    border-bottom: 1px solid #000
+// .main-banner
+//   height: 100px
+//   background: no-repeat center url('../img/main-banner.jpg')
+//   margin-bottom: 40px
+// .brends-block
+//   margin-bottom: 30px
+//   .row-rhombs
+//     margin: 0 auto
+//     display: table
+//   .offset
+//     margin-top: -150px
+//   .rhomb
+//     width: 313px
+//     height: 313px
+//     background: no-repeat center url('../img/rhomb.png')
+//     display: table-cell
+//     vertical-align: middle
+//     text-align: center
+.main-banner
+  height: 100px
+  background: no-repeat center url('../img/main-banner.jpg')
+  margin-bottom: 40px
+.brends-block
+  margin: 20px auto
+  max-width: 1200px
+  text-align: center
+  .row-rhombs
+    display: inline-block
+  .offset
+    margin-top: -150px
+  .rhomb
+    width: 313px
+    height: 313px
+    background: no-repeat center url('../img/rhomb.png')
+    display: inline-block
+    vertical-align: middle
+    text-align: center
+    a
+      position: relative
+    img
+      margin-top: 90px
+  .chev img
+    margin-top: 110px
+  .daew img, .ssan img
+    margin-top: 70px
+
+/* ====================
+ *  Footer
+ * ====================*/
+
+.footer-container, .push
+  height: 300px
+
+.footer-container
+  border-top: 2px solid #ff665d
+
+.footer-menu
+  float: right
+
+.footer-logo
+  float: left
+  width: 30%
+  background-color: #222328
+  min-height: 300px
+  text-align: right
+  img
+    margin: 30px 20px 0 0
+
+.footer-menu
+  width: 70%
+  min-height: 300px
+  background: #37383f no-repeat right bottom url('../img/bg_footer_engine.gif')
+
+.copyright
+  text-align: right
+  margin-top: 200px
+  color: #717171
+  margin-right: 20px
+  font-size: 12px
+
+.menu-blocks
+  overflow: hidden
+
+.menu-block
+  width: 25%
+  padding: 0 0 0 2%
+  margin-top: 30px
+  margin-left: 3%
+  border-left: 1px solid #fff
+  float: left
+  margin-bottom: -10000px
+  padding-bottom: 10000px
+  height: 100%
+  p
+    margin: 0
+    text-transform: uppercase
+    color: #fff
+    font-size: 12px
+    margin-bottom: 10px
+  ul
+    list-style: none
+    padding: 0
+    height: auto
+  li
+    margin-top: 5px
+  a
+    color: #717171
+    font-size: 12px
+    text-decoration: none
+    &:visited
+      color: #717171
+      font-size: 12px
+      text-decoration: none
+    &:hover
+      color: #ff665d
+  .btn-navbar
+    display: none
+.best-company
+  margin-right: 20%
+  padding: 30px 0 0 0
+  text-align: right
+  font-size: 12px 
+  color: $grey
+
+/* fancybox*/
+.model-desc .img
+  text-align: center
+.inline-modal
+  display: none
+  padding: 25px
+  color: #252525
+  font-size: 12px
+  .desc
+    padding: 15px 0 10px 5px
+  .scroller
+    max-height: 350px
+    max-width: 400px
+  h3
+    font-size: 14px
+    color: #000
+    margin: 0
+    font-weight: normal
+    line-height: 1
+    margin-bottom: 15px
+  .valign
+    display: block
+    text-align: center
+    padding: 10px 0
+  a
+    color: #296bb1
+    &:visited
+      color: #296bb1
+  .blue-button
+    display: block
+    background: none
+    background-color: #296bb1
+    padding: 10px 0
+    text-align: center
+    border: none
+    color: #fff
+    text-decoration: none
+    &:visited
+      display: block
+      background: none
+      background-color: #296bb1
+      padding: 10px 0
+      text-align: center
+      border: none
+      color: #fff
+      text-decoration: none
+  .info
+    color: #717171
+    max-width: 450px
+    padding: 10px 0
+    line-height: 1.1
+  .clone-auto
+    padding-top: 10px
+    margin-top: 10px
+    border-top: 1px dashed #ddd
+
+/* fancybox styles */
+.abaris-modal
+  .fancybox-close
+    background-image: url("../img/close_window.png")
+    width: 21px
+    height: 21px
+    top: 13px
+    right: 13px
+  .fancybox-skin
+    -webkit-box-shadow: 1px 1px 1px 0 black
+    box-shadow: 1px 1px 1px 0 black
+    -webkit-border-radius: 0
+    border-radius: 0
+    border: 1px solid #6e6e6e
+  .fancybox-inner
+    border: 1px solid #9b9b9b
+
+
+a, a:visited
+  color: $blue
+
+.georgia
+  font-family: Georgia
+  font-weight: normal
+  line-height: 1
+
+.page-title
+  margin-top: 20px
+  padding: 0 2%
+  margin-bottom: 10px
+  h2
+    padding: 0
+    margin: 0
+    font-size: 20px
+  .blue-line
+    display: inline-block
+    width: 100px
+    height: 7px
+    background-color: #1059a9
+    margin-right: 10px
+
+.subtotal
+  background-color: #656565
+  color: #fff
+  font-size: 12px
+  text-align: center
+  margin-bottom: 10px
+  .span2, .span1
+    padding: 10px 0
+  span 
+    font-size: 24px
+    display: block
+    padding-bottom: 5px
+
+/* pager */
+
+.catalog-pager
+  margin: 25px 0
+  text-align: center
+  color: $red
+  font-size: 12px
+  ul
+    display: inline-block
+  li
+    display: inline-block
+    margin-right: 5px
+    height: 15px
+  a, a:visited
+    color: $grey
+    text-decoration: none
+  a:hover
+    color: $red
+  .arrow
+    width: 8px
+    height: 15px
+    display: inline-block
+    // margin-bottom: -3px
+  .left
+    background: no-repeat 0 0 url('../img/pager_arrows.gif')
+  .right
+    background: no-repeat -8px 0 url('../img/pager_arrows.gif')
+
+/* popover */
+
+.user-panel 
+  .popover
+    width: 200px
+    @include border_radius(0)
+    @include none_box_shadow()
+    text-align: center
+    font-size: 12px
+    border: 1px solid #ff7067
+    .arrow
+      &:after
+        border-width: 5px
+    a, a:visited
+      font-size: 12px
+      color: #296bb1
+      text-decoration: underline
+
+  .popover.bottom 
+    .arrow
+      border-bottom-color: transparent
+      &:after
+        margin-left: -5px
+        border-bottom-color: #ff7067
+
+/* ==========================================================================
+ * Media Queries
+ * ==========================================================================*/
+
+@media only screen and (max-width: 961px)
+  .brends-block
+    .offset
+      margin-top: 10px
+    .ssan
+      margin-top: -660px
+
+@media only screen and (max-width: 767px)
+  body
+    padding: 0
+  .footer-menu, .footer-logo
+    float: none
+    min-height: 50px
+  .header-block
+    height: 100px
+    width: 50%
+    float: left
+  .cog a
+    padding-left: 16%
+    padding-right: 16%
+  .footer-menu, .footer-logo
+    width: 100%
+  .up-item > a
+    display: block
+    width: 18px
+    overflow: hidden
+    text-indent: -9999px
+  .copyright
+    margin-top: 20px
+    float: left
+    margin-left: 10px
+  .footer-logo img
+    float: right
+    margin: 10px 5px
+  .menu-blocks
+    overflow: visible
+  .menu-block
+    width: 100%
+    margin-bottom: 10px
+    padding: 0
+    margin: 0
+    float: none
+    /*border: 1px solid #333;
+    /*-webkit-border-radius: 5px;
+     *border-radius: 5px;*/
+    border: none
+    p
+      padding-left: 5px
+      border-bottom: 1px solid #222
+    ul
+      margin: 0 0 10px 0
+      padding: 0
+    li
+      margin: 0
+    a
+      display: block
+      padding-left: 10px
+  .footer-container, .push
+    height: 250px
+  .main-wrapper
+    margin: 0 0 -252px 0
+  .best-company
+    margin-right: 10px
+    padding: 10px 0 10px 0
+  /* pager */
+
+  .catalog-pager
+    ul
+      display: block
+      margin: 0
+    li
+      display: none
+    .left-li, .right-li
+      display: inline-block
+      width: 47%
+      text-align: center
+      a
+        display: block
+        background-color: #ddd
+        line-height: 1
+        padding: 5px
+        @include border_radius(2px)
+  .user-panel
+    width: 100%
+    text-align: center
+  .up-item
+    float: none
+    display: inline-block
+  .no-link
+    float: none
+    width: 100%
+    text-align: right
+    border-bottom: 1px solid #ccc
+    padding: 10px 0
+    border-right: none
+    i
+      float: right
+      margin-right: 10px
+  .breadcrumbs
+    float: none
+    padding: 0
+    margin: 0
+    display: inline-block
+    margin: 10px auto
+    .sep
+      display: none
+    li
+      font-size: 12px
+      float: left
+      text-align: center
+      color: #ff665d
+      margin-right: 0
+      padding-bottom: 0
+    a, .current
+      background-color: #f1f1f1
+      padding: 3px 7px
+      display: inline-block
+      @include border_radius(5px)
+      @include box_shadow(1px, 1px, 1px, 0, #ccc)
+      margin: 5px 5px 0 0
+    .current
+      border-left: none
+      background-color: #83aad2
+      color: #fff
+      margin: 5px 0 0 0
+  .search-form .input-wrap
+    float: none
+    display: inline-block
+  .align-center
+    text-align: center
+    //   &:visited
+    //     color: #717171
+    //     text-decoration: none
+    //   &.home
+    //     color: #000
+    // .sep
+    //   width: 6px
+    //   height: 11px
+    //   background: no-repeat center url('../img/bread_sep.gif')
+
+
+@media only screen and (max-width: 644px)
+  .brends-block
+    .offset
+      margin-top: 10px
+    .ssan
+      margin-top: 0
+
+@media only screen and (max-width: 480px)
+  .copyright
+    display: none
+  .cog a
+    padding-left: 10%
+    padding-right: 10%
+
+/*Retina graphics!*/
+@media only screen and (-webkit-min-device-pixel-ratio: 1.5), only screen and (min--moz-device-pixel-ratio: 1.5), only screen and (min-device-pixel-ratio: 1.5)
+
+  .abaris-modal .fancybox-close
+    background-image: url('../img/close_window@2x.png')
+    background-size: 21px 21px /*The size of the normal image, half the size of the hi-res image*/
+  .header-container .title
+    background-image: url('../img/logo@2x.png')
+    background-size: 160px 46px

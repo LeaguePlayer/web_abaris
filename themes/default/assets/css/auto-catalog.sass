@@ -1,0 +1,88 @@
+$grey: #717171
+$dark-grey: #252525
+$red: #ff665d
+
+@import "helper"
+
+.auto-catalog
+	font-size: 12px
+	padding: 20px 0
+	.column1
+		margin-bottom: 20px
+		font-size: 12px
+		// padding: 0 2%
+	.num-block
+		color: $dark-grey
+		padding: 20px 0
+		.span5, .span4
+			padding-top: 10px
+	.big-num
+		font-size: 53px
+		color: $grey
+		text-align: center
+		padding-bottom: 10px
+		line-height: 1
+	.abaris-form .b-button
+		color: #fff
+		padding: 4px 0
+	.or
+		position: relative
+		text-align: center
+		margin-top: 30px
+		.line
+			border-top: 1px solid #000
+			height: 2px
+		.or-text
+			font-size: 12px
+			color: $red
+			text-transform: uppercase
+			padding: 0 5px
+			position: absolute
+			background-color: #fff
+			top: -9px
+			left: 50%
+			display: block
+			margin-left: -18px
+	.column1
+		input
+			margin-bottom: 10px
+
+	.choose_letter
+		width: 50px
+		margin-top: 20px
+		border: none
+		background: none
+		padding: 2px
+		@include inset_box_shadow(1px , 2px, 3px, 0, #aaa)
+	.choose_letter:focus
+		outline: none
+	.auto
+		background: no-repeat right center url('../img/field-border.png')
+		.img
+			text-align: center
+		.valign-text
+			display: table
+			width: 100%
+			height: 120px
+		.valign-text p
+			vertical-align: middle
+			display: table-cell
+		&:last-child
+			background: none
+	.active
+		background-color: #f1f1f1
+		border-top: 1px dashed #dadada
+		border-bottom: 1px dashed #dadada
+
+@media (max-width: 767px)
+	.auto-catalog
+		.span1, .span4, .span5, .span12
+			padding: 0 2%
+		.choose_letter
+			margin: 0 0 20px 0
+		.auto
+			background: none
+			padding: 20px 0
+			.valign-text
+				height: auto
+				text-align: center

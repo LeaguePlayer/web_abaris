@@ -1,0 +1,19 @@
+@mixin box_shadow($x, $y, $r, $spread, $color){
+	-webkit-box-shadow: $x $y $r $spread $color;
+    box-shadow: $x $y $r $spread $color;
+}
+
+@mixin none_box_shadow(){
+	-webkit-box-shadow: none;
+    box-shadow: none;
+}
+
+@mixin inset_box_shadow($x, $y, $r, $spread, $color){
+	-webkit-box-shadow: inset $x $y $r $spread $color;
+    box-shadow: inset $x $y $r $spread $color;
+}
+
+@mixin border_radius($r){
+	-webkit-border-radius: $r;
+    border-radius: $r;
+}
