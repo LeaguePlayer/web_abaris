@@ -161,11 +161,7 @@ class UploadableImageBehavior extends CActiveRecordBehavior
     public function getImage($version = false, $alt = '', $htmlOptions = array())
     {
         $src = $this->getImageUrl($version);
-        if ( class_exists('TbHtml') ) {
-            return TbHtml::image($src, $alt, $htmlOptions);
-        } else {
-            return CHtml::image($src, $alt, $htmlOptions);
-        }
+        return CHtml::image($src, $alt, $htmlOptions);
     }
 
     public function getImageUrl($version = false)

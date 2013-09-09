@@ -180,9 +180,7 @@ class EActiveRecord extends CActiveRecord
     {
         $this->logUpdate();
         if ( empty($this->sort) ) {
-            //print_r( Lists::model()->find(array('select'=>'MAX(sort) as max_sort')) );
             $this->sort = self::model(get_class($this))->find(array('select'=>'MAX(sort) as max_sort'))->max_sort + 1;
-            //if ( !$this->sort ) $this->sort = 1;
         }
         return parent::beforeSave();
     }

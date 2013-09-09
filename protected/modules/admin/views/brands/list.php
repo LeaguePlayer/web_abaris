@@ -17,29 +17,13 @@ $this->menu=array(
         "class"=>"status_".$data->status,
     )',
 	'columns'=>array(
-		array(
-			'name'=>'dt_timer',
-			'type'=>'raw',
-			'value'=>'SiteHelper::russianDate($data->dt_timer)'
-		),
-		array(
-			'name'=>'dttm_timer',
-			'type'=>'raw',
-			'value'=>'SiteHelper::russianDate($data->dttm_timer)'
-		),
-		'tm_timer',
+		'alias',
+		'name',
 		array(
 			'header'=>'Фото',
 			'type'=>'raw',
-			'value'=>'TbHtml::imageCircle($data->imgBehaviorSddd->getImageUrl("icon"))'
+			'value'=>'TbHtml::imageCircle($data->imgBehaviorLogo->getImageUrl("icon"))'
 		),
-		array(
-			'header'=>'Фото',
-			'type'=>'raw',
-			'value'=>'TbHtml::imageCircle($data->imgBehaviorSdfsdf->getImageUrl("icon"))'
-		),
-		'gllr_timer',
-		'gllr_dfdfdfdf',
 		array(
 			'name'=>'status',
 			'type'=>'raw',

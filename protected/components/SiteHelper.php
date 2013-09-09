@@ -2,7 +2,11 @@
 
 class SiteHelper {
 
-	public static function translit($str) {
+    /**
+     * @param $str string
+     * @return string
+     */
+    public static function translit($str) {
 		$tr = array(
 			"А" => "a", "Б" => "b", "В" => "v", "Г" => "g",
 			"Д" => "d", "Е" => "e", "Ж" => "j", "З" => "z", "И" => "i",

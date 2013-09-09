@@ -19,13 +19,14 @@
 
 <div class="brends-block">
     <div class="row-rhombs">
-        <div class="rhomb"><a href="#"><img src="<?php echo $this->getAssetsUrl();?>/img/hyundai-big.jpg" alt=""></a></div>
-        <div class="rhomb"><a href="#"><img src="<?php echo $this->getAssetsUrl();?>/img/kia-big.png" alt=""></a></div>
+        <?php for ($i = 0; $i < 2; $i++): ?>
+        <div class="rhomb"><a href="#"><?php echo $brands[$i]->getImage('small'); ?></a></div>
+        <?php endfor; ?>
     </div>
     <div class="row-rhombs offset">
-        <div class="rhomb chev"><a href="#"><img src="<?php echo $this->getAssetsUrl();?>/img/chevrolet-big.png" alt=""></a></div>
-        <div class="rhomb daew"><a href="#"><img src="<?php echo $this->getAssetsUrl();?>/img/daewoo-big.png" alt=""></a></div>
-        <div class="rhomb ssan"><a href="#"><img src="<?php echo $this->getAssetsUrl();?>/img/ssang-big.png" alt=""></a></div>
+        <?php for ($i = 2; $i < 5; $i++): ?>
+            <div class="rhomb"><a href="#"><?php echo $brands[$i]->getImage('small'); ?></a></div>
+        <?php endfor; ?>
     </div>
 </div>
 

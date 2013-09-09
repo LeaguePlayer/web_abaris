@@ -28,7 +28,11 @@ class SiteController extends FrontController
 	public function actionIndex()
 	{
         $this->layout = '//layouts/headband';
-		$this->render('index');
+        
+        $criteria = new CDbCriteria();
+        $criteria->addInCondition('alias', array('Hyundai', 'Kia_Motors', 'Chevrolet', 'Daewoo', 'Ssang_Yong'));
+        $brands = Brands::model()->findAll($criteria);
+		$this->render('index', array('brands'=>$brands));
 	}
 
 	/**

@@ -12,7 +12,7 @@
                 array('label'=>'Главная', 'url'=>'/admin/start/index'),
 				array('label'=>'Настройки', 'url'=>'/admin/start/settings'),
 				array('label'=>'Разделы', 'url'=>'#', 'items' => array(
-					array('label'=>'Пример', 'url'=>'#', 'items' => array(
+					array('label'=>'Брэнды', 'url'=>'#', 'items' => array(
 						array('label'=>'Создать', 'url'=>"/admin/brands/create"),
 						array('label'=>'Список', 'url'=>"/admin/brands/list"),
 					)),
