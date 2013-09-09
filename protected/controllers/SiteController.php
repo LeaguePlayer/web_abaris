@@ -25,15 +25,35 @@ class SiteController extends FrontController
 	 * This is the default 'index' action that is invoked
 	 * when an action is not explicitly requested by users.
 	 */
-	public function actionIndex()
+	public function actionIndex($do = false)
 	{
-        $this->layout = '//layouts/headband';
-        
-        $criteria = new CDbCriteria();
-        $criteria->addInCondition('alias', array('Hyundai', 'Kia_Motors', 'Chevrolet', 'Daewoo', 'Ssang_Yong'));
-        $brands = Brands::model()->findAll($criteria);
-		$this->render('index', array('brands'=>$brands));
+        if ( ($this->brand === null) or ($do == 'select_brand') ) {
+            $this->layout = '//layouts/headband';
+            $criteria = new CDbCriteria();
+            $criteria->addInCondition('alias', array('Hyundai', 'Kia_Motors', 'Chevrolet', 'Daewoo', 'Ssang_Yong'));
+            $brands = Brands::model()->findAll($criteria);
+            $this->render('select_brand', array('brands'=>$brands));
+            Yii::app()->end();
+        }
+
+        $this->render('index');
 	}
+
+
+    public function actionChangeBrand($alias)
+    {
+        $brand = Brands::model()->findByAttributes(array('alias'=>$alias));
+        if ( $brand !== null ) {
+            $brandState['id'] = $brand->id;
+            $brandState['logo'] = $brand->getImageUrl('icon');
+            $brandState['name'] = $brand->name;
+            $brandState['alias'] = $brand->alias;
+            $cookie = new CHttpCookie(self::COOKIE_VAR_CURRENT_BRAND, CJSON::encode($brandState));
+            Yii::app()->request->cookies[self::COOKIE_VAR_CURRENT_BRAND] = $cookie;
+            $this->redirect('/');
+        }
+    }
+
 
 	/**
 	 * This is the action to handle external exceptions.

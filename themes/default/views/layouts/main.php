@@ -53,9 +53,9 @@
                         <div class="selected-block clearfix">
 
                             <div class="selected-mark">
-                                <?php echo $this->brand['name']; ?><br><a href="#">выбрать другую марку</a>
+                                <?php echo $this->brand['name']; ?><br><a href="<?php echo $this->createUrl('/site/index', array('do'=>'select_brand')); ?>">выбрать другую марку</a>
                             </div>
-                            <img class="select-logo" src="<?php echo $this->getassetsurl(); ?>/img/hyundai.gif" alt="">
+                            <img class="select-logo" src="<?php echo $this->brand['logo']; ?>" alt="">
                         </div>
                     </div>
                     <div class="header-block span3 cog">

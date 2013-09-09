@@ -66,12 +66,12 @@ class Brands extends EActiveRecord
 				'class' => 'application.behaviors.UploadableImageBehavior',
 				'attributeName' => 'img_logo',
 				'versions' => array(
-					'mini' => array(
-						'resize' => array(90, 90),
-					),
-					'small' => array(
-						'resize' => array(180, 0),
-					)
+                    'icon' => array(
+                        'resize' => array(60, 0),
+                    ),
+                    'medium' => array(
+                        'resize' => array(180, 0),
+                    )
 				),
 			),
         ));
