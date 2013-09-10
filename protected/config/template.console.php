@@ -8,7 +8,9 @@ return array(
 
     // preloading 'log' component
     'preload'=>array('log'),
-
+    'import'=>array(
+        'application.components.*',
+    ),
     // application components
     'components'=>array(
         /*'db'=>array(
@@ -32,6 +34,12 @@ return array(
                     'class'=>'CFileLogRoute',
                     'levels'=>'error, warning',
                 ),
+            ),
+        ),
+        'clientScript'=>array(
+            'class'=>'EClientScript',
+            'scriptMap'=>array(
+                //'jquery.min.js'=>'//ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js',
             ),
         ),
     ),

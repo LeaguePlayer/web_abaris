@@ -5,11 +5,11 @@
 Capfile
 #---
 
-#framework
-#/protected/runtime/
-#/protected/config/main.php
-#/protected/config/console.php
-#/protected/config/cron.php
+framework
+/protected/runtime/
+/protected/config/main.php
+/protected/config/console.php
+/protected/config/cron.php
 /uploads
 /media
 /gallery
