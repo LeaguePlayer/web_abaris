@@ -17,20 +17,19 @@ $this->menu=array(
         "class"=>"status_".$data->status,
     )',
 	'columns'=>array(
+        array(
+            'header'=>'Фото',
+            'type'=>'raw',
+            'value'=>'TbHtml::image($data->imgBehaviorLogo->getImageUrl("icon"))'
+        ),
+        'name',
 		'alias',
-		'name',
-		array(
-			'header'=>'Фото',
-			'type'=>'raw',
-			'value'=>'TbHtml::imageCircle($data->imgBehaviorLogo->getImageUrl("icon"))'
-		),
 		array(
 			'name'=>'status',
 			'type'=>'raw',
 			'value'=>'Brands::getStatusAliases($data->status)',
 			'filter'=>Brands::getStatusAliases()
 		),
-		'sort',
 		array(
 			'name'=>'create_time',
 			'type'=>'raw',

@@ -1,4 +1,5 @@
 <?php $this->beginClip('user_panel'); ?>
+    <!-- begin user admin panel-->
     <div class="user-panel-container clearfix">
         <div class="container">
             <ul class="user-panel">
@@ -10,4 +11,5 @@
             </ul>
         </div>
     </div>
+    <!-- end user admin panel-->
 <?php $this->endClip(); ?>
