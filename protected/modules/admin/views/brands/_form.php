@@ -28,7 +28,6 @@
 		<?php echo $form->error($model, 'wswg_description'); ?>
 	</div>
 
-	<?php echo $form->dropDownListControlGroup($model, 'status', Brands::getStatusAliases(), array('class'=>'span8', 'displaySize'=>1)); ?>
 	<div class="form-actions">
 		<?php echo TbHtml::submitButton('Сохранить', array('color' => TbHtml::BUTTON_COLOR_PRIMARY)); ?>        <?php echo TbHtml::linkButton('Отмена', array('url'=>'/admin/brands/list')); ?>
 	</div>

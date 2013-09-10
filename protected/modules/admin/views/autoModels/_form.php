@@ -9,7 +9,10 @@
 
 	<?php echo $form->textFieldControlGroup($model,'name',array('class'=>'span8','maxlength'=>100)); ?>
 
-	<?php echo $form->textFieldControlGroup($model,'brand_id',array('class'=>'span8')); ?>
+	<?php echo $form->dropDownListControlGroup($model,'brand_id', CHtml::listData(Brands::model()->findAll(), 'id', 'name'),array(
+        'class'=>'span8',
+        'empty'=>'Не выбрана',
+    )); ?>
 
 	<div class='control-group'>
 		<?php echo CHtml::activeLabelEx($model, 'img_photo'); ?>
@@ -23,19 +26,54 @@
 
 	<?php echo $form->textAreaControlGroup($model,'description',array('rows'=>6, 'cols'=>50, 'class'=>'span8')); ?>
 
-	<?php echo $form->textFieldControlGroup($model,'release_date',array('class'=>'span8')); ?>
+    <div class='control-group'>
+        <?php echo CHtml::activeLabelEx($model, 'dt_release_date'); ?>
+        <?php $this->widget('yiiwheels.widgets.datetimepicker.WhDateTimePicker', array(
+            'model' => $model,
+            'attribute' => 'dt_release_date',
+            'pluginOptions' => array(
+                'format' => 'dd-MM-yyyy',
+                'language' => 'ru',
+                'pickSeconds' => false,
+                'pickTime' => false
+            )
+        )); ?>
+        <?php echo $form->error($model, 'dt_release_date'); ?>
+    </div>
+
+    <div class='control-group'>
+        <?php echo CHtml::activeLabelEx($model, 'dt_end_release_date'); ?>
+        <?php $this->widget('yiiwheels.widgets.datetimepicker.WhDateTimePicker', array(
+            'model' => $model,
+            'attribute' => 'dt_end_release_date',
+            'pluginOptions' => array(
+                'format' => 'dd-MM-yyyy',
+                'language' => 'ru',
+                'pickSeconds' => false,
+                'pickTime' => false
+            )
+        )); ?>
+        <?php echo $form->error($model, 'dt_end_release_date'); ?>
+    </div>
 
 	<?php echo $form->textFieldControlGroup($model,'number_doors',array('class'=>'span8')); ?>
 
-	<?php echo $form->textFieldControlGroup($model,'engine_model_id',array('class'=>'span8')); ?>
+    <?php echo $form->dropDownListControlGroup($model,'engine_model_id', CHtml::listData(Engines::model()->findAll(), 'id', 'name'),array(
+        'class'=>'span8',
+        'empty'=>'Не выбран',
+    )); ?>
 
-	<?php echo $form->textFieldControlGroup($model,'bodytype_id',array('class'=>'span8')); ?>
+    <?php echo $form->dropDownListControlGroup($model,'bodytype_id', CHtml::listData(Bodytypes::model()->findAll(), 'id', 'name'),array(
+        'class'=>'span8',
+        'empty'=>'Не выбран',
+    )); ?>
 
 	<?php echo $form->textFieldControlGroup($model,'VIN',array('class'=>'span8','maxlength'=>20)); ?>
 
 	<?php echo $form->dropDownListControlGroup($model, 'status', AutoModels::getStatusAliases(), array('class'=>'span8', 'displaySize'=>1)); ?>
 	<div class="form-actions">
-		<?php echo TbHtml::submitButton('Сохранить', array('color' => TbHtml::BUTTON_COLOR_PRIMARY)); ?>        <?php echo TbHtml::linkButton('Отмена', array('url'=>'/admin/automodels/list')); ?>
+		<?php echo TbHtml::submitButton('Сохранить', array('color' => TbHtml::BUTTON_COLOR_PRIMARY)); ?>
+        <?php echo TbHtml::linkButton('Отмена', array('url'=>'/admin/autoModels/list')); ?>
 	</div>
 
 <?php $this->endWidget(); ?>
