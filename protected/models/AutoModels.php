@@ -9,7 +9,8 @@
     * @property integer $brand_id
     * @property string $img_photo
     * @property string $description
-    * @property string $release_date
+    * @property string $dt_release_date
+    * @property string $dt_end_release_date
     * @property integer $number_doors
     * @property integer $engine_model_id
     * @property integer $bodytype_id
@@ -35,9 +36,9 @@ class AutoModels extends EActiveRecord
             array('name', 'length', 'max'=>100),
             array('img_photo', 'length', 'max'=>256),
             array('VIN', 'length', 'max'=>20),
-            array('description, release_date', 'safe'),
+            array('description, dt_release_date, dt_end_release_date', 'safe'),
             // The following rule is used by search().
-            array('id, name, brand_id, img_photo, description, release_date, number_doors, engine_model_id, bodytype_id, VIN, status, sort, create_time, update_time', 'safe', 'on'=>'search'),
+            array('id, name, brand_id, img_photo, description, dt_release_date, dt_end_release_date, number_doors, engine_model_id, bodytype_id, VIN, status, sort, create_time, update_time', 'safe', 'on'=>'search'),
         );
     }
 
@@ -45,6 +46,9 @@ class AutoModels extends EActiveRecord
     public function relations()
     {
         return array(
+            'engine'=>array(self::BELONGS_TO, 'Engines', 'engine_model_id'),
+            'bodytype'=>array(self::BELONGS_TO, 'Bodytypes', 'bodytype_id'),
+            'brand'=>array(self::BELONGS_TO, 'Brands', 'brand_id'),
         );
     }
 
@@ -57,9 +61,10 @@ class AutoModels extends EActiveRecord
             'brand_id' => 'Марка',
             'img_photo' => 'Фото',
             'description' => 'Описание',
-            'release_date' => 'Дата выпуска',
+            'dt_release_date' => 'Дата выпуска',
+            'dt_end_release_date' => 'Дата окончания выпуска',
             'number_doors' => 'Количество дверей',
-            'engine_model_id' => 'Модель двигателя',
+            'engine_model_id' => 'Двигатель',
             'bodytype_id' => 'Тип кузова',
             'VIN' => 'VIN',
             'status' => 'Статус',
@@ -73,18 +78,24 @@ class AutoModels extends EActiveRecord
     public function behaviors()
     {
         return CMap::mergeArray(parent::behaviors(), array(
-        	'imgBehaviorPhoto' => array(
-				'class' => 'application.behaviors.UploadableImageBehavior',
-				'attributeName' => 'img_photo',
-				'versions' => array(
-					'icon' => array(
-						'centeredpreview' => array(90, 90),
-					),
-					'small' => array(
-						'resize' => array(200, 180),
-					)
-				),
-			),
+            'imgBehaviorPhoto' => array(
+                'class' => 'application.behaviors.UploadableImageBehavior',
+                'attributeName' => 'img_photo',
+                'versions' => array(
+                    'icon' => array(
+                        'centeredpreview' => array(90, 90),
+                    ),
+                    'small' => array(
+                        'resize' => array(117, 64),
+                    ),
+                    'medium' => array(
+                        'resize' => array(217, 0),
+                    ),
+                    'big' => array(
+                        'resize' => array(415, 0),
+                    ),
+                ),
+            ),
         ));
     }
 
@@ -97,7 +108,8 @@ class AutoModels extends EActiveRecord
 		$criteria->compare('brand_id',$this->brand_id);
 		$criteria->compare('img_photo',$this->img_photo,true);
 		$criteria->compare('description',$this->description,true);
-		$criteria->compare('release_date',$this->release_date,true);
+		$criteria->compare('dt_release_date',$this->dt_release_date,true);
+		$criteria->compare('dt_end_release_date',$this->dt_end_release_date,true);
 		$criteria->compare('number_doors',$this->number_doors);
 		$criteria->compare('engine_model_id',$this->engine_model_id);
 		$criteria->compare('bodytype_id',$this->bodytype_id);
@@ -118,5 +130,21 @@ class AutoModels extends EActiveRecord
         return parent::model($className);
     }
 
+	public function beforeSave()
+	{
+		if (!empty($this->dt_release_date))
+			$this->dt_release_date = Yii::app()->date->toMysql($this->dt_release_date);
+		if (!empty($this->dt_end_release_date))
+			$this->dt_end_release_date = Yii::app()->date->toMysql($this->dt_end_release_date);
+		return parent::beforeSave();
+	}
 
+	public function afterFind()
+	{
+		parent::afterFind();
+		if ( in_array($this->scenario, array('insert', 'update')) ) { 
+			$this->dt_release_date = ($this->dt_release_date !== '0000-00-00' ) ? date('d-m-Y', strtotime($this->dt_release_date)) : '';
+			$this->dt_end_release_date = ($this->dt_end_release_date !== '0000-00-00' ) ? date('d-m-Y', strtotime($this->dt_end_release_date)) : '';
+		}
+	}
 }

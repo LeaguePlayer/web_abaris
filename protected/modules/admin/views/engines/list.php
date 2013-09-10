@@ -22,23 +22,6 @@ $this->menu=array(
 		'fuel',
 		'power',
 		array(
-			'name'=>'status',
-			'type'=>'raw',
-			'value'=>'Engines::getStatusAliases($data->status)',
-			'filter'=>Engines::getStatusAliases()
-		),
-		'sort',
-		array(
-			'name'=>'create_time',
-			'type'=>'raw',
-			'value'=>'SiteHelper::russianDate($data->create_time).\' в \'.date(\'H:i\', $data->create_time)'
-		),
-		array(
-			'name'=>'update_time',
-			'type'=>'raw',
-			'value'=>'SiteHelper::russianDate($data->update_time).\' в \'.date(\'H:i\', $data->update_time)'
-		),
-		array(
 			'class'=>'bootstrap.widgets.TbButtonColumn',
 		),
 	),

@@ -17,15 +17,19 @@
     </div>
 </div>
 
+<?php if ( $brands ): ?>
 <div class="brends-block">
     <div class="row-rhombs">
         <?php for ($i = 0; $i < 2; $i++): ?>
+            <?php if (!isset($brands[$i])) break; ?>
             <div class="rhomb"><a href="<?php echo $this->createUrl('/site/changeBrand', array('alias'=>$brands[$i]->alias)); ?>"><?php echo $brands[$i]->getImage('medium'); ?></a></div>
         <?php endfor; ?>
     </div>
     <div class="row-rhombs offset">
         <?php for ($i = 2; $i < 5; $i++): ?>
+            <?php if (!isset($brands[$i])) break; ?>
             <div class="rhomb"><a href="<?php echo $this->createUrl('/site/changeBrand', array('alias'=>$brands[$i]->alias)); ?>"><?php echo $brands[$i]->getImage('medium'); ?></a></div>
         <?php endfor; ?>
     </div>
 </div>
+<?php endif; ?>

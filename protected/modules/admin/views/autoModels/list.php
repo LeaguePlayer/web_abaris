@@ -4,7 +4,7 @@ $this->menu=array(
 );
 ?>
 
-<h1>Управление <?php echo $model->translition(); ?></h1>
+<h1>Управление моделями автомобилей</h1>
 
 <?php $this->widget('bootstrap.widgets.TbGridView',array(
 	'id'=>'auto-models-grid',
@@ -17,34 +17,47 @@ $this->menu=array(
         "class"=>"status_".$data->status,
     )',
 	'columns'=>array(
-		'name',
-		'brand_id',
+        array(
+            'header'=>'Фото',
+            'type'=>'raw',
+            'value'=>'TbHtml::image($data->imgBehaviorPhoto->getImageUrl("small"))'
+        ),
+        array(
+            'name'=>'brand_id',
+            'type'=>'raw',
+            'value'=>'$data->brand->name',
+            'filter'=>CHtml::listData(Brands::model()->findAll(), 'id', 'name')
+        ),
+        'name',
 		array(
-			'header'=>'Фото',
+			'name'=>'dt_release_date',
 			'type'=>'raw',
-			'value'=>'TbHtml::imageCircle($data->imgBehaviorPhoto->getImageUrl("icon"))'
+			'value'=>'SiteHelper::russianDate($data->dt_release_date)'
 		),
-		'release_date',
+		array(
+			'name'=>'dt_end_release_date',
+			'type'=>'raw',
+			'value'=>'SiteHelper::russianDate($data->dt_end_release_date)'
+		),
 		'number_doors',
-		'engine_model_id',
-		'bodytype_id',
+        array(
+            'name'=>'engine_model_id',
+            'type'=>'raw',
+            'value'=>'$data->engine->name',
+            'filter'=>CHtml::listData(Engines::model()->findAll(), 'id', 'name')
+        ),
+        array(
+            'name'=>'bodytype_id',
+            'type'=>'raw',
+            'value'=>'$data->bodytype->name',
+            'filter'=>CHtml::listData(Bodytypes::model()->findAll(), 'id', 'name')
+        ),
 		'VIN',
 		array(
 			'name'=>'status',
 			'type'=>'raw',
 			'value'=>'AutoModels::getStatusAliases($data->status)',
 			'filter'=>AutoModels::getStatusAliases()
-		),
-		'sort',
-		array(
-			'name'=>'create_time',
-			'type'=>'raw',
-			'value'=>'SiteHelper::russianDate($data->create_time).\' в \'.date(\'H:i\', $data->create_time)'
-		),
-		array(
-			'name'=>'update_time',
-			'type'=>'raw',
-			'value'=>'SiteHelper::russianDate($data->update_time).\' в \'.date(\'H:i\', $data->update_time)'
 		),
 		array(
 			'class'=>'bootstrap.widgets.TbButtonColumn',
