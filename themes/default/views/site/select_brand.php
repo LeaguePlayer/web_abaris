@@ -29,5 +29,3 @@
         <?php endfor; ?>
     </div>
 </div>
-
-<div class="push"></div>

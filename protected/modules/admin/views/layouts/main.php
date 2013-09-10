@@ -12,10 +12,10 @@
                 array('label'=>'Главная', 'url'=>'/admin/start/index'),
 				array('label'=>'Настройки', 'url'=>'/admin/start/settings'),
 				array('label'=>'Разделы', 'url'=>'#', 'items' => array(
-					array('label'=>'Брэнды', 'url'=>'#', 'items' => array(
-						array('label'=>'Создать', 'url'=>"/admin/brands/create"),
-						array('label'=>'Список', 'url'=>"/admin/brands/list"),
-					)),
+					array('label'=>'Брэнды', 'url'=>'/admin/brands/list'),
+                    array('label'=>'Модели авто', 'url'=>'/admin/autoModels/list'),
+                    array('label'=>'Типы кузовов', 'url'=>'/admin/bodytypes/list'),
+                    array('label'=>'Двигатели', 'url'=>'/admin/engines/list'),
 				)),
 			);
 		?>

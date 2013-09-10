@@ -34,7 +34,10 @@ class FrontController extends Controller
 
     public function beforeRender($view)
     {
+        $this->renderPartial('//layouts/clips/head');
         $this->renderPartial('//layouts/clips/user_panel');
+        $this->renderPartial('//layouts/clips/header');
+        $this->renderPartial('//layouts/clips/footer');
         return parent::beforeRender($view);
     }
 }
