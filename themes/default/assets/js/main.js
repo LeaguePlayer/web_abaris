@@ -3,12 +3,19 @@
   $(function() {
     $('.grid-items .catalog-grid-row').on('click', function() {
       if ($(this).find('.check').length > 0) {
-        $(this).find('.check').removeClass('check').addClass('un-check');
+        $(this).find('.check').removeClass('check').addClass('un-check').siblings("input").attr("name", "");
         return;
       }
       if ($(this).find('.un-check').length > 0) {
-        $(this).find('.un-check').removeClass('un-check').addClass('check');
+        $(this).find('.un-check').removeClass('un-check').addClass('check').siblings("input").attr("name", "deleteCar[]");
       }
+      
+      var count_checked_cars = $(".catalog-grid-row .check").length;
+      if (count_checked_cars > 0){
+			$("span#count_checked_cars").html("("+count_checked_cars+")");
+		}else{
+			$("span#count_checked_cars").html("");
+		}
     });
     $.show_abaris_box = function(selector, options) {
       if (options == null) {

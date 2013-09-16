@@ -59,6 +59,13 @@
 .delete-icon {
   background: no-repeat -110px 0 url("../img/cart_icons.png"); }
 
+input.delete-icon {
+  height: 54px;
+  padding-top: 43px;
+  border: none;
+  color: #fff;
+  background: no-repeat -110px 0 url("../img/cart_icons.png"); }
+
 .add-icon {
   background: no-repeat -220px 0 url("../img/cart_icons.png"); }
 

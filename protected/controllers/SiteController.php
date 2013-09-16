@@ -30,7 +30,7 @@ class SiteController extends FrontController
         if ( ($this->brand === null) or ($do == 'select_brand') ) {
             $this->layout = '//layouts/headband';
             $criteria = new CDbCriteria();
-            $criteria->addInCondition('alias', array('Hyundai', 'Kia_Motors', 'Chevrolet', 'Daewoo', 'Ssang_Yong'));
+            $criteria->addInCondition('alias', array('Hyundai', 'Kia_Motors', 'Chevrolet', 'Daewoo', 'Ssang_Yong', 'Honda'));
             $brands = Brands::model()->findAll($criteria);
             $this->render('select_brand', array('brands'=>$brands));
             Yii::app()->end();
