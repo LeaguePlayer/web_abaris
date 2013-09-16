@@ -20,6 +20,36 @@ $ ->
 		modal.find('.auto-items').append item
 		$.fancybox.reposition()
 
+	changeCategory = ->
+		$('select.select_category').change (e) ->
+			$.ajax
+				url: window.location.href
+				type: 'GET'
+				data:
+					cat: $(this).val()
+					prevRootCat: $(this).data 'prev'
+				success: (data) ->
+					$('.catalog-container').first().replaceWith data
+					changeCategory()
+					filterListView('details-list')
+			false
+
+	changeCategory()
+
+	filterListView = (listId) ->
+		form = $("##{listId}").prev('.catalog-grid-header').find('form')
+		form.submit ->
+			$.fn.yiiListView.update("#{listId}", data: $(this).serialize())
+			false
+		form.find('input:text').keyup (e) ->
+			if e.keyCode == 13
+				form.submit()
+			false
+
+	$('.list-view').each ->
+		filterListView($(this).attr 'id')
+
+
 	###$('.catalog-grid-row').each () ->
 		max_height = 0
 		$(@).find('.field').each ()->

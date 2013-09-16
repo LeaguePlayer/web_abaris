@@ -4,15 +4,12 @@
 	$cs->registerCssFile($this->getAssetsUrl().'/css/bootstrap-responsive.min.css');
     $cs->registerCssFile($this->getAssetsUrl().'/css/fancybox/jquery.fancybox.css');
     $cs->registerCssFile($this->getAssetsUrl().'/css/main.css');
-    $cs->registerCssFile($this->getAssetsUrl().'/css/main980.css');
     $cs->registerCssFile($this->getAssetsUrl().'/css/form.css');
-    $cs->registerCssFile($this->getAssetsUrl().'/css/catalog.css');
 	
 	$cs->registerCoreScript('jquery');
 	$cs->registerScriptFile($this->getAssetsUrl().'/js/vendor/fancybox/jquery.fancybox.pack.js', CClientScript::POS_END);
 	$cs->registerScriptFile($this->getAssetsUrl().'/js/vendor/bootstrap.min.js', CClientScript::POS_END);
-	$cs->registerScriptFile($this->getAssetsUrl().'/js/main.js', CClientScript::POS_END);
-	$cs->registerScriptFile($this->getAssetsUrl().'/js/catalog.js', CClientScript::POS_END);
+	$cs->registerScriptFile($this->getAssetsUrl().'/js/main.js', CClientScript::POS_BEGIN);
 ?>
 <?php echo $this->getClip('head'); ?>
 <body>
