@@ -27,4 +27,16 @@ $ ->
 			$(@).addClass 'active' if !$(@).hasClass('no-hover')
 		() -> $(this).removeClass 'active'
 	)
-	# @.show_box = (selector, options = {}) ->
+
+	$.cart_push = (product_id, options = {}) ->
+		$.ajax
+			url: '/user/cart/put'
+			type: 'GET'
+			dataType: 'json'
+			data:
+				id: product_id
+			success: (data) ->
+				if (!data.error)
+					$.show_abaris_box data.html, options
+				else
+					$.show_abaris_box data.error, options

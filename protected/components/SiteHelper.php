@@ -30,7 +30,7 @@ class SiteHelper {
 
 		$index = $n % 10 == 1 && $n % 100 != 11 ? 0 : ($n % 10 >= 2 && $n % 10 <= 4 && ($n % 100 < 10 || $n % 100 >= 20) ? 1 : 2);
 		if ($arr) {
-			return $n . ' ' . $arr[$index];
+			return $arr[$index];
 		} else {
 			return $n;
 		}

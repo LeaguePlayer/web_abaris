@@ -3,11 +3,29 @@
     <div class="user-panel-container clearfix">
         <div class="container">
             <ul class="user-panel">
-                <li class="up-item no-link"><i class="icon i-user"></i>Здравствуйте, Адексей!</li>
-                <li class="up-item"><a href="#" class="active"><i class="icon i-msg"></i>Сообщения</a></li>
-                <li class="up-item"><a href="#"><i class="icon i-adm"></i>Личный кабинет</a></li>
-                <li class="up-item"><a href="#"><i class="icon i-cart"></i>Ваша корзина <span>4</span> товаров <span>4000</span> р.</a></li>
-                <li class="up-item"><a href="#"><i class="icon i-logout"></i>Выход</a></li>
+                <?php if ( !Yii::app()->user->isGuest ) {
+                    $userName = Yii::app()->user->getState('firstname');
+                    if ( empty($userName) ) {
+                        $userName = Yii::app()->user->getState('username');
+                    }
+                } else {
+                    $userName = 'Гость';
+                } ?>
+                <li class="up-item no-link"><i class="icon i-user"></i>Здравствуйте, <?php echo $userName; ?>!</li>
+                <?php if ( !Yii::app()->user->isGuest ): ?>
+                    <li class="up-item"><a href="<?php echo $this->createUrl('/user/messages'); ?>" class="active"><i class="icon i-msg"></i>Сообщения</a></li>
+                    <li class="up-item"><a href="<?php echo $this->createUrl('/user/profile'); ?>"><i class="icon i-adm"></i>Личный кабинет</a></li>
+                <?php endif; ?>
+                <?php
+                    $cartCount = Yii::app()->cart->getCount();
+                    $cartCost = Yii::app()->cart->getCost();
+                ?>
+                <li class="up-item"><a href="<?php echo $this->createUrl('/user/cart'); ?>"><i class="icon i-cart"></i>Ваша корзина <span><?php echo $cartCount; ?></span> <?php echo SiteHelper::pluralize($cartCount, array('товар', 'товара', 'товаров')) ?> <span><?php echo $cartCost; ?></span> р.</a></li>
+                <?php if ( Yii::app()->user->isGuest ): ?>
+                    <li class="up-item"><a href="<?php echo $this->createUrl('/user/login'); ?>"><i class="icon i-auth"></i>Вход</a></li>
+                <?php else: ?>
+                    <li class="up-item"><a href="<?php echo $this->createUrl('/user/logout'); ?>"><i class="icon i-auth"></i>Выход</a></li>
+                <?php endif; ?>
             </ul>
         </div>
     </div>

@@ -104,5 +104,8 @@ class Engines extends EActiveRecord
         return parent::model($className);
     }
 
-
+    public function getFuelType()
+    {
+        return $this->getFuelTypes($this->fuel);
+    }
 }

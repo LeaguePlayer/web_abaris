@@ -2,8 +2,11 @@
     $this->breadcrumbs = array(
         $this->brand['name']=>array('/catalog'),
     );
-    if ( !empty($_GET['model_id']) ) {
-        $this->breadcrumbs['Каталог Абарис'] = array('/catalog/details', 'model_id'=>$_GET['model_id'], 'cat'=>$_GET['cat']);
+    if ( isset($autoModel) ) {
+        $this->breadcrumbs[$autoModel->name] = array('/catalog/engines', 'model_id'=>$autoModel->id);
+        if ( isset($engineModel) ) {
+            $this->breadcrumbs[$engineModel->name] = array('/catalog/details', 'model_id'=>$autoModel->id, 'engine_id'=>$engineModel->id, 'cat'=>$_GET['cat']);
+        }
     }
     $this->breadcrumbs[] = $originalDetail->name;
 ?>

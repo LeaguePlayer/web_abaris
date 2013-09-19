@@ -12,7 +12,7 @@
     <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
 
     <!--[if lt IE 9]>
-    <script src="<?php echo $this->getAssetsUrl();?>/js/vendor/html5-3.6-respond-1.1.0.min.js"></script>
+    <script src="<?php echo $this->getAssetsurl('application');?>/js/vendor/html5-3.6-respond-1.1.0.min.js"></script>
     <![endif]-->
 </head>
 <?php $this->endClip(); ?>

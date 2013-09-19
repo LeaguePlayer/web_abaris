@@ -48,8 +48,7 @@
     height: 80px; }
 
 .catalog-grid-row {
-  border-bottom: 1px dashed #9e9e9e;
-  cursor: pointer; }
+  border-bottom: 1px dashed #9e9e9e; }
   .catalog-grid-row .field {
     padding: 0;
     border: none;
@@ -83,12 +82,22 @@
 
 .catalog-grid .field:last-child {
   background: none; }
+.catalog-grid .price {
+  position: relative; }
+  .catalog-grid .price a.to_cart {
+    position: absolute;
+    left: 0;
+    top: 0;
+    display: inline-block;
+    width: 100%;
+    height: 100%; }
 .catalog-grid .active {
   background-color: #f1f1f1; }
   .catalog-grid .active .price p {
+    position: absolute;
     text-indent: -9999px;
-    width: 61px;
-    height: 61px;
+    width: 100%;
+    height: 100%;
     background: no-repeat center url("../img/plus_cart.gif"); }
 
 .catalog-grid-header {

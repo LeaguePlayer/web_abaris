@@ -20,13 +20,33 @@
       });
       return $.fancybox.open($(selector), options);
     };
-    return $(".catalog-grid-row").hover(function() {
+    $(".catalog-grid-row").hover(function() {
       if (!$(this).hasClass('no-hover')) {
         return $(this).addClass('active');
       }
     }, function() {
       return $(this).removeClass('active');
     });
+    return $.cart_push = function(product_id, options) {
+      if (options == null) {
+        options = {};
+      }
+      return $.ajax({
+        url: '/user/cart/put',
+        type: 'GET',
+        dataType: 'json',
+        data: {
+          id: product_id
+        },
+        success: function(data) {
+          if (!data.error) {
+            return $.show_abaris_box(data.html, options);
+          } else {
+            return $.show_abaris_box(data.error, options);
+          }
+        }
+      });
+    };
   });
 
 }).call(this);

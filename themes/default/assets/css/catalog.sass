@@ -55,7 +55,6 @@ $red: #ff665d
 
 .catalog-grid-row
   border-bottom: 1px dashed #9e9e9e
-  cursor: pointer
   .field
     padding: 0
     border: none
@@ -89,14 +88,25 @@ $red: #ff665d
 .catalog-grid
   .field:last-child
     background: none
+  .price
+    position: relative
+    a.to_cart
+      position: absolute
+      left: 0
+      top: 0
+      display: inline-block
+      width: 100%
+      height: 100%
   .active
     background-color: #f1f1f1
     // color: #fff
-    .price p
-      text-indent: -9999px
-      width: 61px
-      height: 61px
-      background: no-repeat center url('../img/plus_cart.gif')
+    .price
+      p
+        position: absolute
+        text-indent: -9999px
+        width: 100%
+        height: 100%
+        background: no-repeat center url('../img/plus_cart.gif')
     //.field
       // background: no-repeat right center url('../img/field-border-active.png')
 

@@ -10,6 +10,8 @@
  * @copyright 2013 2amigOS! Consultation Group LLC
  * @license http://www.opensource.org/licenses/bsd-license.php New BSD License
  */
+
+Yii::import('zii.behaviors.CTimestampBehavior');
 class EActiveRecord extends CActiveRecord
 {
     // Статусы в базе данных

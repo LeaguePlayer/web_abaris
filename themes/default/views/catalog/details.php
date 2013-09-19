@@ -1,7 +1,8 @@
 <?php
     $this->breadcrumbs = array(
-        $this->brand['name']=>array('/catalog'),
-        'Каталог Абарис',
+        'Каталог абарис'=>array('/catalog'),
+        $autoModel->name=>array('/catalog/engines', 'model_id'=>$autoModel->id),
+        $engineModel->name
     );
 ?>
 
@@ -66,7 +67,7 @@
             'template'=>'{items}<div class="catalog-pager">{pager}</div>',
             'dataProvider'=>$detailsData,
             'itemView'=>'_detail_row',
-            'viewData'=>array('model_id'=>$autoModel->id),
+            'viewData'=>array('autoModel'=>$autoModel, 'engineModel'=>$engineModel),
             'pagerCssClass'=>'container',
             'emptyTagName'=>'div',
             'updateSelector'=>'.catalog-pager a',

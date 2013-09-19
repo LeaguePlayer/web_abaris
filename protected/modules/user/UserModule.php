@@ -137,7 +137,9 @@ class UserModule extends EWebModule
 		if(parent::beforeControllerAction($controller, $action))
 		{
             $this->registerCoreScripts();
-			$this->registerBootstrap();
+            if ( !($controller instanceof FrontController) ) {
+                $this->registerBootstrap();
+            }
 			return true;
 		}
 		else

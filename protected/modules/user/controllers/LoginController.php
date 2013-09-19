@@ -1,9 +1,9 @@
 <?php
 
-class LoginController extends UController
+class LoginController extends FrontController
 {
 	public $defaultAction = 'login';
-    public $layout = '/layouts/login';
+    public $layout = '//layouts/main';
 
 	/**
 	 * Displays the login page
@@ -26,7 +26,7 @@ class LoginController extends UController
 				}
 			}
 			// display the login form
-            $this->cs->registerCssFile($this->getAssetsUrl().'/css/login.css');
+            $this->cs->registerCssFile($this->getAssetsUrl('application').'/css/login.css');
 			$this->render('/user/login',array('model'=>$model));
 		} else
 			$this->redirect(Yii::app()->controller->module->returnUrl);
@@ -37,5 +37,4 @@ class LoginController extends UController
 		$lastVisit->lastvisit_at = date('Y-m-d H:i:s');
 		$lastVisit->save();
 	}
-
 }

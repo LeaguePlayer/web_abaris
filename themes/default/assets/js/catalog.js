@@ -62,8 +62,11 @@
         return false;
       });
     };
-    return $('.list-view').each(function() {
+    $('.list-view').each(function() {
       return filterListView($(this).attr('id'));
+    });
+    return $('#details-list .price p').click(function() {
+      return $.cart_push($(this).data('id'));
     });
     /*$('.catalog-grid-row').each () ->
     		max_height = 0

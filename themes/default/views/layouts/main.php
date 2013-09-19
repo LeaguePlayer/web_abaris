@@ -1,15 +1,16 @@
 <?php
 	$cs = Yii::app()->clientScript;
-	$cs->registerCssFile($this->getAssetsUrl().'/css/bootstrap.min.css');
-	$cs->registerCssFile($this->getAssetsUrl().'/css/bootstrap-responsive.min.css');
-    $cs->registerCssFile($this->getAssetsUrl().'/css/fancybox/jquery.fancybox.css');
-    $cs->registerCssFile($this->getAssetsUrl().'/css/main.css');
-    $cs->registerCssFile($this->getAssetsUrl().'/css/form.css');
+    $assetsPath = $this->getAssetsUrl('application');
+	$cs->registerCssFile($assetsPath.'/css/bootstrap.min.css');
+	$cs->registerCssFile($assetsPath.'/css/bootstrap-responsive.min.css');
+    $cs->registerCssFile($assetsPath.'/css/fancybox/jquery.fancybox.css');
+    $cs->registerCssFile($assetsPath.'/css/main.css');
+    $cs->registerCssFile($assetsPath.'/css/form.css');
 	
 	$cs->registerCoreScript('jquery');
-	$cs->registerScriptFile($this->getAssetsUrl().'/js/vendor/fancybox/jquery.fancybox.pack.js', CClientScript::POS_END);
-	$cs->registerScriptFile($this->getAssetsUrl().'/js/vendor/bootstrap.min.js', CClientScript::POS_END);
-	$cs->registerScriptFile($this->getAssetsUrl().'/js/main.js', CClientScript::POS_BEGIN);
+	$cs->registerScriptFile($assetsPath.'/js/vendor/fancybox/jquery.fancybox.pack.js', CClientScript::POS_END);
+	$cs->registerScriptFile($assetsPath.'/js/vendor/bootstrap.min.js', CClientScript::POS_END);
+	$cs->registerScriptFile($assetsPath.'/js/main.js', CClientScript::POS_BEGIN);
 ?>
 <?php echo $this->getClip('head'); ?>
 <body>

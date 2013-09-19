@@ -47,6 +47,7 @@ class AutoModels extends EActiveRecord
     {
         return array(
             'engine'=>array(self::BELONGS_TO, 'Engines', 'engine_model_id'),
+            'engines'=>array(self::MANY_MANY, 'Engines', AutoEngines::model()->tableName().'(auto_model_id, engine_id)'),
             'bodytype'=>array(self::BELONGS_TO, 'Bodytypes', 'bodytype_id'),
             'brand'=>array(self::BELONGS_TO, 'Brands', 'brand_id'),
             'adaptDetails'=>array(self::MANY_MANY, 'Details', Adaptabillity::model()->tableName().'(auto_model_id, detail_id)'),
@@ -161,5 +162,24 @@ class AutoModels extends EActiveRecord
         return !empty($this->dt_end_release_date)
             ? date('Y', strtotime($this->dt_end_release_date))
             : 'наст. время';
+    }
+
+    public function getDetailInfo()
+    {
+        $result = array();
+        if ( !empty($this->bodytype) ) {
+
+            $result['bodytype'] = array(
+                'label'=>'Тип кухова',
+                'value'=>$this->bodytype->name
+            );
+        }
+        if ( !empty($this->number_doors) ) {
+            $result['number_doors'] = array(
+                'label'=>'Количество дверей',
+                'value'=>$this->number_doors,
+            );;
+        }
+        return $result;
     }
 }

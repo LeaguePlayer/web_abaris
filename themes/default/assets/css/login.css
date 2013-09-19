@@ -6,3 +6,8 @@
   .login .info {
     margin-top: 50px;
     margin-bottom: 20px; }
+  .login .abaris-form label.required {
+    font-size: 12px;
+    color: #252525; }
+    .login .abaris-form label.required span.required {
+      font-size: 12px; }

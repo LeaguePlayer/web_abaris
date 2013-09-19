@@ -50,6 +50,10 @@ $ ->
 		filterListView($(this).attr 'id')
 
 
+	$('#details-list .price p').click ->
+		$.cart_push $(@).data 'id'
+
+
 	###$('.catalog-grid-row').each () ->
 		max_height = 0
 		$(@).find('.field').each ()->

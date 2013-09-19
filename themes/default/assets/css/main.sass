@@ -62,13 +62,23 @@ a.b-button, a.b-button:visited
     text-decoration: none
     display: inline-block
     padding: 10px
-
     &:visited
       font-size: 10px
       color: #777
       text-decoration: none
     &:hover .icon, &:active, &.active .icon
       background-position-y: -16px
+    &:hover .i-user
+      background-position: 0 -16px
+    &:hover .i-msg
+      background-position: -18px -16px
+    &:hover .i-adm
+      background-position: -36px -16px
+    &:hover .i-cart
+      background-position: -54px -16px
+    &:hover .i-auth
+      background-position: -72px -16px
+
   span
     color: #ff665d
 .no-link
@@ -96,7 +106,7 @@ a.b-button, a.b-button:visited
 .i-cart
   background: no-repeat -54px 0 url('../img/user_icons.png')
 
-.i-logout
+.i-auth
   background: no-repeat -72px 0 url('../img/user_icons.png')
 
 /* ====================

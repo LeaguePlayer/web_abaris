@@ -19,11 +19,28 @@
     * @property integer $create_time
     * @property integer $update_time
 */
-class Details extends EActiveRecord
+Yii::import('application.behaviors.UploadableImageBehavior');
+class Details extends EActiveRecord implements IECartPosition
 {
     public function tableName()
     {
         return '{{details}}';
+    }
+
+    /**
+     * @return mixed id
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * @return float price
+     */
+    public function getPrice()
+    {
+        return $this->price;
     }
 
 

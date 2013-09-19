@@ -7,7 +7,9 @@
             <div class="span2 field"><div class="valign-text"><p><?php echo $data->name; ?></p></div></div>
             <div class="span2 field"><div class="valign-text"><p><?php echo $data->toStringInStock(); ?></p></div></div>
             <div class="span1 field"><div class="valign-text"><p>14 дней</p></div></div>
-            <div class="span2 field price"><div class="valign-text"><p><?php echo $data->toStringPrice(); ?></p></div></div>
+            <div class="span2 field price"><div class="valign-text">
+                    <p><?php echo $data->toStringPrice(); ?></p>
+                    <a class="to_cart" data-id="<?php echo $data->id; ?>" href="<?php echo $this->createUrl('/user/cart/put', array('id'=>$data->id)); ?>"></a></div></div>
         </div>
     </div>
 </div>

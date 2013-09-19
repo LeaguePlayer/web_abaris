@@ -13,7 +13,7 @@
             </div>
             <div class="field span3">
                 <div class="valign-text">
-                    <p><a href="<?php echo $this->createUrl('details/view', array('id'=>$data->id, 'model_id'=>$model_id, 'cat'=>$data->category_id)); ?>">Посмотреть цену и наличие товара</a></p>
+                    <p><a href="<?php echo $this->createUrl('details/view', array('id'=>$data->id, 'model_id'=>$autoModel->id, 'cat'=>$data->category_id)); ?>">Посмотреть цену и наличие товара</a></p>
                 </div>
             </div>
         </div>

@@ -7,7 +7,17 @@ class DetailsController extends FrontController
 	
 	public function actionView($id)
 	{
-        $autoModel = $this->loadModel('AutoModels', $_GET['model_id'], array('with'=>'bodytype'), false);
+        $autoModel = $this->loadModel('AutoModels', $_GET['model_id'], array('with'=>array('bodytype', 'engines', 'engine')), false);
+        if ( !empty($_GET['engine_id']) ) {
+            foreach ( $this->engines as $engine) {
+                if ( $engine->id === $_GET['engine_id'] ) {
+                    $engineModel = $engine;
+                    break;
+                }
+            }
+        } else {
+            $engineModel = $autoModel->engine;
+        }
 
         $model = $this->loadModel('Details', $id, array('with'=>'analogs'));
         $inStockDetails = array();
@@ -36,8 +46,9 @@ class DetailsController extends FrontController
 		$this->render('view',array(
             'originalDetail'=>$model,
             'autoModel'=>$autoModel,
+            'engineModel'=>$engineModel,
 			'inStockDetailsData'=>$inStockDetailsData,
-            'nonInStockDetailsData'=>$nonInStockDetailsData
+            'nonInStockDetailsData'=>$nonInStockDetailsData,
 		));
 	}
 }

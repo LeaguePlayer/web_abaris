@@ -31,12 +31,24 @@ class CatalogController extends FrontController
     }
 
 
-    public function actionDetails($model_id)
+    public function actionDetails($model_id, $engine_id = false)
     {
-        // Получаем выбранную марку авто
-        $autoModel = $this->loadModel('AutoModels', $model_id, array(
-            'with'=>array('adaptDetails'=>array('select'=>'adaptDetails.id')),
-        ));
+        // Получаем выбранную марку авто и модель двигателя
+        $autoModel = $this->loadModel('AutoModels', $model_id);
+        if ( $engine_id ) {
+            foreach ( $autoModel->engines as $engine) {
+                if ( $engine->id === $engine_id ) {
+                    $engineModel = $engine;
+                    break;
+                }
+            }
+            if ( !$engineModel and $engine_id === $autoModel->engine->id ) {
+                $engineModel = $autoModel->engine;
+            }
+        } else {
+            $engineModel = $autoModel->engine;
+        }
+
         // Сохраняем в истории просмотра
         if ( !Yii::app()->request->isAjaxRequest ) {
             $hystory = new AutoModelsHystory(3, $this->brand['id']);
@@ -109,7 +121,7 @@ class CatalogController extends FrontController
             $detailFinder->attributes = $_GET['Details'];
         }
 
-        // Вытаскиваем детали для выбранной модели авто с учетом текущей категории и фильтра
+        // Вытаскиваем детали для выбранной модели авто с учетом текущей категории и фильтра, а также типом движка
         $criteriaDet = new CDbCriteria();
         if ( $currentCategory->isNewRecord ) {
             $categoriesList = CMap::mergeArray( CHtml::listData($categories, 'id', 'id'), CHtml::listData($childCategories, 'id', 'id') );
@@ -121,7 +133,15 @@ class CatalogController extends FrontController
         $criteriaDet->compare('name', $detailFinder->name, true);
         $criteriaDet->compare('article', $detailFinder->article, true);
         $criteriaDet->addInCondition('category_id', $categoriesList);
-        $criteriaDet->addInCondition('id', CHtml::listData($autoModel->adaptDetails, 'id', 'id'));
+        $sqlCond = 'id IN (SELECT DISTINCT detail_id FROM '.Adaptabillity::model()->tableName().' WHERE auto_model_id=:model_id';
+        $criteriaDet->params[':model_id'] = $model_id;
+        if ( $engine_id ) {
+            $sqlCond .= ' OR engine_model_id=:engine_id)';
+            $criteriaDet->params[':engine_id'] = $engine_id;
+        } else {
+            $sqlCond .= ')';
+        }
+        $criteriaDet->addCondition($sqlCond);
         $detailsData = new CActiveDataProvider('Details', array(
             'criteria'=>$criteriaDet,
             'pagination'=>array(
@@ -136,6 +156,7 @@ class CatalogController extends FrontController
         Yii::app()->clientScript->registerScriptFile( $this->getAssetsUrl().'/js/catalog.js', CClientScript::POS_END );
         $this->{$renderMethod}('details', array(
             'autoModel'=>$autoModel,
+            'engineModel'=>$engineModel,
             'categories'=>$categories,
             'childCategories'=>$childCategories,
             'currentCategory'=>$currentCategory,
@@ -146,11 +167,22 @@ class CatalogController extends FrontController
     }
 
 
-    public function actionEngine($model_id)
+    public function actionEngines($model_id)
     {
+        // Получаем выбранную марку авто
+        $autoModel = $this->loadModel('AutoModels', $model_id, array(
+            'with'=>array('engines', 'engine'),
+        ));
+        $engines = !empty($autoModel->engines) ? $autoModel->engines :
+            !empty($autoModel->engine) ? array($autoModel->engine) : array();
+        $enginesDataProvider = new CArrayDataProvider($engines);
 
-        $this->render('view',array(
-
+        Yii::app()->clientScript->registerCssFile( $this->getAssetsUrl().'/css/catalog.css' );
+        Yii::app()->clientScript->registerCssFile( $this->getAssetsUrl().'/css/engine.css' );
+        Yii::app()->clientScript->registerScriptFile( $this->getAssetsUrl().'/js/catalog.js', CClientScript::POS_END );
+        $this->render('engines',array(
+            'autoModel'=>$autoModel,
+            'enginesDataProvider'=>$enginesDataProvider,
         ));
     }
 }

@@ -56,13 +56,13 @@
                 <div class="row">
                     <div class="span2 img">
                         <div class="valign-text">
-                            <p><a href="<?php echo $this->createUrl('/catalog/details', array('model_id'=>$item['id'])); ?>"><img src='<?php echo $item['photo']; ?>' alt=""></a></p>
+                            <p><a href="<?php echo $this->createUrl('/catalog/engines', array('model_id'=>$item['id'])); ?>"><img src='<?php echo $item['photo']; ?>' alt=""></a></p>
                         </div>
                     </div>
                     <div class="span2">
                         <div class="valign-text">
                             <p>
-                                <a href="<?php echo $this->createUrl('/catalog/details', array('model_id'=>$item['id'])); ?>"><?php echo $item['bodytype'].' - '.$item['name']; ?></a><br>
+                                <a href="<?php echo $this->createUrl('/catalog/engines', array('model_id'=>$item['id'])); ?>"><?php echo $item['bodytype'].' - '.$item['name']; ?></a><br>
                                 <span><?php echo $item['release_date'].' - '.$item['end_release_date']; ?></span>
                             </p>
                         </div>
@@ -87,13 +87,13 @@
                 <div class="row">
                     <div class="span2 img">
                         <div class="valign-text">
-                            <p><a href="<?php echo $this->createUrl('/catalog/details', array('model_id'=>$item->id)); ?>"><?php echo $item->getImage('small'); ?></a></p>
+                            <p><a href="<?php echo $this->createUrl('/catalog/engines', array('model_id'=>$item->id)); ?>"><?php echo $item->getImage('small'); ?></a></p>
                         </div>
                     </div>
                     <div class="span2">
                         <div class="valign-text">
                             <p>
-                                <a href="<?php echo $this->createUrl('/catalog/details', array('model_id'=>$item->id)); ?>"><?php echo $item->bodytype->name.' - '.$item->name; ?></a><br>
+                                <a href="<?php echo $this->createUrl('/catalog/engines', array('model_id'=>$item->id)); ?>"><?php echo $item->bodytype->name.' - '.$item->name; ?></a><br>
                                 <span><?php echo $item->releaseYear.' - '.$item->endReleaseYear; ?></span>
                             </p>
                         </div>
