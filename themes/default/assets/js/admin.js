@@ -11,16 +11,6 @@
       return $('.tooltip-msg').popover('destroy');
     };
     setTimeout(hide_popover, 5000);
-    $('.admin-items .catalog-grid-row').on('click', function() {
-      console.log($(this).find('.check').length);
-      if ($(this).find('.check').length > 0) {
-        $(this).find('.check').removeClass('check').addClass('un-check');
-        return;
-      }
-      if ($(this).find('.un-check').length > 0) {
-        $(this).find('.un-check').removeClass('un-check').addClass('check');
-      }
-    });
     form = $('.abaris-form');
     return form.find(':radio').on('change', function() {
       if ($(this).attr('id') === 'ur') {
@@ -32,3 +22,7 @@
   });
 
 }).call(this);
+
+/*
+//@ sourceMappingURL=admin.map
+*/
