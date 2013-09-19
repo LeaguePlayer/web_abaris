@@ -6,7 +6,8 @@ class CabinetController extends FrontController
 	public function init () {
 		parent::init();
 		Yii::app()->clientScript->registerCssFile($this->getAssetsUrl()."/css/admin.css", '', 500);
-		Yii::app()->clientScript->registerCssFile($this->getAssetsUrl()."/css/form.css", '', 600);
+		Yii::app()->clientScript->registerCssFile($this->getAssetsUrl()."/css/catalog.css", '', 600);
+		Yii::app()->clientScript->registerCssFile($this->getAssetsUrl()."/css/form.css", '', 700);
 		return true;
 	}
 	

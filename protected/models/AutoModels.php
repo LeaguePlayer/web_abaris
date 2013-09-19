@@ -49,6 +49,7 @@ class AutoModels extends EActiveRecord
             'engine'=>array(self::BELONGS_TO, 'Engines', 'engine_model_id'),
             'bodytype'=>array(self::BELONGS_TO, 'Bodytypes', 'bodytype_id'),
             'brand'=>array(self::BELONGS_TO, 'Brands', 'brand_id'),
+            'adaptDetails'=>array(self::MANY_MANY, 'Details', Adaptabillity::model()->tableName().'(auto_model_id, detail_id)'),
         );
     }
 
@@ -147,4 +148,18 @@ class AutoModels extends EActiveRecord
 			$this->dt_end_release_date = ($this->dt_end_release_date !== '0000-00-00' ) ? date('d-m-Y', strtotime($this->dt_end_release_date)) : '';
 		}
 	}
+
+    public function getReleaseYear()
+    {
+        return !empty($this->dt_release_date)
+            ? date('Y', strtotime($this->dt_release_date))
+            : '';
+    }
+
+    public function getEndReleaseYear()
+    {
+        return !empty($this->dt_end_release_date)
+            ? date('Y', strtotime($this->dt_end_release_date))
+            : 'наст. время';
+    }
 }

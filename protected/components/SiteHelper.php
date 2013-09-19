@@ -124,4 +124,23 @@ class SiteHelper {
 	    $message = str_replace("\n.", "\n..", $message);
         return mail($to,'=?UTF-8?B?'.base64_encode($subject).'?=',$message,$headers);
     }
+
+    public static function priceFormat($price, $currency = null)
+    {
+        $priceParts = explode('.', "".$price);
+        $len = strlen($priceParts[0]);
+        $result = "";
+        for ($i = 1; $i <= $len; $i++) {
+            $result.=$priceParts[0][$len-$i];
+            if ($i%3 == 0) $result.=" ";
+        }
+        $result = strrev($result);
+        if ( isset($priceParts[1]) ) {
+            $result.='.'.$priceParts[1];
+        }
+        if ( $currency !== null ) {
+            $result.=' '.$currency;
+        }
+        return $result;
+    }
 }

@@ -36,6 +36,7 @@ class SiteController extends FrontController
             Yii::app()->end();
         }
 
+        Yii::app()->clientScript->registerCssFile( $this->getAssetsUrl().'/css/main980.css' );
         $this->render('index');
 	}
 

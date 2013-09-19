@@ -16,6 +16,8 @@
                     array('label'=>'Модели авто', 'url'=>'/admin/autoModels/list'),
                     array('label'=>'Типы кузовов', 'url'=>'/admin/bodytypes/list'),
                     array('label'=>'Двигатели', 'url'=>'/admin/engines/list'),
+                    array('label'=>'Категории', 'url'=>'/admin/detailCategory/list'),
+                    array('label'=>'Детали', 'url'=>'/admin/details/list'),
 				)),
 			);
 		?>

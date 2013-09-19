@@ -486,6 +486,10 @@ a, a:visited {
     display: inline-block;
     margin-right: 5px;
     height: 15px; }
+    .catalog-pager li.arrow a {
+      display: inline-block;
+      width: 8px;
+      height: 15px; }
   .catalog-pager a, .catalog-pager a:visited {
     color: #717171;
     text-decoration: none; }

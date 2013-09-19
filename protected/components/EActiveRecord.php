@@ -213,4 +213,9 @@ class EActiveRecord extends CActiveRecord
         if ( !empty($this->update_time) )
             return SiteHelper::russianDate($this->update_time).' в '.date('H:i', $this->update_time);
     }
+
+    public function getAttributeLabel($attribute)
+    {
+        return $this->attributeLabels()[$attribute];
+    }
 }

@@ -1,9 +1,9 @@
 <!-- begin main 980-->
 <div class="container banners">
     <div class="row">
-        <div class="span4"><a href="#"><img width="322" src="img/banner.jpg"></a></div>
-        <div class="span4"><a href="#"><img width="322" src="img/banner.jpg"></a></div>
-        <div class="span4"><a href="#"><img width="322" src="img/banner.jpg"></a></div>
+        <div class="span4"><a href="#"><img width="322" src="<?php echo $this->getAssetsUrl(); ?>/img/banner.jpg"></a></div>
+        <div class="span4"><a href="#"><img width="322" src="<?php echo $this->getAssetsUrl(); ?>/img/banner.jpg"></a></div>
+        <div class="span4"><a href="#"><img width="322" src="<?php echo $this->getAssetsUrl(); ?>/img/banner.jpg"></a></div>
     </div>
 </div>
 
@@ -42,7 +42,7 @@
                     <div class="span1 big-num">2</div>
                     <div class="span5"><p>Не знаете артикул? Можете продолжить поиск по каталогу:</p>
                         <div class="row">
-                            <div class="span5"><a href="#" class="b-button b-button-blue">Каталог  Абарис</a></div>
+                            <div class="span5"><a href="<?php echo $this->createUrl('/catalog/index'); ?>" class="b-button b-button-blue">Каталог  Абарис</a></div>
                         </div>
                         <div class="row">
                             <div class="span5">
