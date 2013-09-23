@@ -2462,3 +2462,14 @@ Stack trace:
 #31 {main}
 REQUEST_URI=/auth/assignment
 ---
+2013/09/20 12:32:26 [error] [system.db.CDbCommand] CDbCommand::execute() failed: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'DEFAULT 0 'Количество',
+	`discount` float DEFAULT 0 COMMENT 'Скид' at line 5. The SQL statement executed was: CREATE TABLE `tbl_cart_details` (
+	`id` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	`cart_id` int(11) NOT NULL COMMENT 'Корзина',
+	`detail_id` int(11) NOT NULL COMMENT 'Товар',
+	`count` int(11) COMMENT DEFAULT 0 'Количество',
+	`discount` float DEFAULT 0 COMMENT 'Скидка',
+	`status` tinyint COMMENT 'Статус',
+	`create_time` int(11) COMMENT 'Дата создания',
+	`update_time` int(11) COMMENT 'Дата последнего редактирования'
+) ENGINE=MyISAM DEFAULT CHARACTER SET = utf8 COLLATE = utf8_general_ci.

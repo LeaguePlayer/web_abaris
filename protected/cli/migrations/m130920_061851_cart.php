@@ -1,14 +1,14 @@
 <?php
 /**
- * Миграция m130916_111614_orders
+ * Миграция m130920_061851_cart
  *
  * @property string $prefix
  */
  
-class m130916_111614_orders extends CDbMigration
+class m130920_061851_cart extends CDbMigration
 {
     // таблицы к удалению, можно использовать '{{table}}'
-	private $dropped = array('{{orders}}');
+	private $dropped = array('{{cart}}');
  
     public function __construct()
     {
@@ -28,25 +28,10 @@ class m130916_111614_orders extends CDbMigration
     {
         $this->_checkTables();
  
-        $this->createTable('{{orders}}', array(
+        $this->createTable('{{cart}}', array(
             'id' => 'pk', // auto increment
-
-			'order_SID' => "VARCHAR(10) COMMENT 'ID сессии'",
-			'paytype' => "TINYINT COMMENT 'Способ оплаты'",
-			'order_status' => "TINYINT COMMENT 'Статус заказа'",
-			'record_status' => "VARCHAR(45) COMMENT 'Статус в корзине'",
-			'cart_id' => "INT NOT NULL COMMENT 'ID корзины'",
-			'recipient_firstname' => "VARCHAR(45) COMMENT 'Имя'",
-			'recipient_lastname' => "VARCHAR(45) COMMENT 'Фамилия'",
-			'client_comment' => "TEXT COMMENT 'Комментарий'",
-			'client_email' => "VARCHAR(100) COMMENT 'E-mail'",
-			'client_phone' => "VARCHAR(20) COMMENT 'Телефон'",
-			'order_date' => "DATETIME COMMENT 'Дата'",
-			
-			'status' => "tinyint COMMENT 'Статус'",
-			'sort' => "integer COMMENT 'Вес для сортировки'",
-            'create_time' => "integer COMMENT 'Дата создания'",
-            'update_time' => "integer COMMENT 'Дата последнего редактирования'",
+			'SID' => "varchar(20) NOT NULL COMMENT '№ карты'",
+            'user_id' => "integer COMMENT 'Ссылка на пользователя'",
         ),
         'ENGINE=MyISAM DEFAULT CHARACTER SET = utf8 COLLATE = utf8_general_ci');
     }

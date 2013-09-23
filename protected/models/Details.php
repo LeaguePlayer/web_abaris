@@ -181,4 +181,9 @@ class Details extends EActiveRecord implements IECartPosition
     {
         return SiteHelper::priceFormat($this->price, 'руб.');
     }
+
+    public function onUpdateInCart($event)
+    {
+
+    }
 }

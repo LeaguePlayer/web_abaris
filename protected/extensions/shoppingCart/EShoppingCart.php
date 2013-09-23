@@ -77,7 +77,7 @@ class EShoppingCart extends CMap {
     public function remove($key) {
         parent::remove($key);
         $this->applyDiscounts();
-        $this->onRemovePosition(new CEvent($this));
+        $this->onRemovePosition(new CEvent($this, array('targetKey'=>$key)));
         $this->saveState();
     }
 
@@ -91,7 +91,7 @@ class EShoppingCart extends CMap {
      * @param IECartPosition $position
      * @param int $quantity
      */
-    public function update(IECartPosition $position, $quantity) {
+    public function update(IECartPosition $position, $quantity, $raiseEvent = true) {
         if (!($position instanceof CComponent))
             throw new InvalidArgumentException('invalid argument 1, product must implement CComponent interface');
 
@@ -109,7 +109,8 @@ class EShoppingCart extends CMap {
             parent::add($key, $position);
 
         $this->applyDiscounts();
-        $this->onUpdatePosition(new CEvent($this));
+        if ( $raiseEvent )
+            $this->onUpdatePosition(new CEvent($this, array('targetPosition'=>$position)));
         $this->saveState();
     }
 
@@ -222,6 +223,4 @@ class EShoppingCart extends CMap {
     {
         return !(bool)$this->getCount();
     }
-
-
 }

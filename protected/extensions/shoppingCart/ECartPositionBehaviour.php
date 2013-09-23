@@ -29,6 +29,20 @@ class ECartPositionBehaviour extends CActiveRecordBehavior {
     private $discountPrice = 0.0;
 
     /**
+     * Position discount rate
+     * @var float
+     */
+    private $_discountRate;
+
+    public function get_discountRate()
+    {
+        if ( $this->_discountRate === null ) {
+            $this->_discountRate = $this->discountPrice / $this->getSumPrice(false) * 100;
+        }
+        return $this->_discountRate;
+    }
+
+    /**
      * Returns total price for all units of the position
      * @param bool $withDiscount
      * @return float
