@@ -56,9 +56,9 @@
         return false;
       });
       return form.find('input:text').keyup(function(e) {
-        if (e.keyCode === 13) {
-          form.submit();
-        }
+        /*if e.keyCode == 13*/
+
+        form.submit();
         return false;
       });
     };

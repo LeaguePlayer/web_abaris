@@ -1,4 +1,4 @@
-<div class="catalog-grid-row">
+<div class="catalog-grid-row<?php if ( $currentEngineId === $data->id ) echo ' select'; ?>">
     <div class="container">
         <div class="row-fluid">
             <div class="field span2">

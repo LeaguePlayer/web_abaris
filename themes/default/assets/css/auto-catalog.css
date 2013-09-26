@@ -16,16 +16,19 @@
     padding-bottom: 10px;
     line-height: 1; }
   .auto-catalog .abaris-form .b-button {
-    color: white;
+    color: white; }
+  .auto-catalog a.b-button {
     padding: 4px 0; }
-  .auto-catalog .or {
+  .auto-catalog button.b-button {
+    padding: 6px 0; }
+  .auto-catalog .or-line {
     position: relative;
     text-align: center;
     margin-top: 30px; }
-    .auto-catalog .or .line {
+    .auto-catalog .or-line .line {
       border-top: 1px solid black;
       height: 2px; }
-    .auto-catalog .or .or-text {
+    .auto-catalog .or-line .text {
       font-size: 12px;
       color: #ff665d;
       text-transform: uppercase;

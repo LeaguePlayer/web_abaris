@@ -1,3 +1,6 @@
+.catalog-grid {
+  margin-bottom: 0; }
+
 .catalog-container {
   margin-bottom: 0; }
 
@@ -12,9 +15,6 @@
 
 .grey-check {
   background: no-repeat 0 0 url("../img/cart_checks.png"); }
-
-.blue-check {
-  background: no-repeat 0 -23px url("../img/cart_checks.png"); }
 
 .spinner {
   background: none;
@@ -91,3 +91,16 @@
 
 .sto-modal .list {
   margin: 10px 0; }
+
+.subtotal.icons .span1 {
+  width: 80px; }
+
+.catalog-grid .catalog-grid-row {
+  position: relative; }
+  .catalog-grid .catalog-grid-row .disabled_row {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.6); }

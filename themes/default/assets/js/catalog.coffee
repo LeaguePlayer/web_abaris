@@ -42,8 +42,8 @@ $ ->
 			$.fn.yiiListView.update("#{listId}", data: $(this).serialize())
 			false
 		form.find('input:text').keyup (e) ->
-			if e.keyCode == 13
-				form.submit()
+			###if e.keyCode == 13###
+			form.submit()
 			false
 
 	$('.list-view').each ->

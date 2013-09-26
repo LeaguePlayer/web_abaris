@@ -21,6 +21,7 @@ class CartController extends FrontController
         $filterChain->run();
     }
 
+
     public function filters()
     {
         return array(
@@ -29,21 +30,28 @@ class CartController extends FrontController
     }
 
 
-
     public function actionIndex()
     {
-        $cartDataProvider = new CArrayDataProvider( Yii::app()->cart->getPositions() );
+        $user = Yii::app()->user->model();
+        $userDiscount = $user !== null ? $user->discount : 0;
+        $positions = Yii::app()->cart->getPositions();
+        usort($positions, array("Details", "cmpStatus"));
+        $cartDataProvider = new CArrayDataProvider($positions, array(
+            'keyField'=>'id',
+            'pagination'=>false,
+        ));
 
         $cs = Yii::app()->clientScript;
         $assetsPath = $this->getAssetsUrl('application');
         $cs->registerCssFile($assetsPath.'/css/spinner.css');
         $cs->registerCssFile($assetsPath.'/css/catalog.css');
         $cs->registerCssFile($assetsPath.'/css/cart.css');
-        $cs->registerScriptFile($assetsPath.'/js/vendor/jquery-scrolltofixed-min.js', CClientScript::POS_END);
+        $cs->registerScriptFile($assetsPath.'/js/vendor/jquery-scrolltofixed-ext.js', CClientScript::POS_END);
         $cs->registerCoreScript('jquery.ui');
         $cs->registerScriptFile($assetsPath.'/js/cart.js', CClientScript::POS_END);
         $this->render('index', array(
             'cartDataProvider'=>$cartDataProvider,
+            'userDiscount'=>$userDiscount,
         ));
     }
 

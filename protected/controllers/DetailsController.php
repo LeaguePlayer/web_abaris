@@ -5,7 +5,7 @@ class DetailsController extends FrontController
 	public $layout='//layouts/main';
 
 	
-	public function actionView($id)
+	public function actionView($id = false, $article = false)
 	{
         $autoModel = $this->loadModel('AutoModels', $_GET['model_id'], array('with'=>array('bodytype', 'engines', 'engine')), false);
         if ( !empty($_GET['engine_id']) ) {
@@ -19,7 +19,20 @@ class DetailsController extends FrontController
             $engineModel = $autoModel->engine;
         }
 
-        $model = $this->loadModel('Details', $id, array('with'=>'analogs'));
+        $criteria = new CDbCriteria();
+        $criteria->with = 'analogs';
+        if ( $id ) {
+            $criteria->compare('t.id', $id);
+        } else if ( $article ) {
+            $criteria->compare('t.article', $article);
+        } else {
+            throw new CHttpException(404, 'Страница не найдена');
+        }
+        $model = Details::model()->find($criteria);
+        if ( $model === null ) {
+            throw new CHttpException(404, 'Страница не найдена');
+        }
+
         $inStockDetails = array();
         $nonInStockDetails = array();
         if ( $model->in_stock > 0 ) {

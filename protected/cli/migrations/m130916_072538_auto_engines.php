@@ -31,6 +31,7 @@ class m130916_072538_auto_engines extends CDbMigration
         $this->createTable('{{auto_engines}}', array(
 			'auto_model_id' => "integer NOT NULL COMMENT 'Модель авто'",
             'engine_id' => "integer NOT NULL COMMENT 'Модель двигателя'",
+            'VIN' => "varchar(20) COMMENT 'VIN'",
         ),
         'ENGINE=MyISAM DEFAULT CHARACTER SET = utf8 COLLATE = utf8_general_ci');
         $this->addPrimaryKey('auto_engines_pk', '{{auto_engines}}', 'auto_model_id, engine_id');

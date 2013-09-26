@@ -7,7 +7,8 @@ $ ->
 			up: "spinner-up"
 	# fixed scroll header
 	$('.catalog-grid-header').scrollToFixed
-		limit: $('.subtotal').offset().top - $('.subtotal').height()
+		limit: 0
+		# limit: $('.subtotal').offset().top - $('.subtotal').height()
 
 	$('.pay-icon').on 'click', (e) ->
 		x = e.clientX
@@ -17,3 +18,16 @@ $ ->
 			beforeShow: () -> 
 				$('.blue-button').on 'click', () ->
 					$.fancybox.close()
+
+	counters = $('.selected_count')
+	selectedCount = $('#cart-details-list input:checkbox:checked').size()
+	$('#cart-details-list input:checkbox').change () ->
+		if $(@).prop 'checked'
+			selectedCount += 1
+		else
+			selectedCount -= 1
+		counters.text selectedCount
+
+
+	class Cart
+	instance = new A

@@ -48,7 +48,7 @@ $this->breadcrumbs = array(
             'template'=>'{items}<div class="catalog-pager">{pager}</div>',
             'dataProvider'=>$enginesDataProvider,
             'itemView'=>'_engine_row',
-            'viewData'=>array('autoModel'=>$autoModel),
+            'viewData'=>array('autoModel'=>$autoModel, 'currentEngineId'=>$currentEngineId),
             'pagerCssClass'=>'container',
             'emptyTagName'=>'div',
             'updateSelector'=>'.catalog-pager a',

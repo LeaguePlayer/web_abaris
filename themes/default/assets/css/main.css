@@ -20,13 +20,16 @@ input:focus, select {
 .grey-border {
   border-bottom: 1px solid #cccccc; }
 
-a.b-button, a.b-button:visited {
+a.b-button, a.b-button:visited, button.b-button {
   text-decoration: none;
   display: block;
   padding: 7px 0;
   text-align: center;
   border: none;
   color: white; }
+
+button.b-button {
+  width: 100%; }
 
 .b-button-blue {
   background-color: #296bb1;
@@ -35,6 +38,15 @@ a.b-button, a.b-button:visited {
 .b-button-red {
   background-color: #ff665d;
   border: none; }
+
+.blue-check label {
+  display: inline-block;
+  width: 28px;
+  height: 26px; }
+.blue-check input[type='checkbox'] {
+  display: none; }
+  .blue-check input[type='checkbox']:checked + label {
+    background: no-repeat 0 -23px url("../img/cart_checks.png"); }
 
 /* ====================
  *  User-panel
@@ -477,9 +489,25 @@ a, a:visited {
   font-size: 12px;
   text-align: center;
   margin-bottom: 10px; }
-  .subtotal .span2, .subtotal .span1 {
-    padding: 10px 0; }
-  .subtotal span {
+  .subtotal a.item {
+    color: white; }
+    .subtotal a.item:hover {
+      text-decoration: none; }
+  .subtotal button.item {
+    background-color: #656565;
+    border: none;
+    color: white;
+    margin-bottom: 0; }
+  .subtotal .item {
+    padding: 10px 0;
+    line-height: 1.5; }
+    .subtotal .item .icon {
+      display: inline-block;
+      float: none;
+      width: 55px;
+      height: 40px;
+      margin: 0; }
+  .subtotal span.summ {
     font-size: 24px;
     display: block;
     padding-bottom: 5px; }

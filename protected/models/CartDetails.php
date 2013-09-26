@@ -8,7 +8,6 @@
     * @property integer $cart_id
     * @property integer $detail_id
     * @property integer $count
-    * @property double $discount
     * @property integer $status
     * @property integer $create_time
     * @property integer $update_time
@@ -52,9 +51,8 @@ class CartDetails extends CActiveRecord
         return array(
             array('cart_id, detail_id', 'required'),
             array('cart_id, detail_id, count, status, create_time, update_time', 'numerical', 'integerOnly'=>true),
-            array('discount', 'numerical'),
             // The following rule is used by search().
-            array('id, cart_id, detail_id, count, discount, status, create_time, update_time', 'safe', 'on'=>'search'),
+            array('id, cart_id, detail_id, count, status, create_time, update_time', 'safe', 'on'=>'search'),
         );
     }
 
@@ -89,7 +87,6 @@ class CartDetails extends CActiveRecord
 		$criteria->compare('cart_id',$this->cart_id);
 		$criteria->compare('detail_id',$this->detail_id);
 		$criteria->compare('count',$this->count);
-		$criteria->compare('discount',$this->discount);
 		$criteria->compare('status',$this->status);
 		$criteria->compare('create_time',$this->create_time);
 		$criteria->compare('update_time',$this->update_time);
@@ -116,5 +113,10 @@ class CartDetails extends CActiveRecord
             return true;
         }
         return false;
+    }
+
+    public function isArchived()
+    {
+        return $this->status == self::STATUS_ARCHIVED;
     }
 }

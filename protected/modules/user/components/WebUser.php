@@ -48,6 +48,7 @@ class WebUser extends AuthWebUser
 
         // Слияние временной гостевой корзины и корзины пользователя
         $userCart = Cart::model()->with('cart_details')->findByAttributes(array('user_id'=>$this->id));
+        //print_r($userCart); die();
         if ( $userCart === null ) {
             $userCart = new Cart;
             $userCart->save(false);
@@ -58,10 +59,13 @@ class WebUser extends AuthWebUser
             $userDetails->add($userDetail->detail_id, $userDetail);
         }
 
-        if ( $this->_cart === null )
+        //print_r($this->_cart === null); die();
+        if ( $this->_cart === null ) {
             $currentCart = Cart::model()->with('cart_details')->findByPk($this->getState('__cartID'));
-        else
+        } else {
             $currentCart = $this->_cart;
+        }
+
         if ( $currentCart !== null ) {
             foreach ( $currentCart->cart_details as $currentDetail ) {
                 if ( $userDetails->contains( $currentDetail->detail_id ) ) {
@@ -83,7 +87,7 @@ class WebUser extends AuthWebUser
             }
             $currentCart->delete();
         }
-        Yii::app()->cart->clear();
+        Yii::app()->cart->clear(false);
         foreach ( $userDetails as $uDetail ) {
             //if ( Yii::app()->cart->contains($uDetail->detail_id) )
             //    continue;

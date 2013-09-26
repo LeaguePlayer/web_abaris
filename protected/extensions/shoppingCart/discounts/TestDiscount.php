@@ -8,13 +8,15 @@ class TestDiscount extends IEDiscount {
     /**
      * Discount %
      */
-    public $rate = 30;
 
     public function apply() {
+        $user = Yii::app()->user->model();
+        $userDiscount = $user !== null ? $user->discount : 0;
         foreach ($this->shoppingCart as $position) {
             $quantity = $position->getQuantity();
-            if ($quantity > 1) {
-                $discountPrice = $this->rate * $position->getPrice() / 100;
+            if ($quantity > 0) {
+                $discount = $position->discount + $userDiscount;
+                $discountPrice = $discount * $position->getPrice() / 100;
                 $position->addDiscountPrice($discountPrice);
             }
         }

@@ -5,66 +5,53 @@
         <span class="blue-line"></span>
     </div>
 </div>
+<form method="POST" action="">
 <div class="catalog-container grid-items">
     <div class="catalog-grid">
         <div class="catalog-grid-header">
             <div class="container">
                 <div class="row-fluid">
                     <div class="field span1"><div class="valign-text"><p><span class="check grey-check"></span></p></div></div>
-                    <div class="field span7"><div class="valign-text"><p>Название</p></div></div>
-                    <div class="field span1"><div class="valign-text"><p>Количество</p></div></div>
+                    <div class="field span6"><div class="valign-text"><p>Название</p></div></div>
+                    <div class="field span2"><div class="valign-text"><p>Количество</p></div></div>
                     <div class="field span2"><div class="valign-text"><p>Цена<br>скидка<br>со скидкой</p></div></div>
                     <div class="field span1"><div class="valign-text"><p>Срок доставки</p></div></div>
                 </div>
             </div>
         </div>
-        <form action="" method="POST">
-            <?php $this->widget('zii.widgets.CListView', array(
-                'id'=>'cart-details-list',
-                'template'=>'{items}<div class="catalog-pager">{pager}</div>',
-                'dataProvider'=>$cartDataProvider,
-                'itemView'=>'_cart_item',
-                'pagerCssClass'=>'container',
-                'emptyTagName'=>'div',
-                'emptyText'=>'',
-                'updateSelector'=>'.catalog-pager a',
-                'pager'=>array(
-                    'class'=>'application.widgets.ELinkPager',
-                    'cssFile'=>false,
-                    'header'=>'',
-                    'firstPageLabel'=>'',
-                    'prevPageLabel'=>'',
-                    'previousPageCssClass'=>'arrow left',
-                    'nextPageLabel'=>'',
-                    'nextPageCssClass'=>'arrow right',
-                    'lastPageLabel'=>'',
-                    'htmlOptions'=>array(
-                        'class'=>''
-                    ),
-                )
-            )); ?>
-        </form>
+        <?php $this->widget('zii.widgets.CListView', array(
+            'id'=>'cart-details-list',
+            'template'=>'{items}',
+            'dataProvider'=>$cartDataProvider,
+            'itemView'=>'_cart_item',
+            'viewData'=>array('userDiscount'=>$userDiscount),
+            'emptyTagName'=>'div',
+            'emptyText'=>'',
+            'updateSelector'=>'.catalog-pager a',
+        )); ?>
+
     </div>
 </div>
 <div class="subtotal icons">
     <div class="container">
-        <div class="span1">
-            <div class="select cart-icon select-icon"></div>
-            Выделен (1)
+        <div class="span1 item">
+            <span class="icon cart-icon select-icon"></span>
+            <span class="text">Выделен (<span class="selected_count">0</span>)</span>
         </div>
-        <div class="span1">
-            <div class="select cart-icon hold-icon"></div>
-            Отложить (1)
-        </div>
-        <div class="span1">
-            <div class="select cart-icon delete-icon"></div>
-            Удалить (1)
-        </div>
+        <a href="#" class="span1 item">
+            <span class="icon cart-icon hold-icon"></span>
+            <span class="text">Отложить (<span class="selected_count">0</span>)</span>
+        </a>
+        <button class="span1 item" type="submit">
+            <span class="icon cart-icon delete-icon"></span>
+            <span class="text">Удалить (<span class="selected_count">0</span>)</span>
+        </button>
         <div class="span5"></div>
-        <div class="span2"><span class="georgia summ">7919 р.</span> Итого</div>
-        <div class="span1"><div class="select cart-icon pay-icon"></div>Оплатить</div>
+        <div class="span2 item"><span class="georgia summ"><?php echo Yii::app()->cart->getCost(); ?> р.</span> Итого</div>
+        <a href="#" class="span1"><div class="select cart-icon pay-icon"></div>Оплатить</a>
     </div>
 </div>
+</form>
 <div class="container info">
     <div class="span12 right">* Чтобы пропустить шаги оформления заказа можете заказить выбранный товар по телефон 8 (999) 464- 456- 998, назвав номер корзины</div>
 </div>

@@ -33,7 +33,6 @@ class m130920_062824_cart_details extends CDbMigration
             'cart_id' => "integer NOT NULL COMMENT 'Корзина'",
             'detail_id' => "integer NOT NULL COMMENT 'Товар'",
             'count' => "integer DEFAULT 0 COMMENT 'Количество'",
-            'discount' => "float DEFAULT 0 COMMENT 'Скидка'",
 			'status' => "tinyint COMMENT 'Статус'",
             'create_time' => "integer COMMENT 'Дата создания'",
             'update_time' => "integer COMMENT 'Дата последнего редактирования'",

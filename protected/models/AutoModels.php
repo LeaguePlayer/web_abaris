@@ -170,7 +170,7 @@ class AutoModels extends EActiveRecord
         if ( !empty($this->bodytype) ) {
 
             $result['bodytype'] = array(
-                'label'=>'Тип кухова',
+                'label'=>'Тип кузова',
                 'value'=>$this->bodytype->name
             );
         }

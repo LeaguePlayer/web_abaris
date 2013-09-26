@@ -8,13 +8,20 @@
 # 			barOnCls: 'baron'
 
 $ ->
-	$('.grid-items .catalog-grid-row').on 'click', () ->
-		if $(@).find('.check').length > 0
-			$(@).find('.check').removeClass('check').addClass('un-check')
-			return
-		if $(@).find('.un-check').length > 0
-			$(@).find('.un-check').removeClass('un-check').addClass('check')
-			return
+	$('.grid-items .catalog-grid-row').on 'click', (e) ->
+		if $(e.target).hasClass('spinner-up') or $(e.target).hasClass('spinner-down')
+			return false
+
+		$this = $(@)
+		checkbox = $this.find('input:checkbox')
+		if checkbox.prop 'checked'
+			checkbox.prop 'checked', false
+			$this.removeClass 'select'
+		else
+			checkbox.prop 'checked', true
+			$this.addClass 'select'
+		checkbox.trigger "change"
+		false
 
 	$.show_abaris_box = (selector, options = {}) ->
 		$.extend options, 

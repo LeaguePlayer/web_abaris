@@ -18,10 +18,12 @@
     * @property integer $sort
     * @property integer $create_time
     * @property integer $update_time
+    * @property double $discount
 */
 Yii::import('application.behaviors.UploadableImageBehavior');
 class Details extends EActiveRecord implements IECartPosition
 {
+
     public function tableName()
     {
         return '{{details}}';
@@ -49,17 +51,17 @@ class Details extends EActiveRecord implements IECartPosition
         return array(
             array('article, name, price, brand_id, category_id', 'required'),
             array('in_stock, brand_id, category_id, status, sort, create_time, update_time', 'numerical', 'integerOnly'=>true),
-            array('price', 'numerical'),
+            array('price, discount', 'numerical'),
             array('article', 'length', 'max'=>45),
             array('name, img_photo', 'length', 'max'=>256),
-            array('dt_delivery_date, wswg_description', 'safe'),
             // The following rule is used by search().
-            array('id, article, name, price, in_stock, dt_delivery_date, img_photo, wswg_description, brand_id, category_id, status, sort, create_time, update_time', 'safe', 'on'=>'search'),
+            array('id, article, name, price, discount, in_stock, dt_delivery_date, img_photo, wswg_description, brand_id, category_id, status, sort, create_time, update_time', 'safe', 'on'=>'search'),
         );
     }
 
     public function relations()
     {
+        $cart = Yii::app()->user->getDbCart();
         return array(
             'brand'=>array(self::BELONGS_TO, 'Brands', 'brand_id'),
             'category'=>array(self::BELONGS_TO, 'DetailCategory', 'category_id'),
@@ -67,6 +69,7 @@ class Details extends EActiveRecord implements IECartPosition
             'analogs'=>array(self::MANY_MANY, 'Details', AnalogDetails::model()->tableName().'(original_id, analog_id)'),
             //'analogsInStock'=>array(self::MANY_MANY, 'Details', AnalogDetails::model()->tableName().'(original_id, analog_id)', 'condition'=>'analogsInStock.in_stock>0'),
             //'analogsNonInStock'=>array(self::MANY_MANY, 'Details', AnalogDetails::model()->tableName().'(original_id, analog_id)', 'condition'=>'analogsInStock.in_stock=0'),
+            'cartInfo'=>array(self::HAS_ONE, 'CartDetails', 'detail_id', 'condition'=>'cart_id=:cart_id', 'params'=>array(':cart_id'=>$cart->id)),
         );
     }
 
@@ -87,6 +90,7 @@ class Details extends EActiveRecord implements IECartPosition
             'sort' => 'Вес для сортировки',
             'create_time' => 'Дата создания',
             'update_time' => 'Дата последнего редактирования',
+            'discount' => 'Скидка',
         );
     }
 
@@ -135,6 +139,7 @@ class Details extends EActiveRecord implements IECartPosition
 		$criteria->compare('sort',$this->sort);
 		$criteria->compare('create_time',$this->create_time);
 		$criteria->compare('update_time',$this->update_time);
+
         $criteria->order = 'sort';
 
         return new CActiveDataProvider($this, array(
@@ -182,8 +187,18 @@ class Details extends EActiveRecord implements IECartPosition
         return SiteHelper::priceFormat($this->price, 'руб.');
     }
 
-    public function onUpdateInCart($event)
+    public function isArchived()
     {
+        return $this->cartInfo->isArchived();
+    }
 
+    public function cmpStatus($a, $b)
+    {
+        if ( $a->cartInfo->status == $b->cartInfo->status )
+            return 0;
+        else if ($a->cartInfo->status > $b->cartInfo->status)
+            return -1;
+        else
+            return 1;
     }
 }

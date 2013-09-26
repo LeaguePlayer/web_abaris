@@ -43,6 +43,7 @@ class m130912_050318_details extends CDbMigration
 			'sort' => "integer COMMENT 'Вес для сортировки'",
             'create_time' => "integer COMMENT 'Дата создания'",
             'update_time' => "integer COMMENT 'Дата последнего редактирования'",
+            'discount' => "float DEFAULT 0 COMMENT 'Скидка'",
         ),
         'ENGINE=MyISAM DEFAULT CHARACTER SET = utf8 COLLATE = utf8_general_ci');
     }

@@ -42,8 +42,6 @@ class AutoEngines extends CActiveRecord
     }
 
 
-
-
     public function search()
     {
         $criteria=new CDbCriteria;

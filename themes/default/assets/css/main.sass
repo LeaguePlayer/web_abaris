@@ -21,13 +21,16 @@ input:focus, select
 .grey-border
   border-bottom: 1px solid #ccc
 
-a.b-button, a.b-button:visited
+a.b-button, a.b-button:visited, button.b-button
   text-decoration: none
   display: block
   padding: 7px 0
   text-align: center
   border: none
   color: #fff
+
+button.b-button
+  width: 100%
 
 .b-button-blue
   background-color: $blue
@@ -36,6 +39,17 @@ a.b-button, a.b-button:visited
 .b-button-red
   background-color: $red
   border: none
+
+.blue-check
+  label
+    display: inline-block
+    width: 28px
+    height: 26px
+  input[type='checkbox']
+    display: none
+    &:checked + label
+      background: no-repeat 0 -23px url('../img/cart_checks.png')
+
 
 /* ====================
  *  User-panel
@@ -498,9 +512,25 @@ a, a:visited
   font-size: 12px
   text-align: center
   margin-bottom: 10px
-  .span2, .span1
+  a.item
+    color: #fff
+    &:hover
+      text-decoration: none
+  button.item
+    background-color: #656565
+    border: none
+    color: #fff
+    margin-bottom: 0
+  .item
     padding: 10px 0
-  span
+    line-height: 1.5
+    .icon
+      display: inline-block
+      float: none
+      width: 55px
+      height: 40px
+      margin: 0
+  span.summ
     font-size: 24px
     display: block
     padding-bottom: 5px

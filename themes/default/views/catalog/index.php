@@ -5,39 +5,33 @@
     </div>
     <div class="row">
         <div class="span6 column1">
-            <form action="" method="POST" class="abaris-form">
-                <div class="row num-block">
-                    <div class="span1 big-num">1</div>
-                    <div class="span5"><p>Знаешь VIN- номер автомобиля? Введи его сюда:</p>
-                        <div class="row">
-                            <div class="span3"><input type="text" value="" class="text-input s-input"></div>
-                            <div class="span2"><a href="#" class="b-button b-button-blue">Найти</a></div>
-                        </div>
-                        <div class="row">
-                            <div class="span5">
-                                <div class="or">
-                                    <div class="line">&nbsp;</div>
-                                    <span class="or-text">или</span>
-                                </div>
+            <div class="row num-block">
+                <div class="span1 big-num">1</div>
+                <div class="span5"><p>Знаешь VIN-номер автомобиля? Введи его сюда:</p>
+                    <div class="row">
+                        <form action="<?php echo $this->createUrl('/catalog/engines'); ?>" method="GET" class="abaris-form">
+                            <div class="span3"><?php echo CHtml::textField('VIN', '', array('class'=>'text-input s-input')); ?></div>
+                            <div class="span2"><button type="submit" class="b-button b-button-blue">Найти</button></div>
+                        </form>
+                    </div>
+                    <div class="row">
+                        <div class="span5">
+                            <div class="or-line">
+                                <div class="line">&nbsp;</div>
+                                <span class="text">или</span>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="row num-block">
-                    <div class="span1 big-num">2</div>
-                    <div class="span4"><p>Выбирите модель. <br>Не хотите долго искать? Выберите Первую букву названия.</p>
-                    </div>
-                    <div class="span1">
-                        <select name="" id="" class="choose_letter">
-                            <option value="">A</option>
-                            <option value="">B</option>
-                            <option value="">C</option>
-                            <option value="">D</option>
-                            <option value="">E</option>
-                        </select>
-                    </div>
+            </div>
+            <div class="row num-block">
+                <div class="span1 big-num">2</div>
+                <div class="span4"><p>Выбирите модель. <br>Не хотите долго искать? Выберите Первую букву названия.</p>
                 </div>
-            </form>
+                <div class="span1">
+                    <?php echo CHtml::dropDownList('BrandFirstLettet', $currentFirstLetter, $firstLetters, array('class'=>'choose_letter', 'empty'=>'—')); ?>
+                </div>
+            </div>
         </div>
     </div>
     <?php if ( count($lastModels) > 0 ): ?>
@@ -62,7 +56,7 @@
                     <div class="span2">
                         <div class="valign-text">
                             <p>
-                                <a href="<?php echo $this->createUrl('/catalog/engines', array('model_id'=>$item['id'])); ?>"><?php echo $item['bodytype'].' - '.$item['name']; ?></a><br>
+                                <a href="<?php echo $this->createUrl('/catalog/engines', array('model_id'=>$item['id'])); ?>"><?php echo $item['name'].' - '.$item['bodytype']; ?></a><br>
                                 <span><?php echo $item['release_date'].' - '.$item['end_release_date']; ?></span>
                             </p>
                         </div>
@@ -93,7 +87,7 @@
                     <div class="span2">
                         <div class="valign-text">
                             <p>
-                                <a href="<?php echo $this->createUrl('/catalog/engines', array('model_id'=>$item->id)); ?>"><?php echo $item->bodytype->name.' - '.$item->name; ?></a><br>
+                                <a href="<?php echo $this->createUrl('/catalog/engines', array('model_id'=>$item->id)); ?>"><?php echo $item->name.' - '.$item->bodytype->name; ?></a><br>
                                 <span><?php echo $item->releaseYear.' - '.$item->endReleaseYear; ?></span>
                             </p>
                         </div>

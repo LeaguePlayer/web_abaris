@@ -25,7 +25,7 @@ class EShoppingCart extends CMap {
      */
     protected $discountPrice = 0.0;
 
-    public function init(){
+    public function init() {
         $this->restoreFromSession();
     }
 
@@ -74,11 +74,23 @@ class EShoppingCart extends CMap {
      * Removes position from the shopping cart of key
      * @param mixed $key
      */
-    public function remove($key) {
+    public function remove($key, $raiseEvent = true) {
         parent::remove($key);
         $this->applyDiscounts();
-        $this->onRemovePosition(new CEvent($this, array('targetKey'=>$key)));
+        if ( $raiseEvent ) {
+            $this->onRemovePosition(new CEvent($this, array('targetKey'=>$key)));
+        }
         $this->saveState();
+    }
+
+
+    /**
+     * Removes all items in the cart.
+     */
+    public function clear($raiseEvent = true)
+    {
+        foreach($this->getKeys() as $key)
+            $this->remove($key, $raiseEvent);
     }
 
 
@@ -109,8 +121,9 @@ class EShoppingCart extends CMap {
             parent::add($key, $position);
 
         $this->applyDiscounts();
-        if ( $raiseEvent )
+        if ( $raiseEvent ) {
             $this->onUpdatePosition(new CEvent($this, array('targetPosition'=>$position)));
+        }
         $this->saveState();
     }
 
