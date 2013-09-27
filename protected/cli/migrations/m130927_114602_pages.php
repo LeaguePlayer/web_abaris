@@ -33,7 +33,7 @@ class m130927_114602_pages extends CDbMigration
 			'title' => "string NOT NULL COMMENT 'Название'",
             'alias' => "string COMMENT 'Идентификатор'",
             'menu_title' => "string COMMENT 'Название в меню'",
-            'html_content' => "text COMMENT 'Контент'",
+            'wswg_content' => "text COMMENT 'Контент'",
             'meta_title' => "string",
             'meta_key' => "text",
             'meta_description' => "text",

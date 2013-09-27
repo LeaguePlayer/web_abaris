@@ -18,6 +18,7 @@
                     array('label'=>'Двигатели', 'url'=>'/admin/engines/list'),
                     array('label'=>'Категории', 'url'=>'/admin/detailCategory/list'),
                     array('label'=>'Детали', 'url'=>'/admin/details/list'),
+                    array('label'=>'Страницы', 'url'=>'/admin/pages/list'),
 				)),
 			);
 		?>
