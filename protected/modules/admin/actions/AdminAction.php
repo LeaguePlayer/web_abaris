@@ -20,8 +20,9 @@ abstract class AdminAction extends CAction
     
     public function getModel($scenario = 'insert')
     {
-        if(($id = Yii::app()->request->getParam('id')) === null)
+        if(($id = Yii::app()->request->getParam('id')) === null) {
             $model = new $this->modelName($scenario);
+        }
         else if(($model = CActiveRecord::model($this->modelName)->resetScope()->findByPk($id)) === null)
 			throw new CHttpException(404, Yii::t('base', "Записи с идентификатором {$id} не существует."));
         

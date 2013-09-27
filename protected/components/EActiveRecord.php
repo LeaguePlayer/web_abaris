@@ -218,6 +218,7 @@ class EActiveRecord extends CActiveRecord
 
     public function getAttributeLabel($attribute)
     {
-        return $this->attributeLabels()[$attribute];
+        $labels = $this->attributeLabels();
+        return $labels[$attribute];
     }
 }

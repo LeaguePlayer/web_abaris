@@ -60,7 +60,7 @@ class SiteController extends FrontController
 	 */
 	public function actionError()
 	{
-        $this->layout = '//layouts/error';
+        $this->layout = '//layouts/main';
 		if($error=Yii::app()->errorHandler->error)
 		{
 			if(Yii::app()->request->isAjaxRequest)

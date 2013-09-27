@@ -63,12 +63,17 @@ class CatalogController extends FrontController
             throw new CHttpException(403, 'Неверный запрос');
         }
 
-        $autoModel = AutoModels::model()->find($criteria);
+        $autoModel = AutoModels::model()->with('engines')->find($criteria);
         if ( $autoModel === null ) {
             throw new CHttpException(404, 'Страница не найдена');
         }
-        $engines = !empty($autoModel->engines) ? $autoModel->engines :
-            !empty($autoModel->engine) ? array($autoModel->engine) : array();
+
+        $engines = $autoModel->engines;
+        if ( empty($engines) )
+            $engines = $autoModel->engine === null ? array() : array($autoModel->engine);
+
+        //$engines = !empty($autoModel->engines) ? $autoModel->engines :
+        //    !empty($autoModel->engine) ? array($autoModel->engine) : array();
         $enginesDataProvider = new CArrayDataProvider($engines);
 
         Yii::app()->clientScript->registerCssFile( $this->getAssetsUrl().'/css/catalog.css' );
