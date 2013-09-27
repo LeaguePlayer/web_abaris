@@ -34,15 +34,19 @@
 </div>
 <div class="subtotal icons">
     <div class="container">
-        <div class="span1 item">
+        <div class="span1 item selected">
             <span class="icon cart-icon select-icon"></span>
             <span class="text">Выделен (<span class="selected_count">0</span>)</span>
         </div>
-        <a href="#" class="span1 item">
+        <a href="#" class="span1 item archive">
             <span class="icon cart-icon hold-icon"></span>
             <span class="text">Отложить (<span class="selected_count">0</span>)</span>
         </a>
-        <button class="span1 item" type="submit">
+        <a href="#" class="span1 item active">
+            <span class="icon cart-icon hold-icon"></span>
+            <span class="text">В корзину (<span class="selected_count">0</span>)</span>
+        </a>
+        <button class="span1 item delete" type="submit">
             <span class="icon cart-icon delete-icon"></span>
             <span class="text">Удалить (<span class="selected_count">0</span>)</span>
         </button>

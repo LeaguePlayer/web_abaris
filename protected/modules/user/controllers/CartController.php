@@ -34,10 +34,17 @@ class CartController extends FrontController
     {
         $user = Yii::app()->user->model();
         $userDiscount = $user !== null ? $user->discount : 0;
-        $positions = Yii::app()->cart->getPositions();
-        usort($positions, array("Details", "cmpStatus"));
-        $cartDataProvider = new CArrayDataProvider($positions, array(
-            'keyField'=>'id',
+
+        $activedPositions = array();
+        $archivedPositions = array();
+        foreach ( Yii::app()->cart->getPositions() as $position ) {
+            if ( $position->cartInfo->status == CartDetails::STATUS_ARCHIVED )
+                $archivedPositions[] = $position;
+            else
+                $activedPositions[] = $position;
+        }
+
+        $cartDataProvider = new CArrayDataProvider(CMap::mergeArray($activedPositions, $archivedPositions), array(
             'pagination'=>false,
         ));
 

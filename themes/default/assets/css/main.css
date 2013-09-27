@@ -46,7 +46,9 @@ button.b-button {
 .blue-check input[type='checkbox'] {
   display: none; }
   .blue-check input[type='checkbox']:checked + label {
-    background: no-repeat 0 -23px url("../img/cart_checks.png"); }
+    background: no-repeat 0 -23px url("../img/cart_checks.png");
+    position: relative;
+    z-index: 1000; }
 
 /* ====================
  *  User-panel

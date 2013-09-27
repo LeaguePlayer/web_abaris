@@ -1,4 +1,4 @@
-<div class="catalog-grid-row">
+<div class="catalog-grid-row<?php if ( $data->isArchived() ) echo ' archived' ?>">
     <div class="container">
         <div class="row-fluid">
             <div class="span1 field no-background">
@@ -19,7 +19,7 @@
             </div>
             <div class="span2 field">
                 <div class="valign-text">
-                    <p><input name="CartItems[<?=$data->id?>][count]" class="spinner" value="1" disabled="disabled"></p>
+                    <p><input name="CartItems[<?=$data->id?>][count]" class="spinner" value="<?php echo $data->getQuantity(); ?>" disabled="disabled"></p>
                 </div>
             </div>
             <div class="span2 field">

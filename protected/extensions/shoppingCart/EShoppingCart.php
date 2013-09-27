@@ -143,6 +143,8 @@ class EShoppingCart extends CMap {
         $count = 0;
         foreach ($this as $position)
         {
+            if ( $position->cartInfo->status == CartDetails::STATUS_ARCHIVED )
+                continue;
             $count += $position->getQuantity();
         }
 
@@ -159,6 +161,8 @@ class EShoppingCart extends CMap {
         $price = 0.0;
         foreach ($this as $position)
         {
+            if ( $position->cartInfo->status == CartDetails::STATUS_ARCHIVED )
+                continue;
             $price += $position->getSumPrice($withDiscount);
         }
 

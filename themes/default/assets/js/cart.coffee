@@ -28,6 +28,16 @@ $ ->
 			selectedCount -= 1
 		counters.text selectedCount
 
-
 	class Cart
-	instance = new A
+		constructor: () ->
+			@generalSelected = $('#cart-details-list .catalog-grid-row input:checkbox:checked').size()
+			@activeSelected = $('#cart-details-list .catalog-grid-row input:checkbox:checked').size()
+			@archiveSelected = $('#cart-details-list input:checkbox:checked').size()
+			@generalCounters = $('.subtotal.icons .item.select, .subtotal.icons .item.delete')
+			@activeCounters = $('.subtotal.icons .item.active')
+			@arciveCounters = $('.subtotal.icons .item.archive')
+		updateCounters: (actived = 0, archived = 0) ->
+			@generalCounters += (actived + archived)
+			@activeCounters += actived
+
+	cart = new Cart

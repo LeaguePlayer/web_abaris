@@ -13,6 +13,8 @@ class TestDiscount extends IEDiscount {
         $user = Yii::app()->user->model();
         $userDiscount = $user !== null ? $user->discount : 0;
         foreach ($this->shoppingCart as $position) {
+            if ( $position->cartInfo->status == CartDetails::STATUS_ARCHIVED )
+                continue;
             $quantity = $position->getQuantity();
             if ($quantity > 0) {
                 $discount = $position->discount + $userDiscount;
