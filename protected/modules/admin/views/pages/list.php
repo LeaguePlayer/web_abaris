@@ -20,14 +20,18 @@ $this->menu=array(
 		'title',
 		'alias',
 		'menu_title',
-		'meta_title',
 		array(
 			'name'=>'status',
 			'type'=>'raw',
 			'value'=>'Pages::getStatusAliases($data->status)',
 			'filter'=>Pages::getStatusAliases()
 		),
-		'sort',
+        array(
+            'name'=>'section',
+            'type'=>'raw',
+            'value'=>'$data->pageSection',
+            'filter'=>Pages::getPageSections()
+        ),
 		array(
 			'name'=>'create_time',
 			'type'=>'raw',

@@ -12,6 +12,8 @@
 
 	<?php echo $form->textFieldControlGroup($model,'menu_title',array('class'=>'span8','maxlength'=>255)); ?>
 
+<?php echo $form->dropDownListControlGroup($model, 'section', Pages::getPageSections(), array('class'=>'span8', 'displaySize'=>1)); ?>
+
 	<div class='control-group'>
 		<?php echo CHtml::activeLabelEx($model, 'wswg_content'); ?>
 		<?php $this->widget('appext.ckeditor.CKEditorWidget', array('model' => $model, 'attribute' => 'wswg_content',

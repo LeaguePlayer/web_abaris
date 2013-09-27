@@ -2,7 +2,7 @@
 
 class PagesController extends FrontController
 {
-	public $layout='//layouts/simple';
+	public $layout='//layouts/main';
 
 	
 	public function filters()
@@ -29,8 +29,15 @@ class PagesController extends FrontController
 	
 	public function actionView($id)
 	{
+        if ( is_numeric($id) ) {
+            $model = $this->loadModel('Pages', $id);
+        } else {
+            $model = Pages::model()->findByAttributes(array('alias'=>$id));
+            if ( $model === null )
+                throw new CHttpException(404, 'Страница не найдена');
+        }
 		$this->render('view',array(
-			'model'=>$this->loadModel('Pages', $id),
+			'model'=>$model,
 		));
 	}
 

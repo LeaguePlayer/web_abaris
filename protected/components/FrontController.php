@@ -11,6 +11,7 @@ class FrontController extends Controller
     public $menu=array();
     public $breadcrumbs=array();
     public $brand;
+    public $pages;
 
 
     public function init() {
@@ -34,6 +35,15 @@ class FrontController extends Controller
 
     public function beforeRender($view)
     {
+        $criteria = new CDbCriteria();
+        $criteria->addCondition('status=:status');
+        $criteria->params[':status'] = Pages::STATUS_PUBLISH;
+        $criteria->order = 'section, sort';
+        $pages = Pages::model()->findAll($criteria);
+        foreach ( $pages as $page ) {
+            $this->pages[$page->section][] = $page;
+        }
+
         $this->renderPartial('//layouts/clips/head');
         $this->renderPartial('//layouts/clips/user_panel');
         $this->renderPartial('//layouts/clips/header');

@@ -19,17 +19,38 @@
 */
 class Pages extends EActiveRecord
 {
+    const PAGESECTION_GENERAL = 0;
+    const PAGESECTION_SHOP = 1;
+    const PAGESECTION_CONTACT = 2;
+
+    public static function getPageSections($sectionIndex = null)
+    {
+        $sections = array(
+            self::PAGESECTION_GENERAL => 'Общий раздел',
+            self::PAGESECTION_SHOP => 'Интрнет-магазин',
+            self::PAGESECTION_CONTACT => 'Контактная информация',
+        );
+        if ($sectionIndex !== null)
+            return $sections[$sectionIndex];
+        else
+            return $sections;
+    }
+
+    public function getPageSection()
+    {
+        return self::getPageSections($this->section);
+    }
+
     public function tableName()
     {
         return '{{pages}}';
     }
 
-
     public function rules()
     {
         return array(
             array('title', 'required'),
-            array('status, sort, create_time, update_time', 'numerical', 'integerOnly'=>true),
+            array('status, section, sort, create_time, update_time', 'numerical', 'integerOnly'=>true),
             array('title, alias, menu_title, meta_title', 'length', 'max'=>255),
             array('wswg_content, meta_key, meta_description', 'safe'),
             // The following rule is used by search().
@@ -54,6 +75,7 @@ class Pages extends EActiveRecord
             'menu_title' => 'Название в меню',
             'wswg_content' => 'Контент',
             'meta_title' => 'Meta Title',
+            'section' => 'Раздел',
             'meta_key' => 'Meta Key',
             'meta_description' => 'Meta Description',
             'status' => 'Статус',
@@ -62,8 +84,6 @@ class Pages extends EActiveRecord
             'update_time' => 'Дата последнего редактирования',
         );
     }
-
-
 
 
     public function search()
@@ -78,10 +98,11 @@ class Pages extends EActiveRecord
 		$criteria->compare('meta_key',$this->meta_key,true);
 		$criteria->compare('meta_description',$this->meta_description,true);
 		$criteria->compare('status',$this->status);
+        $criteria->compare('section',$this->section);
 		$criteria->compare('sort',$this->sort);
 		$criteria->compare('create_time',$this->create_time);
 		$criteria->compare('update_time',$this->update_time);
-        $criteria->order = 'sort';
+        $criteria->order = 'section, sort';
 
         return new CActiveDataProvider($this, array(
             'criteria'=>$criteria,
@@ -93,5 +114,24 @@ class Pages extends EActiveRecord
         return parent::model($className);
     }
 
+    public function beforeSave()
+    {
+        if ( parent::beforeSave() ) {
+            if ( empty( $this->alias ) )
+                $this->alias = SiteHelper::translit($this->title);
+            if ( empty( $this->menu_title ) )
+                $this->menu_title = $this->title;
+            if ( empty( $this->meta_title ) )
+                $this->meta_title = $this->title;
+            if ( empty( $this->wswg_content ) )
+                $this->wswg_content = "<p>Пустая страница</p>";
+            return true;
+        }
+        return false;
+    }
 
+    public function getViewUrl()
+    {
+        return Yii::app()->urlManager->createUrl('/pages/view', array('id'=>$this->alias));
+    }
 }

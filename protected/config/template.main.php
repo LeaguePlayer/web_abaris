@@ -14,16 +14,17 @@ return array(
     // preloading 'log' component
     'preload'=>array('log'),
 
+    'aliases'=>array(
+        'appext'=>'application.extensions',
+        'bootstrap'=>'application.extensions.yiistrap',
+    ),
     // autoloading model and component classes
     'import'=>array(
         'application.models.*',
         'application.components.*',
         'application.modules.user.models.*',
         'application.modules.user.components.*',
-    ),
-    'aliases'=>array(
-        'appext'=>'application.extensions',
-        'bootstrap'=>'application.extensions.yiistrap',
+        'appext.shoppingCart.*',
     ),
     'modules'=>array(
         // uncomment the following to enable the Gii tool
@@ -58,6 +59,16 @@ return array(
 
     // application components
     'components'=>array(
+        'cart' => array(
+            'class' => 'appext.shoppingCart.EShoppingCart',
+            'onUpdatePosition' => array('CartNotifer', 'updatePosition'),
+            'onRemovePosition' => array('CartNotifer', 'removePosition'),
+            'discounts' => array(
+                array(
+                    'class' => 'appext.shoppingCart.discounts.TestDiscount',
+                ),
+            ),
+        ),
         'authManager' => array(
             'class' => 'CDbAuthManager',// 'auth.components.CachedDbAuthManager',
             //'cachingDuration' => 0,
@@ -90,6 +101,7 @@ return array(
             'rules'=>array(
                 '/'=>'site/index',
                 'gii'=>'gii',
+                'pages/<id:\w+>'=>'pages/view',
                 'admin'=>'admin/start/index',
                 'auth'=>'auth/assignment',
                 '<controller:\w+>'=>'<controller>/index',
@@ -127,13 +139,13 @@ return array(
                 //    'class'=>'CFileLogRoute',
                 //    'levels'=>'error, warning',
                 //),
-                /*
+                ///*
                 array(
                     'class'=>'CWebLogRoute',
                     'levels'=>'error, warning, trace, profile, info',
                     'enabled'=>true,
                 ),
-                */
+                //*/
             ),
         ),
     ),
