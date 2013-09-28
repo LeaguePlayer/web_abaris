@@ -32,6 +32,21 @@ class CartController extends FrontController
 
     public function actionIndex()
     {
+        if ( isset($_POST['CartItems']) and !empty($_POST['CartItems']['checked']) ) {
+            switch ( $_POST['CartItems']['action'] ) {
+                case 'delete':
+                    $this->deleteCartItems($_POST['CartItems']);
+                    break;
+                case 'archive':
+                    $this->archiveCartItems($_POST['CartItems']);
+                    break;
+                case 'active':
+                    $this->activeCartItems($_POST['CartItems']);
+                    break;
+            }
+        }
+
+
         $user = Yii::app()->user->model();
         $userDiscount = $user !== null ? $user->discount : 0;
 
@@ -66,13 +81,13 @@ class CartController extends FrontController
 
     public function actionPut($id)
     {
-        $detail = Details::model()->findByPk($id);
+        $position = Details::model()->findByPk($id);
         $response = array();
-        if ( $detail === null ) {
+        if ( $position === null ) {
             $response['error'] = 'Не найден товар';
         }
 
-        Yii::app()->cart->put($detail);
+        Yii::app()->cart->put($position);
         if ( Yii::app()->request->isAjaxRequest ) {
             $response['html'] = $this->renderPartial('success');
             echo CJSON::encode($response);
@@ -83,5 +98,71 @@ class CartController extends FrontController
             $this->redirect(Yii::app()->request->urlReferrer);
         else
             $this->redirect('/user/cart');
+    }
+
+
+
+    public function actionUpdate($id)
+    {
+        $cart = Yii::app()->cart;
+        if ( $cart->contains($id) ) {
+            $position = $cart->itemAt($id);
+        } else {
+            $position = Details::model()->findByPk($id);
+            if ( $position === null ) {
+                $response['error'] = 'Не найден товар';
+            }
+        }
+        $cart->update($position);
+        if ( Yii::app()->request->isAjaxRequest ) {
+            $response['html'] = $this->renderPartial('success');
+            $response['count'] = $position->getQuantity();
+            echo CJSON::encode($response);
+            Yii::app()->end();
+        }
+    }
+
+
+
+
+
+
+
+
+    protected function deleteCartItems($postItems)
+    {
+        $cart = Yii::app()->cart;
+        foreach ( $postItems['checked'] as $positionId )
+        {
+            $cart->remove($positionId);
+        }
+    }
+
+    protected function archiveCartItems($postItems)
+    {
+        $cart = Yii::app()->cart;
+        foreach ( $postItems['checked'] as $positionId )
+        {
+            $position = $cart->itemAt($positionId);
+            if ( !$position or $position->cartInfo->status == CartDetails::STATUS_ARCHIVED )
+                continue;
+            $detailInfo = $position->cartInfo;
+            $detailInfo->status = CartDetails::STATUS_ARCHIVED;
+            $detailInfo->save(false);
+        }
+    }
+
+    protected function activeCartItems($postItems)
+    {
+        $cart = Yii::app()->cart;
+        foreach ( $postItems['checked'] as $positionId )
+        {
+            $position = $cart->itemAt($positionId);
+            if ( !$position or $position->cartInfo->status == CartDetails::STATUS_ACTIVE )
+                continue;
+            $detailInfo = $position->cartInfo;
+            $detailInfo->status = CartDetails::STATUS_ACTIVE;
+            $detailInfo->save(false);
+        }
     }
 }

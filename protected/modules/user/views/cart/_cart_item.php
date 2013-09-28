@@ -1,12 +1,17 @@
-<div class="catalog-grid-row<?php if ( $data->isArchived() ) echo ' archived' ?>">
+<div class="catalog-grid-row<?php if ( $data->isArchived() ) echo ' archived' ?>"
+     data-price="<?=$data->price;?>"
+     data-count="<?=$data->getQuantity();?>"
+     data-discount="<?=$data->discount + $userDiscount->discount;?>"
+>
     <div class="container">
         <div class="row-fluid">
             <div class="span1 field no-background">
                 <div class="valign-text">
                     <p>
                         <span class="blue-check">
-                            <input name="CartItems[<?=$data->id?>][check]" id="check<?= $data->id ?>" type="checkbox"/>
-                            <label for="check<?= $data->id ?>"></label>
+                            <input name="CartItems[status][<?=$data->id;?>]" value="<?=$data->cartInfo->status;?>" type="hidden"/>
+                            <input name="CartItems[checked][]" value="<?=$data->id;?>" id="check<?=$data->id;?>" type="checkbox"/>
+                            <label for="check<?=$data->id?>"></label>
                         </span>
                     </p>
                 </div>
@@ -19,15 +24,16 @@
             </div>
             <div class="span2 field">
                 <div class="valign-text">
-                    <p><input name="CartItems[<?=$data->id?>][count]" class="spinner" value="<?php echo $data->getQuantity(); ?>" disabled="disabled"></p>
+                    <p><input data-prise="<?=$data->price;?>" data-discount="<?=$data->discount + $userDiscount->discount;?>" name="CartItems[count][<?=$data->id?>]" class="spinner" value="<?php echo $data->getQuantity(); ?>"</p>
                 </div>
             </div>
-            <div class="span2 field">
+            <div class="span2 field price_values">
                 <div class="valign-text">
                     <p>
-                        <span class="red"><?php echo SiteHelper::priceFormat($data->getSumPrice(false)); ?></span> руб. <br>
-                        <span class="blue"><?php echo $data->discount + $userDiscount->discount; ?> %</span><br>
-                        <span class="blue"><?php echo SiteHelper::priceFormat($data->getSumPrice()); ?></span> руб.</p>
+                        <span class="red current_price"><?php echo SiteHelper::priceFormat($data->getSumPrice(false)); ?></span> руб. <br>
+                        <span class="blue discount_value"><?php echo $data->discount + $userDiscount->discount; ?> %</span><br>
+                        <span class="blue price_with_discount"><?php echo SiteHelper::priceFormat($data->getSumPrice()); ?></span> руб.
+                    </p>
                 </div>
             </div>
             <div class="span1 field"><div class="valign-text"><p>14 дней</p></div></div>

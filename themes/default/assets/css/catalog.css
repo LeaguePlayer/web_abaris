@@ -37,6 +37,8 @@
   font-size: 12px;
   color: #717171;
   margin-bottom: 60px; }
+  .catalog-grid .empty {
+    margin: 10px 0 50px; }
 
 .catalog-grid-header {
   position: relative; }

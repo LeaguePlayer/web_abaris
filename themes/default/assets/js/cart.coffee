@@ -1,10 +1,4 @@
 $ ->
-	$('.spinner').spinner
-		min: 1
-		value: 1
-		icons:
-			down: "spinner-down"
-			up: "spinner-up"
 	# fixed scroll header
 	$('.catalog-grid-header').scrollToFixed
 		limit: 0
@@ -19,25 +13,63 @@ $ ->
 				$('.blue-button').on 'click', () ->
 					$.fancybox.close()
 
-	counters = $('.selected_count')
-	selectedCount = $('#cart-details-list input:checkbox:checked').size()
-	$('#cart-details-list input:checkbox').change () ->
-		if $(@).prop 'checked'
-			selectedCount += 1
-		else
-			selectedCount -= 1
-		counters.text selectedCount
 
 	class Cart
 		constructor: () ->
-			@generalSelected = $('#cart-details-list .catalog-grid-row input:checkbox:checked').size()
-			@activeSelected = $('#cart-details-list .catalog-grid-row input:checkbox:checked').size()
-			@archiveSelected = $('#cart-details-list input:checkbox:checked').size()
-			@generalCounters = $('.subtotal.icons .item.select, .subtotal.icons .item.delete')
-			@activeCounters = $('.subtotal.icons .item.active')
-			@arciveCounters = $('.subtotal.icons .item.archive')
+			cartGrid = $('#cart-details-list')
+			@generalSelected = cartGrid.find('.catalog-grid-row input:checkbox:checked').size()
+			@activeSelected = cartGrid.find('.catalog-grid-row').not('.archived').find('input:checkbox:checked').size()
+			@archiveSelected = cartGrid.find('.catalog-grid-row.archived input:checkbox:checked').size()
+			cartAction = $('.subtotal.icons')
+			@generalCounters = cartAction.find('.item.total-select span.text .selected_count, .item.delete span.text .selected_count')
+			@activeCounters = cartAction.find('.item.active span.text .selected_count')
+			@arciveCounters = cartAction.find('.item.archive span.text .selected_count')
+
+			@cartActiveRows = $('#cart-details-list .catalog-grid-row').not('.archived')
+			@totalCostCounter = $('.summ .number')
 		updateCounters: (actived = 0, archived = 0) ->
-			@generalCounters += (actived + archived)
-			@activeCounters += actived
+			@generalSelected += (actived + archived)
+			@activeSelected += actived
+			@archiveSelected += archived
+			@generalCounters.text @generalSelected
+			@activeCounters.text @activeSelected
+			@arciveCounters.text @archiveSelected
+		updateCost: (currentRow = false) ->
+			total = 0
+			discount = 0
+			@cartActiveRows.each () ->
+				currentCost = $(@).data('price') * $(@).data('count')
+				withDiscountCost = currentCost - ( currentCost * $(@).data('discount') / 100 )
+				total += withDiscountCost
+				priceCell = $(@).find('.field.price_values')
+				priceCell.find('.current_price').text currentCost
+				priceCell.find('.price_with_discount').text withDiscountCost
+
+			@totalCostCounter.text total
+
 
 	cart = new Cart
+
+
+	$('#cart-details-list input:checkbox').change () ->
+		if $(@).parents('.catalog-grid-row.archived').size() > 0
+			if $(@).prop 'checked'
+				cart.updateCounters 0, 1
+			else
+				cart.updateCounters 0, -1
+		else
+			if $(@).prop 'checked'
+				cart.updateCounters 1, 0
+			else
+				cart.updateCounters -1, 0
+
+
+	$('.spinner').spinner
+		min: 1
+		value: 1
+		icons:
+			down: "spinner-down"
+			up: "spinner-up"
+		spin: (event, ui) ->
+			$(event.target).parents('.catalog-grid-row').data 'count', ui.value
+			cart.updateCost()

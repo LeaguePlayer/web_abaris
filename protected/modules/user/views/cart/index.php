@@ -5,6 +5,7 @@
         <span class="blue-line"></span>
     </div>
 </div>
+<?php if ( $cartDataProvider->totalItemCount > 0 ): ?>
 <form method="POST" action="">
 <div class="catalog-container grid-items">
     <div class="catalog-grid">
@@ -26,7 +27,7 @@
             'itemView'=>'_cart_item',
             'viewData'=>array('userDiscount'=>$userDiscount),
             'emptyTagName'=>'div',
-            'emptyText'=>'',
+            'emptyText'=>'Корзина пуста',
             'updateSelector'=>'.catalog-pager a',
         )); ?>
 
@@ -34,31 +35,39 @@
 </div>
 <div class="subtotal icons">
     <div class="container">
-        <div class="span1 item selected">
+        <div class="span1 item total-select">
             <span class="icon cart-icon select-icon"></span>
             <span class="text">Выделен (<span class="selected_count">0</span>)</span>
         </div>
-        <a href="#" class="span1 item archive">
+        <button class="span1 item active" name="CartItems[action]" value="archive">
             <span class="icon cart-icon hold-icon"></span>
             <span class="text">Отложить (<span class="selected_count">0</span>)</span>
-        </a>
-        <a href="#" class="span1 item active">
+        </button>
+        <button class="span1 item archive" name="CartItems[action]" value="active">
             <span class="icon cart-icon hold-icon"></span>
             <span class="text">В корзину (<span class="selected_count">0</span>)</span>
-        </a>
-        <button class="span1 item delete" type="submit">
+        </button>
+        <button class="span1 item delete" type="submit" name="CartItems[action]" value="delete">
             <span class="icon cart-icon delete-icon"></span>
             <span class="text">Удалить (<span class="selected_count">0</span>)</span>
         </button>
-        <div class="span5"></div>
-        <div class="span2 item"><span class="georgia summ"><?php echo Yii::app()->cart->getCost(); ?> р.</span> Итого</div>
-        <a href="#" class="span1"><div class="select cart-icon pay-icon"></div>Оплатить</a>
+        <div class="span4"></div>
+        <div class="span2 item"><span class="georgia summ"><span class="number"><?=Yii::app()->cart->getCost();?></span> р.</span> Итого</div>
+        <button class="span1 item pay">
+            <span class="icon cart-icon pay-icon"></span>
+            <span class="text">Оплатить</span>
+        </button>
     </div>
 </div>
 </form>
 <div class="container info">
     <div class="span12 right">* Чтобы пропустить шаги оформления заказа можете заказить выбранный товар по телефон 8 (999) 464- 456- 998, назвав номер корзины</div>
 </div>
+<?php else: ?>
+    <div class="container">
+        <div class="empty">Корзина пуста</div>
+    </div>
+<?php endif; ?>
 <div class="container dop-info abacus">
     <div class="abacus"></div>
     <a href="#">Ознакомиться с условиями доставки и возврата</a>

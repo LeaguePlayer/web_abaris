@@ -94,6 +94,9 @@
 
 .subtotal.icons .span1 {
   width: 80px; }
+.subtotal.icons span.text {
+  display: inline-block;
+  width: 100%; }
 
 .catalog-grid .catalog-grid-row {
   position: relative; }
