@@ -48,6 +48,9 @@
 .delete-icon {
   background: no-repeat -110px 0 url("../img/cart_icons.png"); }
 
+.acivate-icon {
+  background: no-repeat -338px 0 url("../img/cart_icons.png"); }
+
 .pay-icon {
   background: no-repeat -165px 0 url("../img/cart_icons.png");
   cursor: pointer; }
@@ -106,5 +109,5 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(255, 255, 255, 0.6);
+    background-color: rgba(255, 255, 255, 0.9);
     z-index: 500; }

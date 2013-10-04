@@ -35,7 +35,7 @@
     }, function() {
       return $(this).removeClass('active');
     });
-    return $.cart_push = function(product_id, options) {
+    $.cart_push = function(product_id, options) {
       if (options == null) {
         options = {};
       }
@@ -55,6 +55,25 @@
         }
       });
     };
+    $.pluralize = function(n, labels) {
+      var i, _ref, _ref1;
+      if (labels == null) {
+        labels = false;
+      }
+      i = (_ref = n % 10 === 1 && n % 100 !== 11) != null ? _ref : {
+        0: (_ref1 = n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 10 || n % 100 >= 20)) != null ? _ref1 : {
+          1: 2
+        }
+      };
+      if (labels !== false) {
+        return labels[i];
+      } else {
+        return i;
+      }
+    };
+    return $('.information').tooltip({
+      animation: false
+    });
   });
 
 }).call(this);

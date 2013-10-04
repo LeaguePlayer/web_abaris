@@ -16,13 +16,12 @@ class FrontController extends Controller
 
     public function init() {
         parent::init();
-
         // Определение текущего бренда
         $cookie = Yii::app()->request->cookies['CURRENT_BRAND'];
         if ( isset($cookie) ) {
             $this->brand = CJSON::decode($cookie->value);
         }
-
+        //print_r(Yii::app()->user->getState('__cartID')); die();
         $this->title = Yii::app()->name;
     }
 

@@ -5,18 +5,16 @@
     $('.catalog-grid-header').scrollToFixed({
       limit: 0
     });
-    $('.pay-icon').on('click', function(e) {
-      var x, y;
-      x = e.clientX;
-      y = e.clientY;
-      return $.show_abaris_box('.sto-modal', {
-        beforeShow: function() {
-          return $('.blue-button').on('click', function() {
-            return $.fancybox.close();
-          });
-        }
-      });
-    });
+    /*$('.item.pay').on 'click', (e) ->
+    		x = e.clientX
+    		y = e.clientY
+    		$.show_abaris_box '.sto-modal', 
+    			# margin: 200
+    			beforeShow: () -> 
+    				$('.blue-button').on 'click', () ->
+    					$.fancybox.close()
+    */
+
     Cart = (function() {
       function Cart() {
         var cartAction, cartGrid;
@@ -30,6 +28,7 @@
         this.arciveCounters = cartAction.find('.item.archive span.text .selected_count');
         this.cartActiveRows = $('#cart-details-list .catalog-grid-row').not('.archived');
         this.totalCostCounter = $('.summ .number');
+        this.userPanelTotalCost = $('#cart-info .cost');
       }
 
       Cart.prototype.updateCounters = function(actived, archived) {
@@ -60,10 +59,11 @@
           withDiscountCost = currentCost - (currentCost * $(this).data('discount') / 100);
           total += withDiscountCost;
           priceCell = $(this).find('.field.price_values');
-          priceCell.find('.current_price').text(currentCost);
-          return priceCell.find('.price_with_discount').text(withDiscountCost);
+          priceCell.find('.current_price').text(accounting.formatMoney(currentCost, "", 0, " "));
+          return priceCell.find('.price_with_discount').text(accounting.formatMoney(withDiscountCost, "", 0, " "));
         });
-        return this.totalCostCounter.text(total);
+        this.totalCostCounter.text(accounting.formatMoney(total, "", 0, " "));
+        return this.userPanelTotalCost.text(accounting.formatMoney(total, "", 0, " "));
       };
 
       return Cart;
@@ -93,8 +93,23 @@
         up: "spinner-up"
       },
       spin: function(event, ui) {
-        $(event.target).parents('.catalog-grid-row').data('count', ui.value);
-        return cart.updateCost();
+        var $this;
+        $this = $(this);
+        return $.ajax({
+          url: '/user/cart/update',
+          type: 'GET',
+          dataType: 'json',
+          data: {
+            id: $this.data('id'),
+            count: ui.value
+          },
+          success: function(data) {
+            if (!data.error) {
+              $this.parents('.catalog-grid-row').data('count', ui.value);
+              return cart.updateCost();
+            }
+          }
+        });
       }
     });
   });

@@ -18,6 +18,7 @@ class CatalogController extends FrontController
         if ( $this->brand !== null ) {
             $criteria->addCondition('brand_id=:brand_id');
             $criteria->params[':brand_id'] = $this->brand['id'];
+            $criteria->params[':brand_id'] = $this->brand['id'];
         }
         $firstLetters = array();
         foreach ( range('A', 'Z') as $letter ) {
@@ -173,12 +174,14 @@ class CatalogController extends FrontController
 
         $detailFinder = new Details('search');
         $detailFinder->unsetAttributes();
+        $detailFinder->type = Details::TYPE_DETAIL;
         if ( isset($_GET['Details']) ) {
             $detailFinder->attributes = $_GET['Details'];
         }
 
         // Вытаскиваем детали для выбранной модели авто с учетом текущей категории и фильтра, а также типом движка
         $criteriaDet = new CDbCriteria();
+        $criteriaDet->compare('type', Details::TYPE_DETAIL);
         if ( $currentCategory->isNewRecord ) {
             $categoriesList = CMap::mergeArray( CHtml::listData($categories, 'id', 'id'), CHtml::listData($childCategories, 'id', 'id') );
         } else if ( $currentSubCategory->isNewRecord ) {

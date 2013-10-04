@@ -14,21 +14,23 @@
   color: #717171;
   height: 25px;
   padding: 0 2%; }
+  .abaris-form .text-input.error {
+    border: 1px solid red; }
 .abaris-form textarea.text-input {
   height: auto;
   padding: 2%;
   font-family: Arial; }
-.abaris-form label {
-  color: #252525; }
+  .abaris-form textarea.text-input.error {
+    border: 1px solid red; }
+.abaris-form label, .abaris-form label.required {
+  color: #252525;
+  font-size: 12px; }
 .abaris-form .info {
   font-size: 10px;
   color: #717171;
   line-height: 1.2;
   padding: 2px 0; }
 .abaris-form .error {
-  color: red; }
-.abaris-form .error-input {
-  border: 1px solid red;
   color: red; }
 .abaris-form .text-input:focus {
   outline: none; }
@@ -108,10 +110,10 @@
   text-align: center; }
 .abaris-form .next-step, .abaris-form .prev-step {
   width: 100%;
-  padding: 10px 0;
   border: none;
   text-align: center;
-  display: block;
+  display: inline-block;
+  line-height: 32px;
   color: white;
   background-color: #296bb1;
   text-decoration: none;
@@ -121,7 +123,8 @@
 .abaris-form .next-step i, .abaris-form .prev-step i {
   width: 11px;
   height: 22px;
-  display: block; }
+  display: inline-block;
+  margin-top: 5px; }
 .abaris-form .next-step i {
   float: right;
   margin-right: 30px;

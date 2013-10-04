@@ -4,7 +4,7 @@ $ ->
 		limit: 0
 		# limit: $('.subtotal').offset().top - $('.subtotal').height()
 
-	$('.pay-icon').on 'click', (e) ->
+	###$('.item.pay').on 'click', (e) ->
 		x = e.clientX
 		y = e.clientY
 		$.show_abaris_box '.sto-modal', 
@@ -12,7 +12,7 @@ $ ->
 			beforeShow: () -> 
 				$('.blue-button').on 'click', () ->
 					$.fancybox.close()
-
+	###
 
 	class Cart
 		constructor: () ->
@@ -24,9 +24,9 @@ $ ->
 			@generalCounters = cartAction.find('.item.total-select span.text .selected_count, .item.delete span.text .selected_count')
 			@activeCounters = cartAction.find('.item.active span.text .selected_count')
 			@arciveCounters = cartAction.find('.item.archive span.text .selected_count')
-
 			@cartActiveRows = $('#cart-details-list .catalog-grid-row').not('.archived')
 			@totalCostCounter = $('.summ .number')
+			@userPanelTotalCost = $('#cart-info .cost')
 		updateCounters: (actived = 0, archived = 0) ->
 			@generalSelected += (actived + archived)
 			@activeSelected += actived
@@ -42,10 +42,11 @@ $ ->
 				withDiscountCost = currentCost - ( currentCost * $(@).data('discount') / 100 )
 				total += withDiscountCost
 				priceCell = $(@).find('.field.price_values')
-				priceCell.find('.current_price').text currentCost
-				priceCell.find('.price_with_discount').text withDiscountCost
+				priceCell.find('.current_price').text accounting.formatMoney(currentCost, "", 0, " ")
+				priceCell.find('.price_with_discount').text accounting.formatMoney(withDiscountCost, "", 0, " ")
 
-			@totalCostCounter.text total
+			@totalCostCounter.text accounting.formatMoney(total, "", 0, " ")
+			@userPanelTotalCost.text accounting.formatMoney(total, "", 0, " ")
 
 
 	cart = new Cart
@@ -71,5 +72,17 @@ $ ->
 			down: "spinner-down"
 			up: "spinner-up"
 		spin: (event, ui) ->
-			$(event.target).parents('.catalog-grid-row').data 'count', ui.value
-			cart.updateCost()
+			$this = $(this)
+			#$this.spinner 'disable'
+			$.ajax
+				url: '/user/cart/update'
+				type: 'GET'
+				dataType: 'json'
+				data:
+					id: $this.data('id')
+					count: ui.value
+				success: (data) ->
+					if (!data.error)
+						$this.parents('.catalog-grid-row').data 'count', ui.value
+						cart.updateCost()
+						#$this.spinner 'enable'

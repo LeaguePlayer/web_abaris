@@ -44,7 +44,7 @@
             <span class="text">Отложить (<span class="selected_count">0</span>)</span>
         </button>
         <button class="span1 item archive" name="CartItems[action]" value="active">
-            <span class="icon cart-icon hold-icon"></span>
+            <span class="icon cart-icon acivate-icon"></span>
             <span class="text">В корзину (<span class="selected_count">0</span>)</span>
         </button>
         <button class="span1 item delete" type="submit" name="CartItems[action]" value="delete">
@@ -52,11 +52,8 @@
             <span class="text">Удалить (<span class="selected_count">0</span>)</span>
         </button>
         <div class="span4"></div>
-        <div class="span2 item"><span class="georgia summ"><span class="number"><?=Yii::app()->cart->getCost();?></span> р.</span> Итого</div>
-        <button class="span1 item pay">
-            <span class="icon cart-icon pay-icon"></span>
-            <span class="text">Оплатить</span>
-        </button>
+        <div class="span2 item"><span class="georgia summ"><span class="number"><?=SiteHelper::priceFormat(Yii::app()->cart->getCost());?></span> р.</span> Итого</div>
+        <a href="<?=$this->createUrl('/orders/create')?>" class="span1 item pay"><span class="icon cart-icon pay-icon"></span><span class="text">Оплатить</span></a>
     </div>
 </div>
 </form>

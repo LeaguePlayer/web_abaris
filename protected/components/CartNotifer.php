@@ -17,7 +17,7 @@ class CartNotifer
 
     public static function removePosition($event)
     {
-        $key = $event->params['key'];
+        $key = $event->params['targetKey'];
         Yii::app()->user->removeCartPosition($key);
     }
 }

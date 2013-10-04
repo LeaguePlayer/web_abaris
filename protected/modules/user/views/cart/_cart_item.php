@@ -19,12 +19,12 @@
             <div class="span2 field img no-background"><?php echo $data->getImage('small'); ?></div>
             <div class="span4 field left">
                 <div class="valign-text">
-                    <p><a href="#"><?php echo $data->name; ?></a><br>производитель <?php echo $data->brand->name; ?><br>код: <?php echo $data->article; ?></p>
+                    <p><a href="<?php echo $data->url; ?>"><?php echo $data->name; ?></a><br>производитель <?php echo $data->brand->name; ?><br>код: <?php echo $data->article; ?></p>
                 </div>
             </div>
             <div class="span2 field">
                 <div class="valign-text">
-                    <p><input data-prise="<?=$data->price;?>" data-discount="<?=$data->discount + $userDiscount->discount;?>" name="CartItems[count][<?=$data->id?>]" class="spinner" value="<?php echo $data->getQuantity(); ?>"</p>
+                    <p><input data-id="<?php echo $data->id; ?>" name="CartItems[count][<?=$data->id?>]" class="spinner" value="<?php echo $data->getQuantity(); ?>"</p>
                 </div>
             </div>
             <div class="span2 field price_values">

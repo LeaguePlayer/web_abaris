@@ -21,6 +21,6 @@ abstract class IEDiscount {
      * @abstract
      * @return void
      */
-    abstract public function apply();
+    abstract public function apply(IECartPosition $position = null);
 
 }

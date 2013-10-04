@@ -8,7 +8,7 @@ $this->menu=array(
 
 <?php $this->widget('bootstrap.widgets.TbGridView',array(
 	'id'=>'details-grid',
-	'dataProvider'=>$model->search(),
+	'dataProvider'=>$model->search(Details::TYPE_DETAIL),
 	'filter'=>$model,
 	'type'=>TbHtml::GRID_TYPE_HOVER,
     'afterAjaxUpdate'=>"function() {sortGrid('details')}",

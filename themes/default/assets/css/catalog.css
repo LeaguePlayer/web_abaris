@@ -41,7 +41,8 @@
     margin: 10px 0 50px; }
 
 .catalog-grid-header {
-  position: relative; }
+  position: relative;
+  z-index: 1000; }
   .catalog-grid-header .row-fluid {
     overflow: hidden; }
   .catalog-grid-header .field {

@@ -17,8 +17,13 @@
                     array('label'=>'Типы кузовов', 'url'=>'/admin/bodytypes/list'),
                     array('label'=>'Двигатели', 'url'=>'/admin/engines/list'),
                     array('label'=>'Категории', 'url'=>'/admin/detailCategory/list'),
-                    array('label'=>'Детали', 'url'=>'/admin/details/list'),
                     array('label'=>'Страницы', 'url'=>'/admin/pages/list'),
+                    array('label'=>'Заказы пользователей', 'url'=>'/admin/orders/list'),
+                    array('label'=>'Товары', 'items'=>array(
+                        array('label'=>'Детали', 'url'=>'/admin/details/list'),
+                        array('label'=>'Аксессуары', 'url'=>'/admin/accessory/list'),
+                        array('label'=>'Расходные материалы', 'url'=>'/admin/consumable/list'),
+                    )),
 				)),
 			);
 		?>

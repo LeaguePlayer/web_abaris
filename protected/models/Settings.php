@@ -45,8 +45,6 @@ class Settings extends CActiveRecord
 			'ranges' => 'Возможные значения',
 		);
 	}
-	
-	
 
 	
 	public function search()

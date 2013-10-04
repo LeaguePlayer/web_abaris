@@ -5,8 +5,26 @@ class DetailsController extends FrontController
 	public $layout='//layouts/main';
 
 	
-	public function actionView($id = false, $article = false)
+	public function actionView($id = false, $article = false, $brand = false)
 	{
+        if ( $brand and $brand != $this->brand['alias'] ) {
+            $brandModel = Brands::model()->findByAttributes(array('alias'=>$brand));
+            if ( $brandModel !== null ) {
+                $brandState['id'] = $brandModel->id;
+                $brandState['logo'] = $brandModel->getImageUrl('icon');
+                $brandState['name'] = $brandModel->name;
+                $brandState['alias'] = $brandModel->alias;
+                $cookie = new CHttpCookie(self::COOKIE_VAR_CURRENT_BRAND, CJSON::encode($brandState));
+                Yii::app()->request->cookies[self::COOKIE_VAR_CURRENT_BRAND] = $cookie;
+                if ( $id ) {
+                    $url = $this->createUrl('/details/view', array('id'=>$id));
+                } else {
+                    $url = $this->createUrl('/details/view', array('article'=>$article));
+                }
+                $this->redirect($url);
+            }
+        }
+
         $autoModel = $this->loadModel('AutoModels', $_GET['model_id'], array('with'=>array('bodytype', 'engines', 'engine')), false);
         if ( !empty($_GET['engine_id']) ) {
             foreach ( $this->engines as $engine) {
@@ -28,6 +46,7 @@ class DetailsController extends FrontController
         } else {
             throw new CHttpException(404, 'Страница не найдена');
         }
+
         $model = Details::model()->find($criteria);
         if ( $model === null ) {
             throw new CHttpException(404, 'Страница не найдена');

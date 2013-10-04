@@ -120,7 +120,7 @@ class EShoppingCart extends CMap {
         else
             parent::add($key, $position);
 
-        $this->applyDiscounts();
+        $this->applyDiscounts($position);
         if ( $raiseEvent ) {
             $this->onUpdatePosition(new CEvent($this, array('targetPosition'=>$position)));
         }
@@ -194,12 +194,12 @@ class EShoppingCart extends CMap {
      * Apply discounts to all positions
      * @return void
      */
-    protected function applyDiscounts() {
+    protected function applyDiscounts(IECartPosition $position = null) {
         foreach ($this->discounts as $discount)
         {
             $discountObj = Yii::createComponent($discount);
             $discountObj->setShoppingCart($this);
-            $discountObj->apply();
+            $discountObj->apply($position);
         }
     }
 

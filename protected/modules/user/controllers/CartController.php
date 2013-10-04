@@ -14,7 +14,8 @@ class CartController extends FrontController
 
     public function filterLoginControll($filterChain)
     {
-        if ( Yii::app()->user->isGuest and Yii::app()->request->urlReferrer != $this->createAbsoluteUrl('/user/login') ) {
+        $urlReferrer = Yii::app()->request->urlReferrer;
+        if ( Yii::app()->user->isGuest and $urlReferrer != $this->createAbsoluteUrl('/user/login') and $urlReferrer != $this->createAbsoluteUrl('/user/cart') ) {
             Yii::app()->user->setReturnUrl($this->createUrl('/user/cart'));
             $this->redirect('/user/login');
         }
@@ -26,6 +27,7 @@ class CartController extends FrontController
     {
         return array(
             'loginControll + index',
+            'ajaxOnly + update',
         );
     }
 
@@ -67,9 +69,10 @@ class CartController extends FrontController
         $assetsPath = $this->getAssetsUrl('application');
         $cs->registerCssFile($assetsPath.'/css/spinner.css');
         $cs->registerCssFile($assetsPath.'/css/catalog.css');
-        $cs->registerCssFile($assetsPath.'/css/cart.css');
-        $cs->registerScriptFile($assetsPath.'/js/vendor/jquery-scrolltofixed-ext.js', CClientScript::POS_END);
+        $cs->registerCssFile($assetsPath.'/css/cart.css', '', 100);
         $cs->registerCoreScript('jquery.ui');
+        $cs->registerScriptFile($assetsPath.'/js/vendor/jquery-scrolltofixed-ext.js', CClientScript::POS_END);
+        $cs->registerScriptFile($assetsPath.'/js/vendor/accounting.js', CClientScript::POS_END);
         $cs->registerScriptFile($assetsPath.'/js/cart.js', CClientScript::POS_END);
         $this->render('index', array(
             'cartDataProvider'=>$cartDataProvider,
@@ -102,29 +105,22 @@ class CartController extends FrontController
 
 
 
-    public function actionUpdate($id)
+    public function actionUpdate($id, $count)
     {
         $cart = Yii::app()->cart;
         if ( $cart->contains($id) ) {
             $position = $cart->itemAt($id);
         } else {
-            $position = Details::model()->findByPk($id);
-            if ( $position === null ) {
-                $response['error'] = 'Не найден товар';
-            }
+            $position = Details::model()->with('cartInfo')->findByPk($id);
         }
-        $cart->update($position);
-        if ( Yii::app()->request->isAjaxRequest ) {
-            $response['html'] = $this->renderPartial('success');
-            $response['count'] = $position->getQuantity();
-            echo CJSON::encode($response);
-            Yii::app()->end();
+        if ( $position === null ) {
+            throw new CHttpException(404, 'Не найдена деталь');
         }
+        $cart->update($position, $count);
+
+        $response['count'] = $position->getQuantity();
+        echo CJSON::encode($response);
     }
-
-
-
-
 
 
 

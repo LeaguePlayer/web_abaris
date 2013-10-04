@@ -4,8 +4,8 @@
 	$cs->registerCssFile($assetsPath.'/css/bootstrap.min.css');
 	$cs->registerCssFile($assetsPath.'/css/bootstrap-responsive.min.css');
     $cs->registerCssFile($assetsPath.'/css/fancybox/jquery.fancybox.css');
-    $cs->registerCssFile($assetsPath.'/css/main.css');
-    $cs->registerCssFile($assetsPath.'/css/form.css');
+    $cs->registerCssFile($assetsPath.'/css/main.css', '', 100);
+    $cs->registerCssFile($assetsPath.'/css/form.css', '', 200);
 	
 	$cs->registerCoreScript('jquery');
 	$cs->registerScriptFile($assetsPath.'/js/vendor/fancybox/jquery.fancybox.pack.js', CClientScript::POS_END);

@@ -47,3 +47,13 @@ $ ->
 					$.show_abaris_box data.html, options
 				else
 					$.show_abaris_box data.error, options
+
+	$.pluralize = (n, labels = false) ->
+		i = ( n % 10 == 1 && n % 100 != 11 ? 0 : (n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 10 || n % 100 >= 20) ? 1 : 2) )
+		if labels != false
+			return labels[i]
+		else
+			return i
+
+	$('.information').tooltip
+		animation: false

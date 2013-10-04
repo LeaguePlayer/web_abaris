@@ -23,6 +23,19 @@
 Yii::import('application.behaviors.UploadableImageBehavior');
 class Details extends EActiveRecord implements IECartPosition
 {
+    const TYPE_DETAIL = 0;
+    const TYPE_ACCESSORY = 1;
+    const TYPE_CONSUMABLE = 2;
+
+    public static function getDetailTypes($type = false)
+    {
+        $types = array(
+            self::TYPE_DETAIL => 'Запчасти',
+            self::TYPE_ACCESSORY => 'Аксессуары',
+            self::TYPE_CONSUMABLE => 'Расходные материалы',
+        );
+        return ($type) ? $types[$type] : $types;
+    }
 
     public function tableName()
     {
@@ -49,9 +62,10 @@ class Details extends EActiveRecord implements IECartPosition
     public function rules()
     {
         return array(
-            array('article, name, price, brand_id, category_id', 'required'),
+            array('article, name, price', 'required'),
             array('in_stock, brand_id, category_id, status, sort, create_time, update_time', 'numerical', 'integerOnly'=>true),
             array('price, discount', 'numerical'),
+            array('type', 'numerical', 'integerOnly'=>true),
             array('article', 'length', 'max'=>45),
             array('name, img_photo', 'length', 'max'=>256),
             // The following rule is used by search().
@@ -78,7 +92,7 @@ class Details extends EActiveRecord implements IECartPosition
         return array(
             'id' => 'ID',
             'article' => 'Артикул',
-            'name' => 'Наименование детали',
+            'name' => 'Наименование товара',
             'price' => 'Стоимтость',
             'in_stock' => 'В наличии',
             'dt_delivery_date' => 'Примерная дата доставки',
@@ -122,7 +136,7 @@ class Details extends EActiveRecord implements IECartPosition
     }
 
 
-    public function search()
+    public function search($type = 0)
     {
         $criteria=new CDbCriteria;
 		$criteria->compare('id',$this->id);
@@ -139,6 +153,7 @@ class Details extends EActiveRecord implements IECartPosition
 		$criteria->compare('sort',$this->sort);
 		$criteria->compare('create_time',$this->create_time);
 		$criteria->compare('update_time',$this->update_time);
+        $criteria->compare('type', $type);
 
         $criteria->order = 'sort';
 

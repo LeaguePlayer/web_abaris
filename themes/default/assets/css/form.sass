@@ -15,22 +15,23 @@ $grey: #717171
         color: #717171
         height: 25px
         padding: 0 2%
+        &.error
+            border: 1px solid red
     textarea.text-input
         height: auto
         padding: 2%
         font-family: Arial
-    label
+        &.error
+            border: 1px solid red
+    label, label.required
         color: #252525
+        font-size: 12px
     .info
         font-size: 10px
         color: $grey
         line-height: 1.2
         padding: 2px 0
     .error
-        color: red
-    
-    .error-input
-        border: 1px solid red
         color: red
     
     .text-input:focus
@@ -40,8 +41,8 @@ $grey: #717171
     input[type=radio].css-checkbox 
         position: absolute 
         overflow: hidden 
-        clip: rect(0 0 0 0) 
-        height: 1px 
+        clip: rect(0 0 0 0)
+        height: 1px
         width: 1px 
         margin: -1px 
         padding: 0
@@ -119,10 +120,10 @@ $grey: #717171
         text-align: center
     .next-step, .prev-step
         width: 100%
-        padding: 10px 0
         border: none
         text-align: center
-        display: block
+        display: inline-block
+        line-height: 32px
         color: #fff
         background-color: #296bb1
         text-decoration: none
@@ -132,7 +133,8 @@ $grey: #717171
     .next-step i, .prev-step i
         width: 11px
         height: 22px
-        display: block
+        display: inline-block
+        margin-top: 5px
     .next-step i
         float: right
         margin-right: 30px

@@ -5,22 +5,29 @@
  * to the first item.
  */
 class TestDiscount extends IEDiscount {
-    /**
-     * Discount %
-     */
 
-    public function apply() {
+    private $userDiscount = 0;
+
+    public function apply(IECartPosition $position = null) {
         $user = Yii::app()->user->model();
         $userDiscount = $user !== null ? $user->discount : 0;
+        if ( $position !== null ) {
+            $this->processApply($position);
+            return;
+        }
         foreach ($this->shoppingCart as $position) {
-            if ( $position->cartInfo->status == CartDetails::STATUS_ARCHIVED )
-                continue;
-            $quantity = $position->getQuantity();
-            if ($quantity > 0) {
-                $discount = $position->discount + $userDiscount;
-                $discountPrice = $discount * $position->getPrice() / 100;
-                $position->addDiscountPrice($discountPrice);
-            }
+            $this->processApply($position);
+        }
+    }
+
+    private function processApply(IECartPosition $position)
+    {
+        if ( $position->cartInfo->status == CartDetails::STATUS_ARCHIVED )
+            return;
+        if ($position->getQuantity() > 0) {
+            $discount = $position->discount + $this->userDiscount;
+            $discountPrice = $discount * $position->getPrice() *$position->getQuantity() / 100;
+            $position->addDiscountPrice($discountPrice);
         }
     }
 }

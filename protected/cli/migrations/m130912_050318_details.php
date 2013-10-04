@@ -31,14 +31,15 @@ class m130912_050318_details extends CDbMigration
         $this->createTable('{{details}}', array(
             'id' => 'pk', // auto increment
             'article' => "varchar(45) NOT NULL COMMENT 'Артикул'",
-            'name' => "varchar(256) NOT NULL COMMENT 'Наименование детали'",
-            'price' => "FLOAT NOT NULL COMMENT 'Стоимтость'",
+            'name' => "varchar(256) NOT NULL COMMENT 'Наименование товара'",
+            'price' => "decimal(10,2) NOT NULL COMMENT 'Стоимтость'",
             'in_stock' => "integer DEFAULT 0 COMMENT 'В наличии'",
             'dt_delivery_date' => "date COMMENT 'Примерная дата доставки'",
             'img_photo' => "varchar(256) COMMENT 'Фото'",
             'wswg_description' => "text COMMENT 'Описание'",
             'brand_id' => "integer NOT NULL COMMENT 'Бренд'",
             'category_id' => "integer NOT NULL COMMENT 'Категория'",
+            'type' => "integer(2) NOT NULL DEFAULT 0 COMMENT 'Тип товара'",
 			'status' => "tinyint COMMENT 'Статус'",
 			'sort' => "integer COMMENT 'Вес для сортировки'",
             'create_time' => "integer COMMENT 'Дата создания'",
