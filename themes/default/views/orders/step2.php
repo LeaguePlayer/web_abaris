@@ -88,7 +88,7 @@ $this->breadcrumbs = array(
         <div class="span4"><button type="submit" class="next-step">Продолжить<i></i></button></div>
     </div>
     <div class="row">
-        <div class="span12 call grey">Заказ по телефон <?php echo Settings::model()->getOption('order_phone'); ?>, назвав номер корзины <span><?php echo Yii::app()->user->dbCart->id; ?></span></div>
+        <div class="span12 call grey">Заказ по телефону <?php echo Settings::model()->getOption('order_phone'); ?>, назвав номер корзины <span><?php echo Yii::app()->user->dbCart->id; ?></span></div>
     </div>
 <?php $this->endWidget(); ?>
 </div>

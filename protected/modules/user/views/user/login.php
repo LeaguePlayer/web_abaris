@@ -30,9 +30,9 @@
                 </div>
             </div>
             <div class="row-fluid">
-                <div class="span4"><a class="lock" href="<?php echo $this->module->recoveryUrl; ?>">Забыли пароль?</a></div>
+                <div class="span4"><a class="lock" href="<?php echo $this->createUrl('/user/recovery'); ?>">Забыли пароль?</a></div>
                 <div class="span8">
-                    <a href="<?php echo $this->module->registrationUrl; ?>">Зарегистироваться</a>
+                    <a href="<?php echo $this->createUrl('/user/registration'); ?>">Зарегистироваться</a>
                 </div>
             </div>
             <div class="row-fluid">

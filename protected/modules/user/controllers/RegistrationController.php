@@ -1,8 +1,9 @@
 <?php
 
-class RegistrationController extends Controller
+class RegistrationController extends FrontController
 {
 	public $defaultAction = 'registration';
+    public $layout = '//layouts/main';
 	
 	/**
 	 * Declares class-based actions.
@@ -74,7 +75,8 @@ class RegistrationController extends Controller
                     }
                 } else $profile->validate();
             }
-            $this->render('/user/registration',array('model'=>$model,'profile'=>$profile));
+            $this->cs->registerCssFile($this->getAssetsUrl().'/css/registration.css');
+            $this->render('/user/registration_step1',array('model'=>$model,'profile'=>$profile));
         }
 	}
 }

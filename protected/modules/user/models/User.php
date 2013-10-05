@@ -8,6 +8,9 @@ class User extends CActiveRecord
 	
 	//TODO: Delete for next version (backward compatibility)
 	const STATUS_BANED=-1;
+
+    const TYPE_PHYSIC=0;
+    const TYPE_JUR
 	
 	/**
 	 * The followings are the available columns in table 'users':

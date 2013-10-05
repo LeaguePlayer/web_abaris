@@ -90,7 +90,7 @@
         <div class="span12 garant">Мы гарантируем безопасность введенных на сайте данных</div>
     </div>
     <div class="row">
-        <div class="span12 call grey">Заказ по телефон 8 (999) 464- 456- 998, назвав номер корзины <span>121</span></div>
+        <div class="span12 call grey">Заказ по телефону <?php echo Settings::model()->getOption('order_phone'); ?>, назвав номер корзины <span><?php echo Yii::app()->user->dbCart->id; ?></span></div>
     </div>
 <?php $this->endWidget(); ?>
 </div>
