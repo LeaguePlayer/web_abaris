@@ -59,6 +59,12 @@ return array(
 
     // application components
     'components'=>array(
+        'sms' => array(
+            'class' => 'SMSSender',
+            'login' => 'Leagueplayer',
+            'pwd' => '3e311b1bbe567f20bb45bf7529070773',
+            'sender' => 'abaris.ru',
+        ),
         'cart' => array(
             'class' => 'appext.shoppingCart.EShoppingCart',
             'onUpdatePosition' => array('CartNotifer', 'updatePosition'),

@@ -4,7 +4,7 @@
         <div class="container">
             <ul class="user-panel">
                 <?php if ( !Yii::app()->user->isGuest ) {
-                    $userName = Yii::app()->user->getState('firstname');
+                    $userName = Yii::app()->user->getState('first_name');
                     if ( empty($userName) ) {
                         $userName = Yii::app()->user->getState('username');
                     }

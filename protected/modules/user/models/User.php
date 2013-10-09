@@ -9,8 +9,16 @@ class User extends CActiveRecord
 	//TODO: Delete for next version (backward compatibility)
 	const STATUS_BANED=-1;
 
-    const TYPE_PHYSIC=0;
-    const TYPE_JUR
+    const USERTYPE_PHYSIC=0;
+    const USERTYPE_JURYSTIC=1;
+
+    public static function getUserTypes()
+    {
+        return array(
+            self::USERTYPE_PHYSIC => 'Физическое лицо',
+            self::USERTYPE_JURYSTIC => 'Юридическое лицо',
+        );
+    }
 	
 	/**
 	 * The followings are the available columns in table 'users':
@@ -205,5 +213,21 @@ class User extends CActiveRecord
             Yii::app()->user->updateSession();
         }
         return parent::afterSave();
+    }
+
+    public function getUserType()
+    {
+        $types = self::getUserTypes();
+        return $types[$this->user_type];
+    }
+
+    public function isJurystic()
+    {
+        return  ( (int)$this->user_type ) === self::USERTYPE_JURYSTIC;
+    }
+
+    public function isPhysic()
+    {
+        return !$this->isJurystic();
     }
 }

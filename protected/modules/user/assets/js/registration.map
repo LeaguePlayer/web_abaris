@@ -1,0 +1,10 @@
+{
+  "version": 3,
+  "file": "registration.js",
+  "sourceRoot": "",
+  "sources": [
+    "registration.coffee"
+  ],
+  "names": [],
+  "mappings": ";AAAA;CAAA,CAAA,CAAE,MAAA;CACD,EAAkC,EAAlC,IAAmC,EAAnC,aAAA;CACC,EAAY,CAAT,CAAwB,CAA3B,EAAG;CACF,OAAA,OAAA;MADD,EAAA;CAGC,OAAA,GAAA,IAAA;QAJgC;CAAlC,IAAkC;CADnC,EAAE;CAAF"
+}

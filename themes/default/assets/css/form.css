@@ -32,6 +32,9 @@
   padding: 2px 0; }
 .abaris-form .error {
   color: red; }
+.abaris-form .errorMessage {
+  color: red;
+  font-size: 12px; }
 .abaris-form .text-input:focus {
   outline: none; }
 .abaris-form input[type=checkbox].css-checkbox,
@@ -98,12 +101,14 @@
 .abaris-form .req-info {
   padding-left: 20px;
   color: #717171;
-  margin-bottom: 10px; }
+  margin-bottom: 10px;
+  font-size: 12px; }
 .abaris-form .garant {
   height: 23px;
   padding-left: 25px;
   background: no-repeat left center url("../img/garant.gif");
-  margin-bottom: 20px; }
+  margin-bottom: 20px;
+  font-size: 12px; }
 .abaris-form .cancel-signup {
   padding: 10px;
   display: block;
@@ -140,12 +145,14 @@
   padding: 15px 0; }
 .abaris-form .red-button, .abaris-form .red-button:visited {
   background-color: #ff665d;
-  display: block;
-  padding: 4px;
+  display: inline-block;
   color: white;
   text-align: center;
   text-decoration: none;
-  font-size: 11px; }
+  font-size: 11px;
+  line-height: 27px;
+  width: 100%;
+  border: none; }
 .abaris-form .features {
   max-width: 450px;
   margin: 25px 0; }

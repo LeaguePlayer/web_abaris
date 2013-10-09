@@ -25,8 +25,14 @@ class LoginController extends FrontController
 						$this->redirect(Yii::app()->user->returnUrl);
 				}
 			}
+
+            if ( Yii::app()->request->isAjaxRequest ) {
+                $this->renderPartial('/user/_ajaxlogin', array('model'=>$model));
+                Yii::app()->end();
+            }
 			// display the login form
             $this->cs->registerCssFile($this->getAssetsUrl('application').'/css/login.css');
+            $this->cs->registerScriptFile($this->getAssetsUrl('application').'/js/sign_up.js', CClientScript::POS_END);
 			$this->render('/user/login',array('model'=>$model));
 		} else
 			$this->redirect(Yii::app()->controller->module->returnUrl);

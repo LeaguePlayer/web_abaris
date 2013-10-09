@@ -440,27 +440,30 @@ button.b-button {
     max-width: 450px;
     padding: 10px 0;
     line-height: 1.1; }
-  .inline-modal .clone-auto {
-    padding-top: 10px;
-    margin-top: 10px;
-    border-top: 1px dashed #dddddd; }
+
+.clone-auto {
+  padding-top: 10px;
+  margin-top: 10px;
+  border-top: 1px dashed #dddddd; }
 
 /* fancybox styles */
-.abaris-modal {
+.abaris-modal .fancybox-close {
+  background-image: url("../img/close_window.png");
+  width: 21px;
+  height: 21px;
+  top: 13px;
+  right: 13px; }
+.abaris-modal .fancybox-skin {
+  -webkit-box-shadow: 1px 1px 1px 0 black;
+  box-shadow: 1px 1px 1px 0 black;
+  -webkit-border-radius: 0;
   border-radius: 0;
-    border-radius-border: 1px solid #6e6e6e; }
-  .abaris-modal .fancybox-close {
-    background-image: url("../img/close_window.png");
-    width: 21px;
-    height: 21px;
-    top: 13px;
-    right: 13px; }
-  .abaris-modal .fancybox-skin {
-    -webkit-box-shadow: 1px 1px 1px 0 black;
-    box-shadow: 1px 1px 1px 0 black;
-    -webkit-border-radius: 0; }
-  .abaris-modal .fancybox-inner {
-    border: 1px solid #9b9b9b; }
+  border: 1px solid #6e6e6e; }
+.abaris-modal .fancybox-inner {
+  border: 1px solid #9b9b9b; }
+.abaris-modal .ajax-modal {
+  width: 510px;
+  padding: 15px; }
 
 a, a:visited {
   color: #296bb1; }

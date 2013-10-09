@@ -1,115 +1,114 @@
 <?php
 $this->breadcrumbs = array(
-    'Корзина'=>array('/user/cart'),
-    'Оформление заказа'
+    'Регистрация - Шаг 1',
 );
 ?>
+
+
 <!-- begin step 1 -->
-<div class="container">
-    <h3>Регистрация</h3>
-    <form class="abaris-form" method="POST" action="">
+<div class="signup-step1">
+    <div class="container <?php if ( Yii::app()->request->isAjaxRequest ) echo 'ajax-modal'; ?>">
+        <h3>Регистрация</h3>
+        <?php $form = $this->beginWidget('CActiveForm', array(
+            'enableAjaxValidation'=>false,
+            'htmlOptions'=>array('class'=>'abaris-form')
+        )); ?>
         <div class="steps">Шаг 1 из 3</div>
         <div class="row-fluid">
-            <div class="span8 type">
-                <input id="fiz" type="radio" name="type" checked class="css-checkbox">
-                <label for="fiz" name="demo_lbl_1" class="css-label">Частное лицо</label>
-                <br>
-                <input id="ur" type="radio" name="type" class="css-checkbox">
-                <label for="ur" name="demo_lbl_1" class="css-label">Юридическое</label>
+            <div class="span12 type">
+                <?php echo $form->radioButtonList($model, 'user_type', User::getUserTypes(), array(
+                    'class'=>'css-checkbox choose_usertype', 'labelOptions'=>array('class'=>'css-label'),
+                )); ?>
             </div>
         </div>
         <div class="row-fluid">
-            <div class="span3"><label>Введите Ваше имя <span class="required">*</span></label></div>
-            <div class="span5">
-                <input class="text-input" type="text">
+            <div class="span5"><?php echo $form->labelEx($profile, 'first_name'); ?></div>
+            <div class="span7">
+                <?php echo $form->textField($profile, 'first_name', array('class'=>'text-input')); ?>
+                <?php echo $form->error($profile, 'first_name'); ?>
             </div>
         </div>
         <div class="row-fluid">
-            <div class="span3"><label>Введите Вашу фамилию <span class="required">*</span></label></div>
-            <div class="span5">
-                <input class="text-input" type="text">
+            <div class="span5"><?php echo $form->labelEx($profile, 'last_name'); ?></div>
+            <div class="span7">
+                <?php echo $form->textField($profile, 'last_name', array('class'=>'text-input')); ?>
+                <?php echo $form->error($profile, 'last_name'); ?>
             </div>
         </div>
         <div class="row-fluid">
-            <div class="span3"><label>Введите Ваше E-mail <span class="required">*</span></label></div>
-            <div class="span5">
-                <input class="text-input error-input" type="email">
+            <div class="span5"><?php echo $form->labelEx($model, 'email'); ?></div>
+            <div class="span7">
+                <?php echo $form->textField($model, 'email', array('class'=>'text-input')); ?>
+                <?php echo $form->error($model, 'email'); ?>
             </div>
         </div>
         <div class="row-fluid">
-            <div class="span3"><label>Введите номер телефона <span class="required">*</span></label></div>
-            <div class="span5">
-                <input class="text-input error-input" type="email">
+            <div class="span5"><?php echo $form->labelEx($profile, 'phone'); ?></div>
+            <div class="span7">
+                <?php echo $form->textField($profile, 'phone', array('class'=>'text-input')); ?>
+                <?php echo $form->error($profile, 'phone'); ?>
                 <div class="info">На указанный номер будет отправлено sms с кодом подтвержения</div>
             </div>
         </div>
         <div class="row-fluid">
-            <div class="span3"><label>Придумайте пароль</label></div>
-            <div class="span5">
-                <input class="text-input" type="password">
+            <div class="span5"><?php echo $form->labelEx($model, 'password'); ?></div>
+            <div class="span7">
+                <?php echo $form->passwordField($model, 'password', array('class'=>'text-input')); ?>
+                <?php echo $form->error($model, 'password'); ?>
             </div>
         </div>
         <div class="row-fluid">
-            <div class="span3"><label>Повторите пароль</label></div>
-            <div class="span5">
-                <input class="text-input" type="password">
+            <div class="span5"><?php echo $form->labelEx($model, 'verifyPassword'); ?></div>
+            <div class="span7">
+                <?php echo $form->passwordField($model, 'verifyPassword', array('class'=>'text-input')); ?>
+                <?php echo $form->error($model, 'verifyPassword'); ?>
             </div>
         </div>
-        <!--organization-->
-        <div class="organization" style="display: none;">
-            <div class="row-fluid">
-                <div class="span3"><label>Наименование организации</label></div>
-                <div class="span5">
-                    <input class="text-input" type="text">
-                </div>
 
-            </div>
-            <div class="row-fluid">
-                <div class="span3"><label>Наименование юр. лица</label></div>
-                <div class="span5">
-                    <input class="text-input" type="text">
-                </div>
-            </div>
-            <div class="row-fluid">
-                <div class="span3"><label>ФИО руководителя</label></div>
-                <div class="span5">
-                    <input class="text-input" type="text">
-                </div>
-            </div>
-            <div class="row-fluid">
-                <div class="span3"><label>КПП</label></div>
-                <div class="span5">
-                    <input class="text-input" type="text">
-                </div>
-            </div>
-            <div class="row-fluid">
-                <div class="span3"><label>БИК банка</label></div>
-                <div class="span5">
-                    <input class="text-input" type="text">
-                </div>
-            </div>
-            <div class="row-fluid">
-                <div class="span3"><label>Система налогооблажения</label></div>
-                <div class="span5">
-                    <select class="text-input">
-                        <option>Общая</option>
-                        <option>Общая</option>
-                        <option>Общая</option>
-                    </select>
-                </div>
-            </div>
+        <!--organization-->
+        <div class="organization<?php if ( $model->isPhysic() ) echo " hidden"; ?>">
+
+            <?php
+            $profileFields=Profile::getFields();
+            if ($profileFields) {
+                foreach($profileFields as $field) {
+                    if ( in_array($field->varname, array('phone', 'first_name', 'last_name')) )
+                        continue;
+                    ?>
+                    <div class="row-fluid">
+                        <div class="span5"><?php echo $form->labelEx($profile,$field->varname); ?></div>
+                        <div class="span7">
+                            <?php
+                            if ($widgetEdit = $field->widgetEdit($profile)) {
+                                echo $widgetEdit;
+                            } elseif ($field->range) {
+                                echo $form->dropDownList($profile,$field->varname,Profile::range($field->range), array('class'=>'text-input'));
+                            } elseif ($field->field_type=="TEXT") {
+                                echo$form->textArea($profile,$field->varname,array('class'=>'text-input'));
+                            } else {
+                                echo $form->textField($profile,$field->varname,array('class'=>'text-input', 'size'=>60,'maxlength'=>(($field->field_size)?$field->field_size:255)));
+                            }
+                            ?>
+                            <?php echo $form->error($profile, $field->varname); ?>
+                        </div>
+                    </div>
+                <?php
+                }
+            }
+            ?>
+
         </div>
         <div class="row-fluid req-info">
-            <div class="span8"><span class="required">*</span> Поля обязательные для заполнения</div>
+            <div class="span12"><span class="required">*</span> Поля обязательные для заполнения</div>
         </div>
         <div class="garant">
             Сайт гарантирует безопасность введенных личных данных
         </div>
         <div class="row-fluid">
-            <div class="span4"><a class="cancel-signup" href="#">Я передумал регестрироваться</a></div>
-            <div class="span4"><a class="next-step" href="#">Продолжить <i></i></a></div>
+            <div class="span6"><a class="cancel-signup" href="<?php echo Yii::app()->user->returnUrl; ?>">Я передумал регестрироваться</a></div>
+            <div class="span6"><button class="next-step">Продолжить <i></i></button></div>
         </div>
-    </form>
+        <?php $this->endWidget(); ?>
+    </div>
 </div>
-
 <!-- end step 1 -->

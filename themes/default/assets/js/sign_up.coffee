@@ -1,39 +1,72 @@
 $ ->
-	$('.cancel-signup').on 'click', () -> $.fancybox.close()
+	registration = () ->
+		bindEvents = (context) ->
+			$('.cancel-signup', context).click (e) ->
+				$.fancybox.close()
+				false
 
-	$('.add-auto').on 'click', () ->
-		modal = $(@).closest('.inline-modal')
-		item = modal.find('.auto-item').eq(0).clone().addClass 'clone-auto'
-		item.find('input').val('')
-		modal.find('.auto-items').append item
-		# $.fancybox.reposition()
+			$('.choose_usertype:radio', context).click (e) ->
+				if parseInt($(@).val()) == 0
+					$('.organization', context).addClass('hidden')
+				else
+					$('.organization', context).removeClass('hidden')
 
-	open_step1 = () ->
-		$.show_abaris_box '.signup-step1',
-			afterShow: () ->
-				step1 = $('.signup-step1')
+			$('.add-auto', context).click (e) ->
+				autoBlock = $('.auto-item', context)
+				counter = autoBlock.size() + 1
+				newBlock = autoBlock.first().clone().addClass('clone-auto')
+				newBlock.find('.row-fluid').each ->
+					input = $(@).find('input').val('')
+					input.attr 'id', 'UserCars_' + input.data('attribute') + '-' + counter
+					input.attr 'name', 'UserCars[' + counter + '][' + input.data('attribute') + ']'
+					$(@).find('label').attr 'for', input.attr 'id'
+				autoBlock.last().after newBlock
+				false
 
-				step1.find(':radio').on 'change', () ->
-					if $(this).attr('id') == 'ur' 
-						step1.find('.organization').show()
-					else
-						step1.find('.organization').hide()
-					$.fancybox.update()
+			form = $('form', context)
+			form.find('button.next-step, button.login-submit').click (e) ->
+				$.ajax
+					url: form.attr 'action'
+					type: form.attr 'method'
+					data: form.serialize()
+					success: (data) ->
+						context.html data
+						bindEvents context
+						$.fancybox.reposition()
+				false
 
-				step1.find('.next-step').on 'click', () -> 
-					open_step2()
+			form.find('button.repeat-sms').click (e) ->
+				console.log $(@).attr 'name'
+				$.ajax
+					url: form.attr 'action'
+					type: form.attr 'method'
+					data: 'UpdateSmsCode': 1
+					success: (data) ->
+						context.html data
+						bindEvents context
+						$.fancybox.reposition()
+				false
 
-	open_step2 = () ->
-		$.show_abaris_box '.signup-step2',
-			afterShow: () -> 
-				# open step 3
-				$('.signup-step2').find('.next-step').on 'click', () -> open_step3()
-				# go back
-				$('.signup-step2').find('.prev-step').on 'click', () -> open_step1()
-	open_step3 = () ->
-		$.show_abaris_box '.signup-step3',
-			autoCenter: false
-			afterShow: () -> 
-				# something do
-				$('.signup-step3').find('.login-submit').on 'click', () -> $.fancybox.close()
-	open_step1()
+			form.find('.prev-step').click (e) ->
+				$.ajax
+					url: $(@).attr 'href'
+					type: 'GET'
+					success: (data) ->
+						context.html data
+						bindEvents context
+						$.fancybox.reposition()
+				false
+
+		$('.registrationButton').fancybox({
+			wrapCSS: 'abaris-modal'
+			padding: 5
+			autoSize: true,
+			minWidth: 550,
+			fitToView: true
+			modal: false
+			closeBtn: true
+			afterShow: ->
+				bindEvents @.inner
+		})
+
+	registration()

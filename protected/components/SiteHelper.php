@@ -67,7 +67,15 @@ class SiteHelper {
 		else
 			return substr(md5($result . time()), 0);
 	}
-	
+
+    public static function genRandomDigit($numberCount = 4) {
+        $result = "";
+        for ( $i = 0; $i < $numberCount; $i++ ) {
+            $result .= ( (string)mt_rand(0, 9) );
+        }
+        return $result;
+    }
+
 	public static function russianMonth($monthNumber)
 	{
 		$n = (int) $monthNumber;

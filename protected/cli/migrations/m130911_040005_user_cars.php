@@ -36,7 +36,7 @@ class m130911_040005_user_cars extends CDbMigration
 			'year' => "TINYINT COMMENT 'Год выпуска'",
 			'VIN' => "VARCHAR(20) COMMENT 'ВИН'",
 			'mileage' => "FLOAT COMMENT 'Пробег'",
-			
+            'user_id' => "integer COMMENT 'Пользователь'",
 			'status' => "tinyint COMMENT 'Статус'",
 			'sort' => "integer COMMENT 'Вес для сортировки'",
             'create_time' => "integer COMMENT 'Дата создания'",

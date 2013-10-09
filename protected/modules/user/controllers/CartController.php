@@ -92,8 +92,7 @@ class CartController extends FrontController
 
         Yii::app()->cart->put($position);
         if ( Yii::app()->request->isAjaxRequest ) {
-            $response['html'] = $this->renderPartial('success');
-            echo CJSON::encode($response);
+            echo $this->renderPartial('success');
             Yii::app()->end();
         }
 

@@ -44,7 +44,7 @@ class UserModule extends EWebModule
 	 * @var boolean
 	 * @desc activate user on registration (only $sendActivationMail = false)
 	 */
-	public $activeAfterRegister=false;
+	public $activeAfterRegister=true;
 	
 	/**
 	 * @var boolean
@@ -158,10 +158,11 @@ class UserModule extends EWebModule
         else
             return Yii::t("UserModule", $str, $params);
 	}
-	
-	/**
-	 * @return hash string.
-	 */
+
+    /**
+     * @param string $string
+     * @return hash string.
+     */
 	public static function encrypting($string="") {
 		$hash = Yii::app()->getModule('user')->hash;
 		if ($hash=="md5")
@@ -237,12 +238,14 @@ class UserModule extends EWebModule
         $headers="From: ".$from."\r\nReply-To: ".Yii::app()->params['adminEmail'];
         return mail($user->email,'=?UTF-8?B?'.base64_encode($subject).'?=',$message,$headers);
     }
-	
-	/**
-	 * Return safe user data.
-	 * @param user id not required
-	 * @return user object or false
-	 */
+
+    /**
+     * Return safe user data.
+     * @param int $id
+     * @param bool $clearCache
+     * @internal param \id $user not required
+     * @return user object or false
+     */
 	public static function user($id=0,$clearCache=false) {
         if (!$id&&!Yii::app()->user->isGuest)
             $id = Yii::app()->user->id;
