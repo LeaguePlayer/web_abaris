@@ -35,8 +35,13 @@ class EpsController extends FrontController
             case 'Hyundai':
                 $epsUrl = "http://hyundai.ilcats.ru/pid/10602";
                 break;
-            case 'Honda':
-                $epsUrl = "http://honda.ilcats.ru/pid/10604";
+            case 'Chevrolet':
+                $epsUrl = 'http://app.autoxp.ru/pscomplex/catalog.aspx?clstep=catalog&mark=chevrolet&salerind=552';
+                //$this->redirect('http://app.autoxp.ru/pscomplex/catalog.aspx?clstep=catalog&mark=chevrolet&salerind=552');
+                break;
+            case 'Daewoo':
+                $epsUrl = 'http://app.autoxp.ru/pscomplex/catalog.aspx?clstep=catalog&mark=daewoo&salerind=552';
+                //$this->redirect('http://app.autoxp.ru/pscomplex/catalog.aspx?clstep=catalog&mark=daewoo&salerind=552');
                 break;
             default:
                 throw new CHttpException(404, 'Каталог не найден');

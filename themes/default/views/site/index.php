@@ -55,9 +55,9 @@
             </div>
             <div class="row num-block">
                 <div class="span1 big-num">3</div>
-                <div class="span5"><p>Хорошо разбираетесь в устройстве автомобиля? У нас для Вас есть официальный каталог ЕТС:</p>
+                <div class="span5"><p>Хорошо разбираетесь в устройстве автомобиля? У нас для Вас есть официальный каталог EPC:</p>
                     <div class="row">
-                        <div class="span5"><a href="<?php echo $this->createUrl('/eps/index'); ?>" class="b-button b-button-blue">Каталог  ЕПС</a></div>
+                        <div class="span5"><a href="<?php echo $this->createUrl('/eps/index'); ?>" class="b-button b-button-blue">Каталог  EPC</a></div>
                     </div>
                 </div>
             </div>

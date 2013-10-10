@@ -10,7 +10,9 @@
 	$cs->registerCoreScript('jquery');
 	$cs->registerScriptFile($assetsPath.'/js/vendor/fancybox/jquery.fancybox.pack.js', CClientScript::POS_END);
 	$cs->registerScriptFile($assetsPath.'/js/vendor/bootstrap.min.js', CClientScript::POS_END);
+	$cs->registerScriptFile($assetsPath.'/js/vendor/jquery.maskedinput.js', CClientScript::POS_END);
 	$cs->registerScriptFile($assetsPath.'/js/main.js', CClientScript::POS_BEGIN);
+    $cs->registerScriptFile($assetsPath.'/js/sign_up.js', CClientScript::POS_END);
 ?>
 <?php echo $this->getClip('head'); ?>
 <body>

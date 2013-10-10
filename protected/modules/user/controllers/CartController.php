@@ -84,13 +84,18 @@ class CartController extends FrontController
 
     public function actionPut($id)
     {
-        $position = Details::model()->findByPk($id);
-        $response = array();
-        if ( $position === null ) {
-            $response['error'] = 'Не найден товар';
+        if ( Yii::app()->cart->contains($id) ) {
+            $position = Yii::app()->cart->itemAt($id);
+            $position->unarchivate();
+        } else {
+            $position = Details::model()->findByPk($id);
+            if ( $position === null ) {
+                throw new CHttpException(404, 'Не найден товар');
+                Yii::app()->end();
+            }
+            Yii::app()->cart->put($position);
         }
 
-        Yii::app()->cart->put($position);
         if ( Yii::app()->request->isAjaxRequest ) {
             echo $this->renderPartial('success');
             Yii::app()->end();

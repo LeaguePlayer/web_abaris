@@ -131,7 +131,10 @@ class RegistrationController extends FrontController
 
     public function actionSuccess()
     {
-        $this->render('/user/success');
+        if ( Yii::app()->request->isAjaxRequest )
+            $this->renderPartial('/user/success');
+        else
+            $this->render('/user/success');
     }
 
 

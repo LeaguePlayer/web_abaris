@@ -1,10 +1,10 @@
 <div class="container page-title">
-                <h2 class="georgia">Личный кабинет</h2>
-                <div>
-                    <span class="blue-line"></span><br>
-                    <span class="red">Ваш уникальный код пользователя <?Yii::app()->user->id?></span>
-                </div>
-            </div>
+    <h2 class="georgia">Личный кабинет</h2>
+    <div>
+        <span class="blue-line"></span><br>
+        <span class="red">Ваш уникальный код пользователя <?Yii::app()->user->id?></span>
+    </div>
+</div>
 
             <div class="admin-steps container">
                 <div class="text">В личном кабинете вы можете:</div>

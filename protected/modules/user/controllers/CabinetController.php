@@ -2,12 +2,13 @@
 
 class CabinetController extends FrontController
 {
-	
+    public $defaultAction = 'cars';
+
 	public function init () {
 		parent::init();
-		Yii::app()->clientScript->registerCssFile($this->getAssetsUrl()."/css/admin.css", '', 500);
-		Yii::app()->clientScript->registerCssFile($this->getAssetsUrl()."/css/catalog.css", '', 600);
-		Yii::app()->clientScript->registerCssFile($this->getAssetsUrl()."/css/form.css", '', 700);
+		Yii::app()->clientScript->registerCssFile($this->getAssetsUrl('application')."/css/admin.css", '', 500);
+		Yii::app()->clientScript->registerCssFile($this->getAssetsUrl('application')."/css/catalog.css", '', 600);
+		Yii::app()->clientScript->registerCssFile($this->getAssetsUrl('application')."/css/form.css", '', 700);
 		return true;
 	}
 	
@@ -53,12 +54,11 @@ class CabinetController extends FrontController
 			UserCarsSTO::model()->deleteAll($deletesCar);
 		}
 		
-		if (isset($_POST["UserCars"])){
-				$list_user_car_STO->attributes=$_POST['UserCars'];
-				
-				if($list_user_car_STO->save()){
-					$this->redirect(array('/cabinet/sto'));
-				}
+		if (isset($_POST["UserCars"])) {
+            $list_user_car_STO->attributes=$_POST['UserCars'];
+            if($list_user_car_STO->save()){
+                $this->redirect(array('/cabinet/sto'));
+            }
 		}
 		
 		$list_user_car_STO = UserCarsSTO::model()->with("user_car")->findAll();
@@ -84,7 +84,7 @@ class CabinetController extends FrontController
 		
 		if (Yii::app()->request->isAjaxRequest){
 			$this->renderPartial("stoForm", array("user_car_STO" => $user_car_STO, "user_cars" => $user_cars));
-		}else{
+		} else {
 			$this->render("stoForm", array("user_car_STO" => $user_car_STO, "user_cars" => $user_cars));
 		}
 	}

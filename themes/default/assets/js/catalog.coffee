@@ -50,8 +50,12 @@ $ ->
 		filterListView($(this).attr 'id')
 
 
-	$('#details-list .price p').click ->
-		$.cart_push $(@).data 'id'
+	$.bind_ajax_modal '#details-list .to_cart',
+		afterShow: ->
+			$('#cart-info').find('.cost').text(@.inner.find('#cost').val()).end().find('.count').text(@.inner.find('#quantity').val())
+			$('.close-button', @.inner).click (e) ->
+				$.fancybox.close()
+				false
 
 
 	###$('.catalog-grid-row').each () ->

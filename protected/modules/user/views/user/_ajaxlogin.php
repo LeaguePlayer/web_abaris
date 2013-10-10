@@ -1,35 +1,38 @@
 <div class="ajax-modal login-form">
     <h3>Вход</h3>
     <div class="stretch"></div>
-    <form class="login abaris-form" method="POST" action="">
+    <?php $form = $this->beginWidget('CActiveForm', array(
+        'htmlOptions'=>array('class'=>'login abaris-form')
+    )); ?>
         <div class="row-fluid">
-            <div class="span4"><label>Введите емейл</label></div>
+            <div class="span4"><?php echo $form->labelEx($model, 'username'); ?></div>
             <div class="span8">
-                <input class="text-input" name="email" type="email" value="">
+                <?php echo $form->textField($model, 'username', array('class'=>'text-input')); ?>
+                <?php echo $form->error($model, 'username'); ?>
             </div>
         </div>
         <div class="row-fluid">
-            <div class="span4"><label>Введите емейл</label></div>
+            <div class="span4"><label><?php echo $form->labelEx($model, 'password'); ?></label></div>
             <div class="span8">
-                <input class="text-input error-input" name="email" type="password" value="">
-                <div class="error">Пароль введен неверно</div>
+                <?php echo $form->passwordField($model, 'password', array('class'=>'text-input')); ?>
+                <?php echo $form->error($model, 'password'); ?>
             </div>
         </div>
         <div class="row-fluid">
             <div class="span4"></div>
             <div class="span8">
-                <input id="remember" class="css-checkbox" type="checkbox" />
-                <label for="remember" name="demo_lbl_1" class="css-label">запомнить</label>
+                <?php echo $form->checkBox($model, 'rememberMe', array('class'=>'css-checkbox')); ?>
+                <?php echo $form->labelEx($model, 'rememberMe', array('class'=>'css-label')); ?>
             </div>
         </div>
         <div class="row-fluid">
-            <div class="span4"><a class="lock" href="#">Забыли пароль?</a></div>
+            <div class="span4"><a class="lock" href="<?php echo $this->createUrl('/user/recovery'); ?>">Забыли пароль?</a></div>
             <div class="span8">
-                <a href="#">Зарегистироваться</a>
+                <a class="fancybox.ajax registrationButton" href="<?php echo $this->createUrl('/user/registration'); ?>">Зарегистироваться</a>
             </div>
         </div>
         <div class="row-fluid">
             <input type="submit" class="login-submit" value="Войти"/>
         </div>
-    </form>
+    <?php $this->endWidget(); ?>
 </div>

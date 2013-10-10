@@ -1,5 +1,5 @@
 $ ->
-	registration = () ->
+	$.registration = () ->
 		bindEvents = (context) ->
 			$('.cancel-signup', context).click (e) ->
 				$.fancybox.close()
@@ -57,16 +57,9 @@ $ ->
 						$.fancybox.reposition()
 				false
 
-		$('.registrationButton').fancybox({
-			wrapCSS: 'abaris-modal'
-			padding: 5
-			autoSize: true,
-			minWidth: 550,
-			fitToView: true
-			modal: false
-			closeBtn: true
-			afterShow: ->
-				bindEvents @.inner
-		})
+			$.mask.definitions['d'] = "[0-9]"
+			form.find('#Profile_phone').mask "dddddddddd"
 
-	registration()
+		$.bind_ajax_modal '.registrationButton', afterShow: () -> bindEvents $(@.inner)
+
+	$.registration()

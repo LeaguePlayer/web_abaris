@@ -24,29 +24,54 @@ $ ->
 		false
 
 	$.show_abaris_box = (selector, options = {}) ->
-		$.extend options, 
+		$.extend options,
 			wrapCSS: 'abaris-modal'
 			padding: 5
+			autoSize: true,
+			minWidth: 550,
+			fitToView: true
+			modal: false
+			closeBtn: true
+			helpers:
+				overlay:
+					locked: true
 		$.fancybox.open $(selector), options
+
+
+	$.bind_ajax_modal = (selector, options = {}) ->
+		$.extend options,
+			wrapCSS: 'abaris-modal'
+			padding: 5
+			autoSize: true,
+			minWidth: 550,
+			fitToView: true
+			modal: false
+			closeBtn: true
+			type: 'ajax'
+			helpers:
+				overlay:
+					locked: true
+		$(selector).unbind('click.fb').bind 'click.fb', (e) ->
+			e.preventDefault()
+			$this = $(@)
+			openBox = ->
+				$.extend options,
+					href: $this.attr 'href'
+				$.fancybox.open options
+			if $('.fancybox-overlay').size() > 0
+				$.fancybox.close()
+				$.fancybox.showLoading()
+				setTimeout openBox, 500
+			else
+				openBox()
+			false
+
 
 	$(".catalog-grid-row").hover(
 		() -> 
 			$(@).addClass 'active' if !$(@).hasClass('no-hover')
 		() -> $(this).removeClass 'active'
 	)
-
-	$.cart_push = (product_id, options = {}) ->
-		$.ajax
-			url: '/user/cart/put'
-			type: 'GET'
-			dataType: 'json'
-			data:
-				id: product_id
-			success: (data) ->
-				if (!data.error)
-					$.show_abaris_box data.html, options
-				else
-					$.show_abaris_box data.error, options
 
 	$.pluralize = (n, labels = false) ->
 		i = ( n % 10 == 1 && n % 100 != 11 ? 0 : (n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 10 || n % 100 >= 20) ? 1 : 2) )
@@ -57,3 +82,8 @@ $ ->
 
 	$('.information').tooltip
 		animation: false
+
+	$.bind_ajax_modal '.login-button',
+		afterShow: () ->
+			$.registration()
+

@@ -1,6 +1,6 @@
 <!-- begin order steps  (step 1)-->
 <div class="container page-title">
-    <h2 class="georgia">Корзина №1</h2>
+    <h2 class="georgia">Корзина №<?php echo Yii::app()->user->dbCart->id ?></h2>
     <div>
         <span class="blue-line"></span>
     </div>

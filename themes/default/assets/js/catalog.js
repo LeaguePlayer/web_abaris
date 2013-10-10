@@ -65,8 +65,14 @@
     $('.list-view').each(function() {
       return filterListView($(this).attr('id'));
     });
-    return $('#details-list .price p').click(function() {
-      return $.cart_push($(this).data('id'));
+    return $.bind_ajax_modal('#details-list .to_cart', {
+      afterShow: function() {
+        $('#cart-info').find('.cost').text(this.inner.find('#cost').val()).end().find('.count').text(this.inner.find('#quantity').val());
+        return $('.close-button', this.inner).click(function(e) {
+          $.fancybox.close();
+          return false;
+        });
+      }
     });
     /*$('.catalog-grid-row').each () ->
     		max_height = 0

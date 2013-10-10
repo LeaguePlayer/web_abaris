@@ -24,15 +24,6 @@ class OrdersController extends FrontController
 	}
 
 
-    protected function registerScripts()
-    {
-        $cs = Yii::app()->clientScript;
-        $assetsPath = $this->getAssetsUrl('application');
-        $cs->registerCssFile($assetsPath.'/css/order.css', '', 500);
-        $cs->registerCssFile($assetsPath.'/css/catalog.css', '', 600);
-    }
-
-
     public function actionCreate($step = 1)
     {
         $model = new Orders('step'.$step);
@@ -75,8 +66,11 @@ class OrdersController extends FrontController
             }
         }
 
-        $this->registerScripts();
         Yii::app()->setImport(array('application.helpers.AbarisHtml'));
+        $assetsPath = $this->getAssetsUrl('application');
+        Yii::app()->clientScript->registerCssFile($assetsPath.'/css/order.css', '', 500);
+        Yii::app()->clientScript->registerCssFile($assetsPath.'/css/catalog.css', '', 600);
+        Yii::app()->clientScript->registerScriptFile($assetsPath.'/js/orders.js', CClientScript::POS_END);
         $this->render('step'.$step, array(
             'model'=>$model,
         ));

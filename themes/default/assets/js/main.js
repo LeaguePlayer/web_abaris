@@ -24,9 +24,58 @@
       }
       $.extend(options, {
         wrapCSS: 'abaris-modal',
-        padding: 5
+        padding: 5,
+        autoSize: true,
+        minWidth: 550,
+        fitToView: true,
+        modal: false,
+        closeBtn: true,
+        helpers: {
+          overlay: {
+            locked: true
+          }
+        }
       });
       return $.fancybox.open($(selector), options);
+    };
+    $.bind_ajax_modal = function(selector, options) {
+      if (options == null) {
+        options = {};
+      }
+      $.extend(options, {
+        wrapCSS: 'abaris-modal',
+        padding: 5,
+        autoSize: true,
+        minWidth: 550,
+        fitToView: true,
+        modal: false,
+        closeBtn: true,
+        type: 'ajax',
+        helpers: {
+          overlay: {
+            locked: true
+          }
+        }
+      });
+      return $(selector).unbind('click.fb').bind('click.fb', function(e) {
+        var $this, openBox;
+        e.preventDefault();
+        $this = $(this);
+        openBox = function() {
+          $.extend(options, {
+            href: $this.attr('href')
+          });
+          return $.fancybox.open(options);
+        };
+        if ($('.fancybox-overlay').size() > 0) {
+          $.fancybox.close();
+          $.fancybox.showLoading();
+          setTimeout(openBox, 500);
+        } else {
+          openBox();
+        }
+        return false;
+      });
     };
     $(".catalog-grid-row").hover(function() {
       if (!$(this).hasClass('no-hover')) {
@@ -35,26 +84,6 @@
     }, function() {
       return $(this).removeClass('active');
     });
-    $.cart_push = function(product_id, options) {
-      if (options == null) {
-        options = {};
-      }
-      return $.ajax({
-        url: '/user/cart/put',
-        type: 'GET',
-        dataType: 'json',
-        data: {
-          id: product_id
-        },
-        success: function(data) {
-          if (!data.error) {
-            return $.show_abaris_box(data.html, options);
-          } else {
-            return $.show_abaris_box(data.error, options);
-          }
-        }
-      });
-    };
     $.pluralize = function(n, labels) {
       var i, _ref, _ref1;
       if (labels == null) {
@@ -71,8 +100,13 @@
         return i;
       }
     };
-    return $('.information').tooltip({
+    $('.information').tooltip({
       animation: false
+    });
+    return $.bind_ajax_modal('.login-button', {
+      afterShow: function() {
+        return $.registration();
+      }
     });
   });
 

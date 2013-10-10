@@ -207,6 +207,22 @@ class Details extends EActiveRecord implements IECartPosition
         return $this->cartInfo->isArchived();
     }
 
+    public function archivate()
+    {
+        if ( $this->isArchived() )
+            return true;
+        $this->cartInfo->status = CartDetails::STATUS_ARCHIVED;
+        $this->cartInfo->save(false);
+    }
+
+    public function unarchivate()
+    {
+        if ( !$this->isArchived() )
+            return true;
+        $this->cartInfo->status = CartDetails::STATUS_ACTIVE;
+        $this->cartInfo->save(false);
+    }
+
     public function cmpStatus($a, $b)
     {
         if ( $a->cartInfo->status == $b->cartInfo->status )

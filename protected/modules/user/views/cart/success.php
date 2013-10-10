@@ -1,35 +1,15 @@
-<div class="inline-modal login-form">
-    <h3>Вход</h3>
-    <div class="stretch"></div>
-    <form class="login abaris-form" method="POST" action="">
-        <div class="row-fluid">
-            <div class="span4"><label>Введите емейл</label></div>
-            <div class="span8">
-                <input class="text-input" name="email" type="email" value="">
-            </div>
-        </div>
-        <div class="row-fluid">
-            <div class="span4"><label>Введите емейл</label></div>
-            <div class="span8">
-                <input class="text-input error-input" name="email" type="password" value="">
-                <div class="error">Пароль введен неверно</div>
-            </div>
-        </div>
-        <div class="row-fluid">
-            <div class="span4"></div>
-            <div class="span8">
-                <input id="remember" class="css-checkbox" type="checkbox" />
-                <label for="remember" name="demo_lbl_1" class="css-label">запомнить</label>
-            </div>
-        </div>
-        <div class="row-fluid">
-            <div class="span4"><a class="lock" href="#">Забыли пароль?</a></div>
-            <div class="span8">
-                <a href="#">Зарегистироваться</a>
-            </div>
-        </div>
-        <div class="row-fluid">
-            <input type="submit" class="login-submit" value="Войти"/>
-        </div>
-    </form>
+<div class="ajax-modal">
+
+    <?php
+        echo CHtml::hiddenField('quantity', Yii::app()->cart->getCount());
+        echo CHtml::hiddenField('cost', Yii::app()->cart->getCost(true));
+    ?>
+
+    <div class="row-fluid">
+        <div class="span12 info">Вы положили товар в корзину, можете перейти к оформлению заказа или посмотреть другие товары</div>
+    </div>
+    <div class="row-fluid">
+        <div class="span12"><a class="close-button" href="#">Посмотреть еще товары</a></div>
+    </div>
+    <div class="row-fluid"><div class="span12"><a href="<?php echo $this->createUrl('/user/cart'); ?>" class="blue-button">Перейти к оформлению заказа!</a></div></div>
 </div>

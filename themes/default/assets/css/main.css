@@ -447,23 +447,50 @@ button.b-button {
   border-top: 1px dashed #dddddd; }
 
 /* fancybox styles */
-.abaris-modal .fancybox-close {
+.fancybox-close {
   background-image: url("../img/close_window.png");
   width: 21px;
   height: 21px;
   top: 13px;
   right: 13px; }
-.abaris-modal .fancybox-skin {
+
+.fancybox-skin {
   -webkit-box-shadow: 1px 1px 1px 0 black;
   box-shadow: 1px 1px 1px 0 black;
   -webkit-border-radius: 0;
   border-radius: 0;
   border: 1px solid #6e6e6e; }
-.abaris-modal .fancybox-inner {
+
+.fancybox-inner {
   border: 1px solid #9b9b9b; }
-.abaris-modal .ajax-modal {
+
+.ajax-modal {
   width: 510px;
-  padding: 15px; }
+  padding: 15px;
+  font-size: 12px; }
+  .ajax-modal .blue-button {
+    display: block;
+    background: none;
+    background-color: #296bb1;
+    padding: 10px 0;
+    text-align: center;
+    border: none;
+    color: white;
+    text-decoration: none; }
+    .ajax-modal .blue-button:visited {
+      display: block;
+      background: none;
+      background-color: #296bb1;
+      padding: 10px 0;
+      text-align: center;
+      border: none;
+      color: white;
+      text-decoration: none; }
+  .ajax-modal .info {
+    color: #717171;
+    max-width: 450px;
+    padding: 10px 0;
+    line-height: 1.1; }
 
 a, a:visited {
   color: #296bb1; }

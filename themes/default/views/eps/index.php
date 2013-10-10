@@ -1,5 +1,5 @@
 <div class="container page-title">
-    <h2 class="georgia">ЕПС-каталог</h2>
+    <h2 class="georgia">EPC-каталог</h2>
     <div>
         <span class="blue-line"></span>
     </div>
