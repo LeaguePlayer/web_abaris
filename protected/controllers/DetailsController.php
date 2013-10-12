@@ -44,12 +44,21 @@ class DetailsController extends FrontController
         } else if ( $article ) {
             $criteria->compare('t.article', $article);
         } else {
-            throw new CHttpException(404, 'Страница не найдена');
+			// ЕСЛИ ЗАПЧАСТЬ НЕ НАЙДЕНА
+			$detailNotFound = Details::detailNotFound($article);
+			
+            $this->render('nofounddetail', array('detailNotFound'=>$detailNotFound) );	
+			die();
         }
 
         $model = Details::model()->find($criteria);
         if ( $model === null ) {
-            throw new CHttpException(404, 'Страница не найдена');
+			// ЕСЛИ ЗАПЧАСТЬ НЕ НАЙДЕНА
+			
+			$detailNotFound = Details::detailNotFound($article);
+			
+            $this->render('nofounddetail', array('detailNotFound'=>$detailNotFound) );	
+			die();
         }
 
         $inStockDetails = array();

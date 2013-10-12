@@ -34,6 +34,7 @@ class CabinetController extends FrontController
         Yii::app()->clientScript->registerCssFile($this->getAssetsUrl('application')."/css/alertify/alertify-default.css", '', 900);
         Yii::app()->clientScript->registerScriptFile($this->getAssetsUrl('application')."/js/vendor/alertify.js", CClientScript::POS_HEAD);
         Yii::app()->clientScript->registerScriptFile($this->getAssetsUrl('application')."/js/admin.js", CClientScript::POS_END);
+        Yii::app()->clientScript->registerCssFile($this->getAssetsUrl('application').'/css/cupertino/jquery-ui-1.9.2.custom.min.css');
 		return true;
 	}
 	
@@ -136,11 +137,14 @@ class CabinetController extends FrontController
 		
 		if (isset($_POST["UserCarsSTO"])){
             $model->attributes=$_POST['UserCarsSTO'];
+            $model->maintenance_date = date('Y-m-d', strtotime($model->maintenance_date));
             if($model->save()){
                 $this->redirect(array('cabinet/sto'));
             }
 		}
-		
+
+        if (!empty($model->maintenance_date))
+            $model->maintenance_date = date('d.m.Y', strtotime($model->maintenance_date));
 		if (Yii::app()->request->isAjaxRequest){
 			$this->renderPartial("stoForm", array("model" => $model, "userCars" => $userCars));
 		} else {

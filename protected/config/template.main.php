@@ -130,8 +130,8 @@ return array(
         'db'=>array(
             'connectionString' => 'mysql:host=localhost;dbname=abaris',
             'emulatePrepare' => true,
-            'username' => 'abaris',
-            'password' => 'qwe123',
+            'username' => 'root',
+            'password' => 'root',
             'charset' => 'utf8',
             'tablePrefix' => 'tbl_',
         ),

@@ -53,6 +53,93 @@ class SiteController extends FrontController
             $this->redirect('/');
         }
     }
+	
+	
+	public function actionFeedback()
+	{
+		$model = new Feedback();
+		
+		
+		
+		if( isset($_POST['Feedback']) )
+		{
+			$model->attributes = $_POST['Feedback'];
+			
+			if($model->validate())
+			{
+				// если валидация пройдена - отправляем сообщение для главного админа сайта	
+				
+				$template_email_for_admin = 
+				"Добрый день!
+				<br><br>
+				На Ваш сайт поступило обращение от пользователя <strong>%username%</strong>, с указаным емейл адресом <a href='mailto:%email%?subject=Ответ на ваше сообщение с сайта abarisparts.ru'>%email%</a>.
+				<br>
+				Текст обращения:
+				<br>
+				<strong>%message%</strong>
+				";
+					
+				$replaces = array("%username%" => $model->username, "%email%" => $model->email, "%message%" => $model->message);
+				$template_email_for_admin = strtr($template_email_for_admin, $replaces);
+				
+				SiteHelper::sendMail("Обратная связь с сайта abarisparts.ru", $template_email_for_admin, Settings::getOption('email_admin'));
+				
+				// если пользователь указал почту и она валидна, то отправляем дублирующее сообщение пользователю
+				if($model->validate(array('email')) and !empty($model->email) )
+				{
+						$template_email_for_user = 
+						"Добрый день, %username%!
+						<br><br>
+						Мы благодарим за обращение в нашу компанию. Абарис заботится о каждом своем клиенте. Мы постараемся обработать вашу заявку как можно быстрее.
+						<br>
+						Данные полученные нами:
+						<br>
+						<strong>Имя:</strong> %username%
+						<br>
+						<strong>Email:</strong> %email%
+						<br>
+						<strong>Текст сообщения: </strong>
+						<br>
+						%message%
+						";
+							
+						$replaces = array("%username%" => $model->username, "%email%" => $model->email, "%message%" => $model->message);
+						$template_email_for_user = strtr($template_email_for_user, $replaces);
+						
+						SiteHelper::sendMail("Обратная связь с сайта abarisparts.ru", $template_email_for_user, $model->email);
+				}
+				
+				$this->redirect('thanks');
+			}
+				
+		}
+		
+		if(Yii::app()->user->getState('email')) $model->email = Yii::app()->user->getState('email');
+		if(Yii::app()->user->getState('first_name')) $model->username = Yii::app()->user->getState('first_name');
+		
+		
+		Yii::app()->clientScript->registerCssFile( $this->getAssetsUrl().'/css/feedback.css' );
+		
+		if(Yii::app()->request->isAjaxRequest)
+			echo $this->renderPartial('feedback', array( 'model'=>$model ));
+		else
+			 $this->render('feedback', array( 'model'=>$model ));
+	}
+	
+	
+	public function actionThanks()
+	{
+		
+		
+		
+		if(Yii::app()->request->isAjaxRequest)
+			$this->renderPartial('thanks', array( 'model'=>$model ));
+		else
+		{
+			Yii::app()->clientScript->registerCssFile( $this->getAssetsUrl().'/css/feedback.css' );
+			$this->render('thanks', array( 'model'=>$model ));	
+		}
+	}
 
 
 	/**

@@ -39,7 +39,7 @@ $this->breadcrumbs = array(
         <div class="row-fluid">
             <div class="span4"><?php echo $form->labelEx($model, 'maintenance_date'); ?></div>
             <div class="span8">
-                <?php echo $form->textField($model, 'maintenance_date', array('class'=>'text-input')); ?>
+                <?php echo $form->textField($model, 'maintenance_date', array('class'=>'text-input datepicker')); ?>
                 <?php echo $form->error($model, 'maintenance_date'); ?>
             </div>
         </div>

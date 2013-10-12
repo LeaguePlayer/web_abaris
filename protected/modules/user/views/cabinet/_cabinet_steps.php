@@ -23,7 +23,7 @@
             <a href="<?=$this->createUrl('cabinet/invoices')?>"><table><tr><td><span class="big">4</span></td><td>Проверять и оплачивать счета</td></tr></table></a>
         </div>
         <div class="step <?php if ($this->getAction()->id == 'profile') echo 'active'; ?>">
-            <a href="#"><table><tr><td><span class="big">5</span></td><td>Вносить изменения в личные данные</td></tr></table></a>
+            <a href="/user/profile"><table><tr><td><span class="big">5</span></td><td>Вносить изменения в личные данные</td></tr></table></a>
         </div>
     </div>
 

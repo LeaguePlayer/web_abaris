@@ -73,12 +73,12 @@ $this->breadcrumbs = array(
     <div class="container">
         <div class="row">
             <div class="span12">
-                Затрудняетесь выбрать или не знаете где посмотреть эти данные позвоните нам: <span><span class="red">(492)</span> 122-22-21</span>
+                Затрудняетесь выбрать или не знаете где посмотреть эти данные позвоните нам: <span>+7 <span class="red">(<?=Settings::getOption('code')?>)</span> <?=Settings::getOption('phone')?></span>
             </div>
         </div>
         <div class="row">
             <div class="span1">Или</div>
-            <div class="span4"><a href="#" class="b-button b-button-blue">Напишите нам</a></div>
+            <div class="span4"><a href="/site/feedback" class="b-button b-button-blue fancy_run fancybox.ajax">Напишите нам</a></div>
         </div>
     </div>
 </div>

@@ -232,4 +232,17 @@ class Details extends EActiveRecord implements IECartPosition
         else
             return 1;
     }
+	
+	public static function detailNotFound($article)
+	{
+		
+			$detailNoFound = new DetailsNoFound;
+			if(Yii::app()->user->getState('first_name')) $detailNoFound->username = Yii::app()->user->getState('first_name');
+			if(Yii::app()->user->getState('email')) $detailNoFound->mail = Yii::app()->user->getState('email');
+			$detailNoFound->article = $article;
+			$detailNoFound->date_find = date('Y-m-d');
+			$detailNoFound->save();
+			
+            return $detailNoFound;
+	}
 }
