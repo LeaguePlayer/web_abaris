@@ -20,10 +20,10 @@
             <a href="<?=$this->createUrl('cabinet/orders')?>"><table><tr><td><span class="big">3</span></td><td>Просматривать состояние заказа</td></tr></table></a>
         </div>
         <div class="step <?php if ($this->getAction()->id == 'invoices') echo 'active'; ?>">
-            <a href="/admin-step4.html"><table><tr><td><span class="big">4</span></td><td>Проверять и оплачивать счета</td></tr></table></a>
+            <a href="<?=$this->createUrl('cabinet/invoices')?>"><table><tr><td><span class="big">4</span></td><td>Проверять и оплачивать счета</td></tr></table></a>
         </div>
         <div class="step <?php if ($this->getAction()->id == 'profile') echo 'active'; ?>">
-            <a href="/admin-step5.html"><table><tr><td><span class="big">5</span></td><td>Вносить изменения в личные данные</td></tr></table></a>
+            <a href="#"><table><tr><td><span class="big">5</span></td><td>Вносить изменения в личные данные</td></tr></table></a>
         </div>
     </div>
 

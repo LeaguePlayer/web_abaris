@@ -15,7 +15,7 @@ class CabinetController extends FrontController
     {
         return array(
             array('allow',  // allow all users to perform 'index' and 'view' actions
-                'actions'=>array('cars','carForm', 'sto', 'stoForm', 'orders'),
+                'actions'=>array('cars','carForm', 'sto', 'stoForm', 'orders', 'invoices'),
                 'users'=>array('@'),
             ),
             array('deny',  // deny all users
@@ -168,4 +168,12 @@ class CabinetController extends FrontController
             "ordersDataProvider" => $ordersDataProvider
         ));
     }
+
+     public function actionInvoices()
+    {
+        $this->render("invoices", array(
+            "invoicesDataProvider" => $invoicesDataProvider
+        ));
+    }
+
 }

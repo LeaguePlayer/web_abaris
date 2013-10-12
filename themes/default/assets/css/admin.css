@@ -9,17 +9,20 @@
   .admin-steps .step {
     width: 20%;
     float: left;
-    height: 100px;
-    text-decoration: underline; }
+    height: 100px; }
   .admin-steps .big {
     font-size: 53px;
     color: #717171;
-    padding-right: 10px; }
+    padding-right: 10px;
+    text-decoration: none; }
   .admin-steps td {
     vertical-align: middle;
     height: 100px; }
+  .admin-steps a {
+    text-decoration: none; }
   .admin-steps .active .big {
-    color: #ff665d; }
+    color: #ff665d;
+    text-decoration: none; }
   .admin-steps .active a {
     color: #717171;
     text-decoration: none; }
@@ -129,7 +132,8 @@
     height: auto;
     width: 95%;
     margin: 0 auto;
-    float: none; }
+    float: none;
+    text-decoration: none; }
   .admin-steps .text {
     padding: 0 2%; }
 
