@@ -111,4 +111,9 @@ $ ->
 		yearSuffix: ''
 	$.datepicker.setDefaults $.datepicker.regional['ru']
 
-	$('.fancy_run').fancybox()
+	$('.fancy_run').fancybox
+		wrapCSS: 'abaris-modal'
+		padding: 5
+		autoSize: true,
+		minWidth: 550,
+		fitToView: true

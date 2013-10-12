@@ -132,7 +132,13 @@
       yearSuffix: ''
     };
     $.datepicker.setDefaults($.datepicker.regional['ru']);
-    return $('.fancy_run').fancybox();
+    return $('.fancy_run').fancybox({
+      wrapCSS: 'abaris-modal',
+      padding: 5,
+      autoSize: true,
+      minWidth: 550,
+      fitToView: true
+    });
   });
 
 }).call(this);
