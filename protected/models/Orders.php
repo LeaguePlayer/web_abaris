@@ -89,6 +89,7 @@ class Orders extends EActiveRecord
     public function relations()
     {
         return array(
+            'cart' => array(self::BELONGS_TO, 'Cart', 'cart_id'),
         );
     }
 

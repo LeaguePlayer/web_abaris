@@ -39,12 +39,6 @@
 .un-check {
   width: 0; }
 
-.grey-check {
-  background: no-repeat 0 0 url("../img/cart_checks.png"); }
-
-.blue-check {
-  background: no-repeat 0 -23px url("../img/cart_checks.png"); }
-
 .icons {
   font-size: 11px; }
   .icons a {
@@ -57,13 +51,6 @@
   margin: 0 auto; }
 
 .delete-icon {
-  background: no-repeat -110px 0 url("../img/cart_icons.png"); }
-
-input.delete-icon {
-  height: 54px;
-  padding-top: 43px;
-  border: none;
-  color: #fff;
   background: no-repeat -110px 0 url("../img/cart_icons.png"); }
 
 .add-icon {

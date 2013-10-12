@@ -1,0 +1,72 @@
+/**
+ * Default Look and Feel
+ */
+.alertify,
+.alertify-log {
+    font-family: sans-serif;
+}
+.alertify {
+    background: #F9F9F9;
+    border: 1px solid #6E6E6E; /* browsers that don't support rgba */
+    border-radius: 0;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+    -webkit-background-clip: padding;     /* Safari 4? Chrome 6? */
+    -moz-background-clip: padding;     /* Firefox 3.6 */
+    background-clip: padding-box; /* Firefox 4, Safari 5, Opera 10, IE 9 */
+    padding: 5px;
+    color: #252525;
+    font-size: 12px;
+    font-family: Arial, sans-serif;
+}
+.alertify-dialog {
+    border: 1px solid #6E6E6E; /* browsers that don't support rgba */
+}
+.alertify-message {
+    font-size: 12px;
+}
+.alertify-text {
+    border: 1px solid #CCC;
+    padding: 10px;
+    border-radius: 4px;
+}
+.alertify-button {
+    border-radius: 0;
+    color: #FFF;
+    font-weight: normal;
+    font-size: 12px;
+    padding: 6px 15px;
+    text-decoration: none;
+    background-color: #296BB1;
+    width: 100px;
+}
+.alertify-button:hover,
+.alertify-button:focus {
+    outline: none;
+}
+.alertify-button:focus {
+    box-shadow: 0 0 15px #2B72D5;
+}
+.alertify-button,
+.alertify-button:hover,
+.alertify-button:focus
+.alertify-button:visited
+.alertify-button:active {
+    background-color: #296BB1;
+}
+
+.alertify-log {
+    background: #1F1F1F;
+    background: rgba(0,0,0,.9);
+    padding: 15px;
+    border-radius: 4px;
+    color: #FFF;
+    text-shadow: -1px -1px 0 rgba(0,0,0,.5);
+}
+.alertify-log-error {
+    background: #FE1A00;
+    background: rgba(254,26,0,.9);
+}
+.alertify-log-success {
+    background: #5CB811;
+    background: rgba(92,184,17,.9);
+}

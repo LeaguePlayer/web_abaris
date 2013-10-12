@@ -8,27 +8,38 @@
 # 			barOnCls: 'baron'
 
 $ ->
-	$('.grid-items .catalog-grid-row').on 'click', (e) ->
-		if $(e.target).hasClass('spinner-up') or $(e.target).hasClass('spinner-down')
-			return false
+	$.bind_rows_check = ->
+		$(".catalog-grid-row").hover(
+			() ->
+				$(@).addClass 'active' if !$(@).hasClass('no-hover')
+			() -> $(this).removeClass 'active'
+		)
 
-		$this = $(@)
-		checkbox = $this.find('input:checkbox')
-		if checkbox.prop 'checked'
-			checkbox.prop 'checked', false
-			$this.removeClass 'select'
-		else
-			checkbox.prop 'checked', true
-			$this.addClass 'select'
-		checkbox.trigger "change"
-		false
+		$('.grid-items .catalog-grid-row').on 'click', (e) ->
+			target = $(e.target)
+			if target.hasClass('spinner-up') or target.hasClass('spinner-down')
+				return false
+
+			if target.is('a')
+				return true
+
+			$this = $(@)
+			checkbox = $this.find('input:checkbox')
+			if checkbox.prop 'checked'
+				checkbox.prop 'checked', false
+				$this.removeClass 'select'
+			else
+				checkbox.prop 'checked', true
+				$this.addClass 'select'
+			checkbox.trigger "change"
+			false
 
 	$.show_abaris_box = (selector, options = {}) ->
 		$.extend options,
 			wrapCSS: 'abaris-modal'
 			padding: 5
-			autoSize: true,
-			minWidth: 550,
+			autoSize: true
+			minWidth: 550
 			fitToView: true
 			modal: false
 			closeBtn: true
@@ -65,13 +76,6 @@ $ ->
 			else
 				openBox()
 			false
-
-
-	$(".catalog-grid-row").hover(
-		() -> 
-			$(@).addClass 'active' if !$(@).hasClass('no-hover')
-		() -> $(this).removeClass 'active'
-	)
 
 	$.pluralize = (n, labels = false) ->
 		i = ( n % 10 == 1 && n % 100 != 11 ? 0 : (n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 10 || n % 100 >= 20) ? 1 : 2) )

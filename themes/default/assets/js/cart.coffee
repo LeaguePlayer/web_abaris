@@ -14,6 +14,8 @@ $ ->
 					$.fancybox.close()
 	###
 
+	$.bind_rows_check()
+
 	class Cart
 		constructor: () ->
 			cartGrid = $('#cart-details-list')
@@ -50,7 +52,6 @@ $ ->
 
 
 	cart = new Cart
-
 
 	$('#cart-details-list input:checkbox').change () ->
 		if $(@).parents('.catalog-grid-row.archived').size() > 0

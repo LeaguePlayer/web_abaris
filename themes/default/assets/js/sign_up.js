@@ -46,7 +46,6 @@
           return false;
         });
         form.find('button.repeat-sms').click(function(e) {
-          console.log($(this).attr('name'));
           $.ajax({
             url: form.attr('action'),
             type: form.attr('method'),

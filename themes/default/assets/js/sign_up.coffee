@@ -36,7 +36,6 @@ $ ->
 				false
 
 			form.find('button.repeat-sms').click (e) ->
-				console.log $(@).attr 'name'
 				$.ajax
 					url: form.attr 'action'
 					type: form.attr 'method'

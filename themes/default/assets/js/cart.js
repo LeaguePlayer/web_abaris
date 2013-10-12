@@ -15,6 +15,7 @@
     					$.fancybox.close()
     */
 
+    $.bind_rows_check();
     Cart = (function() {
       function Cart() {
         var cartAction, cartGrid;

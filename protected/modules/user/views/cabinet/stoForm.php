@@ -1,117 +1,75 @@
-<div class="container">
-	<div class="row">
-		<?if (isset($user_car_STO)){?>
-                <?php $form=$this->beginWidget('CActiveForm', array(
-					'id'=>'user-car-form',
-					'htmlOptions' => array('class'=> "abaris-form"),
-					'enableAjaxValidation'=>false,
-				)); ?>
-                    <div class="sign-info">Вы можете привязать один или несколько автомобилей к аккаунту прямо сейчас или сделать это позже в личном кабинете.</div>
-                    <div class="features">
-                        <div class="row-fluid">
-                            <div class="span12 blue">Что мне это даст? <br></div>
-                        </div>
-                        <div class="row-fluid">
-                            <div class="span6 clearfix">
-                                <span class="big-number blue">1</span>
-                                Вы можете вести учет обслуживания Ваших автмобилей.
-                            </div>
-                            <div class="span6">
-                                <span class="big-number blue">2</span>
-                                Записываться на СТО не выходя из дома, не заполняя лишних полей.
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="auto-items">
-                        <div class="auto-item">
-							<div class="row-fluid">
-								<div class="span4">
-									<?php echo $form->labelEx($user_car_STO,'user_car_id'); ?>
-								</div>
-								<div class="span8">
-									<?php echo $form->dropDownList($user_car_STO, "user_car_id", CHtml::ListData($user_cars, "id", "brand"), array("class" => "text-input")); ?>
-								</div>
-							</div>
-				
-						</div>
-					</div>
-                    
-                    <div class="auto-items">
-                        <div class="auto-item">
-							<div class="row-fluid">
-								<div class="span4">
-									<?php echo $form->labelEx($user_car_STO,'maintenance_date'); ?>
-								</div>
-								<div class="span8">
-									<?php echo $form->textField($user_car_STO, "maintenance_date", array("class" => "text-input")); ?>
-								</div>
-							</div>
-				
-						</div>
-					</div>
-					
-                    <div class="auto-items">
-                        <div class="auto-item">
-							<div class="row-fluid">
-								<div class="span4">
-									<?php echo $form->labelEx($user_car_STO,'maintenance_name'); ?>
-								</div>
-								<div class="span8">
-									<?php echo $form->textField($user_car_STO, "maintenance_name", array("class" => "text-input")); ?>
-								</div>
-							</div>
-				
-						</div>
-					</div>
-					
-                    <div class="auto-items">
-                        <div class="auto-item">
-							<div class="row-fluid">
-								<div class="span4">
-									<?php echo $form->labelEx($user_car_STO,'maintenance_type'); ?>
-								</div>
-								<div class="span8">
-									<?php echo $form->textField($user_car_STO, "maintenance_type", array("class" => "text-input")); ?>
-								</div>
-							</div>
-				
-						</div>
-					</div>
-					
-                    <div class="auto-items">
-                        <div class="auto-item">
-							<div class="row-fluid">
-								<div class="span4">
-									<?php echo $form->labelEx($user_car_STO,'maintenance_cost'); ?>
-								</div>
-								<div class="span8">
-									<?php echo $form->textField($user_car_STO, "maintenance_cost", array("class" => "text-input")); ?>
-								</div>
-							</div>
-				
-						</div>
-					</div>
-					
-                    <div class="auto-items">
-                        <div class="auto-item">
-							<div class="row-fluid">
-								<div class="span4">
-									<?php echo $form->labelEx($user_car_STO,'azs_cost'); ?>
-								</div>
-								<div class="span8">
-									<?php echo $form->textField($user_car_STO, "azs_cost", array("class" => "text-input")); ?>
-								</div>
-							</div>
-				
-						</div>
-					</div>
-					
-                 <div class="row-fluid">
-                   <div class="span12">
-                    <input type="submit" name="submit" class="login-submit" value="Сохранить" />
-                   </div>
-				<?php $this->endWidget(); ?>
-		<?}?>
-	</div>
+<?php
+$formLabel = ($model->isNewRecord) ? 'Добавление СТО' : 'Редактирование СТО';
+$this->breadcrumbs = array(
+    'Личный кабинет - Учет технического обслуживания' => array('/user/cabinet/sto'),
+    $formLabel
+);
+?>
+
+
+
+<div class="container <?php if (Yii::app()->request->isAjaxRequest) echo 'ajax-modal'; ?>">
+    <?php $form = $this->beginWidget('CActiveForm', array(
+        'enableAjaxValidation'=>false,
+        'htmlOptions'=>array('class'=>'abaris-form')
+    )); ?>
+        <h3><?php echo $formLabel; ?></h3>
+        <div class="stretch"></div>
+        <div class="row-fluid">
+            <div class="span12">
+                <?php
+                    $options = array(
+                        "class" => "text-input",
+                        'empty'=>'Выберите авто'
+                    );
+                if (!$model->isNewRecord)
+                    $options['readonly'] = 'readonly';
+                ?>
+                <?php echo $form->dropDownList($model, "user_car_id", CHtml::ListData($userCars, "id", "model"), $options); ?>
+                <?php echo $form->error($model, "user_car_id"); ?>
+            </div>
+        </div>
+        <div class="row-fluid">
+            <div class="span4"><?php echo $form->labelEx($model, 'maintenance_name'); ?></div>
+            <div class="span8">
+                <?php echo $form->textField($model, 'maintenance_name', array('class'=>'text-input')); ?>
+                <?php echo $form->error($model, 'maintenance_name'); ?>
+            </div>
+        </div>
+        <div class="row-fluid">
+            <div class="span4"><?php echo $form->labelEx($model, 'maintenance_date'); ?></div>
+            <div class="span8">
+                <?php echo $form->textField($model, 'maintenance_date', array('class'=>'text-input')); ?>
+                <?php echo $form->error($model, 'maintenance_date'); ?>
+            </div>
+        </div>
+        <div class="row-fluid">
+            <div class="span4"><?php echo $form->labelEx($model, 'maintenance_type'); ?></div>
+            <div class="span8">
+                <?php echo $form->dropDownList($model, "maintenance_type", $model->getMaintenanceTypes(), array('class' => 'text-input')); ?>
+                <?php echo $form->error($model, 'maintenance_type'); ?>
+            </div>
+        </div>
+        <div class="sep"></div>
+        <div class="row-fluid">
+            <div class="span4"><?php echo $form->labelEx($model, 'maintenance_cost'); ?></div>
+            <div class="span8">
+                <?php echo $form->textField($model, "maintenance_cost", array('class' => 'text-input')); ?>
+                <?php echo $form->error($model, 'maintenance_cost'); ?>
+            </div>
+        </div>
+        <div class="row-fluid">
+            <div class="span4"><?php echo $form->labelEx($model, 'azs_cost'); ?></div>
+            <div class="span8">
+                <?php echo $form->textField($model, "azs_cost", array('class' => 'text-input')); ?>
+                <?php echo $form->error($model, 'azs_cost'); ?>
+            </div>
+        </div>
+        <div class="sep"></div>
+        <div class="row-fluid">
+            <div class="span12">
+                <input type="submit" name="submit" class="login-submit" value="Сохранить" />
+            </div>
+        </div>
+    <?php $this->endWidget(); ?>
 </div>

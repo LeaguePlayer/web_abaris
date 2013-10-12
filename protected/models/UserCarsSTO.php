@@ -18,6 +18,40 @@
 */
 class UserCarsSTO extends EActiveRecord
 {
+    const MT_REPAIR_CHASSIS = 1;
+    const MT_REPAIR_POWERUNIT = 2;
+    const MT_REPAIR_BRAKESYSTEM = 3;
+    const MT_REPAIR_ELECTRICAL = 4;
+    const MT_REPAIR_BODY = 5;
+    const MT_INSTALL_EQUIPMENT = 6;
+    const MT_PAINTING_CARS = 7;
+    const MT_TIRE = 8;
+    const MT_TO = 9;
+
+
+    public static function getMaintenanceTypes()
+    {
+        return array(
+            self::MT_TO => 'Прохождение ТО',
+            self::MT_REPAIR_CHASSIS => 'Ремонт ходовой части авто',
+            self::MT_REPAIR_POWERUNIT => 'Ремонт силовой части авто',
+            self::MT_REPAIR_BRAKESYSTEM => 'Ремонт тормозной системы',
+            self::MT_REPAIR_ELECTRICAL => 'Ремонт электрической части',
+            self::MT_INSTALL_EQUIPMENT => 'Установка дополнительного оборудования',
+            self::MT_REPAIR_BODY => 'Ремонт кузова и бамперов авто',
+            self::MT_PAINTING_CARS => 'Покраска авто и его частей',
+            self::MT_TIRE => 'Шиномонтаж',
+        );
+    }
+
+
+    public function getMaintenanceTypeLabel()
+    {
+        $types = self::getMaintenanceTypes();
+        return $types[$this->maintenance_type];
+    }
+
+
     public function tableName()
     {
         return '{{user_cars_STO}}';
@@ -50,7 +84,7 @@ class UserCarsSTO extends EActiveRecord
     {
         return array(
             'id' => 'ID',
-            'user_car_id' => 'ID автомобиля пользователя',
+            'user_car_id' => 'Модель автомобиля',
             'maintenance_date' => 'Дата прохождения ТО',
             'maintenance_name' => 'Название ТО',
             'maintenance_type' => 'Вид работ',
@@ -62,8 +96,6 @@ class UserCarsSTO extends EActiveRecord
             'update_time' => 'Дата последнего редактирования',
         );
     }
-
-
 
 
     public function search()
@@ -96,6 +128,4 @@ class UserCarsSTO extends EActiveRecord
     {
         return 'СТО';
     }
-
-
 }

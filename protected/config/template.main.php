@@ -145,13 +145,13 @@ return array(
                 //    'class'=>'CFileLogRoute',
                 //    'levels'=>'error, warning',
                 //),
-                ///*
+                /*
                 array(
                     'class'=>'CWebLogRoute',
                     'levels'=>'error, warning, trace, profile, info',
                     'enabled'=>true,
                 ),
-                //*/
+                */
             ),
         ),
     ),
