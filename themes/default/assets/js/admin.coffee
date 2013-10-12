@@ -34,6 +34,7 @@ $ ->
 			afterShow: () ->
 				bindEvents = (context) ->
 					form = $('form', context)
+					form.find('#UserCarsSTO_maintenance_date').datepicker()
 					form.find('input:submit').click (e) ->
 						$.ajax
 							url: form.attr 'action'

@@ -44,6 +44,7 @@
           var bindEvents;
           bindEvents = function(context) {
             form = $('form', context);
+            form.find('#UserCarsSTO_maintenance_date').datepicker();
             return form.find('input:submit').click(function(e) {
               $.ajax({
                 url: form.attr('action'),

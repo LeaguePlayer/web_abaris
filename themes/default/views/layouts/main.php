@@ -8,6 +8,8 @@
     $cs->registerCssFile($assetsPath.'/css/form.css', '', 200);
 	
 	$cs->registerCoreScript('jquery');
+    //$cs->registerCoreScript('jquery.ui');
+    $cs->registerScriptFile($assetsPath.'/js/vendor/jquery-ui-1.9.2.custom.js', CClientScript::POS_HEAD);
 	$cs->registerScriptFile($assetsPath.'/js/vendor/fancybox/jquery.fancybox.pack.js', CClientScript::POS_END);
 	$cs->registerScriptFile($assetsPath.'/js/vendor/bootstrap.min.js', CClientScript::POS_END);
 	$cs->registerScriptFile($assetsPath.'/js/vendor/jquery.maskedinput.js', CClientScript::POS_END);
