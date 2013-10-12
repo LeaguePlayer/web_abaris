@@ -114,6 +114,9 @@ class SiteController extends FrontController
 				
 		}
 		
+		if(Yii::app()->user->getState('email')) $model->email = Yii::app()->user->getState('email');
+		if(Yii::app()->user->getState('first_name')) $model->username = Yii::app()->user->getState('first_name');
+		
 		
 		Yii::app()->clientScript->registerCssFile( $this->getAssetsUrl().'/css/feedback.css' );
 		

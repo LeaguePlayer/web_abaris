@@ -24,6 +24,7 @@
                         array('label'=>'Аксессуары', 'url'=>'/admin/accessory/list'),
                         array('label'=>'Расходные материалы', 'url'=>'/admin/consumable/list'),
                     )),
+					array('label'=>'Не найденые запчасти', 'url'=>'/admin/detailsnofound/list'),
 				)),
 			);
 		?>
