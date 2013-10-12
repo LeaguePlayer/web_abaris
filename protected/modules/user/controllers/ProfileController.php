@@ -1,9 +1,9 @@
 <?php
 
-class ProfileController extends Controller
+class ProfileController extends FrontController
 {
-	public $defaultAction = 'profile';
-	public $layout='//layouts/column2';
+	public $defaultAction = 'edit';
+	public $layout='//layouts/main';
 
 	/**
 	 * @var CActiveRecord the currently loaded data model instance.
@@ -21,6 +21,19 @@ class ProfileController extends Controller
 	    ));
 	}
 
+	public function init ()
+    {
+		parent::init();
+		Yii::app()->clientScript->registerCssFile($this->getAssetsUrl('application')."/css/admin.css", '', 500);
+		Yii::app()->clientScript->registerCssFile($this->getAssetsUrl('application')."/css/catalog.css", '', 600);
+		Yii::app()->clientScript->registerCssFile($this->getAssetsUrl('application')."/css/form.css", '', 700);
+        Yii::app()->clientScript->registerCssFile($this->getAssetsUrl('application')."/css/alertify/alertify-core.css", '', 800);
+        Yii::app()->clientScript->registerCssFile($this->getAssetsUrl('application')."/css/alertify/alertify-default.css", '', 900);
+        Yii::app()->clientScript->registerScriptFile($this->getAssetsUrl('application')."/js/vendor/alertify.js", CClientScript::POS_HEAD);
+        Yii::app()->clientScript->registerScriptFile($this->getAssetsUrl('application')."/js/admin.js", CClientScript::POS_END);
+		return true;
+	}
+
 
 	/**
 	 * Updates a particular model.
@@ -30,6 +43,8 @@ class ProfileController extends Controller
 	{
 		$model = $this->loadUser();
 		$profile=$model->profile;
+
+		//$model->password = '';
 		
 		// ajax validator
 		if(isset($_POST['ajax']) && $_POST['ajax']==='profile-form')
@@ -44,6 +59,9 @@ class ProfileController extends Controller
 			$profile->attributes=$_POST['Profile'];
 			
 			if($model->validate()&&$profile->validate()) {
+				//change password
+				$model->password = UserModule::encrypting($model->password);
+
 				$model->save();
 				$profile->save();
 				Yii::app()->user->setFlash('profileMessage',UserModule::t("Changes is saved."));
