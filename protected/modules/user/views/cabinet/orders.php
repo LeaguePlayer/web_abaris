@@ -9,11 +9,6 @@
                 <div class="catalog-grid-header">
                     <div class="container">
                         <div class="row-fluid">
-                            <div class="field span2">
-                                <div class="valign-text">
-                                    <p class="bottom">Наименование<br><input type="text"></p>
-                                </div>
-                            </div>
                             <div class="field span1">
                                 <div class="valign-text">
                                     <p class="bottom">Номер заказа<br><input type="text"></p>

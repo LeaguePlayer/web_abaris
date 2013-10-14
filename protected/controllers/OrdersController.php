@@ -59,7 +59,19 @@ class OrdersController extends FrontController
                 if ( $step < 3 ) {
                     $this->redirect($this->createUrl('/orders/create', array('step'=>$step + 1)));
                 } else {
+                    $model->full_cost = Yii::app()->cart->getCost(true);
+                    $model->order_status = Orders::ORDERSTATUS_NOPAYD;
                     $model->save(false);
+                    $userDiscount = Yii::app()->user->getDiscount();
+                    foreach (Yii::app()->cart->getPositions() as $position) {
+                        $orderPosition = new OrderPositions();
+                        $orderPosition->order_id = $model->id;
+                        $orderPosition->position_id = $position->id;
+                        $orderPosition->count = $position->getQuantity();
+                        $orderPosition->cost = $position->getPrice();
+                        $orderPosition->discount = $position->discount + $userDiscount;
+                        $orderPosition->save();
+                    }
                     Yii::app()->session->remove('orderState');
                     $this->redirect('success');
                 }

@@ -21,6 +21,7 @@
     * @property integer $sort
     * @property integer $create_time
     * @property integer $update_time
+    * @property decimal $full_cost
 */
 class Orders extends EActiveRecord
 {
@@ -47,6 +48,20 @@ class Orders extends EActiveRecord
             self::PAYTYPE_WEBMONEY => 'Web Money',
         );
         return ( $type ) ? $paytypes[$type] : $paytypes;
+    }
+
+
+
+    const ORDERSTATUS_NOPAYD = 0;
+    const ORDERSTATUS_PAYD = 1;
+
+
+    public static function getStatusLabels()
+    {
+        return array(
+            self::ORDERSTATUS_NOPAYD => 'Не оплачено',
+            self::ORDERSTATUS_PAYD => 'Оплачено',
+        );
     }
 
 
@@ -138,6 +153,7 @@ class Orders extends EActiveRecord
 		$criteria->compare('client_phone',$this->client_phone,true);
 		$criteria->compare('order_date',$this->order_date,true);
 		$criteria->compare('delivery_date',$this->delivery_date,true);
+		$criteria->compare('full_cost',$this->full_cost);
 		$criteria->compare('status',$this->status);
 		$criteria->compare('sort',$this->sort);
 		$criteria->compare('create_time',$this->create_time);
@@ -163,5 +179,16 @@ class Orders extends EActiveRecord
     public function getRecipientFio()
     {
         return $this->recipient_family.' '.$this->recipient_firstname.' '.$this->recipient_lastname;
+    }
+
+    public function getViewUrl()
+    {
+        return Yii::app()->createUrl('/orders/view', array('id' => $this->id));
+    }
+
+    public function getOrderStatus()
+    {
+        $labels = self::getStatusLabels();
+        return $labels[$this->order_status];
     }
 }

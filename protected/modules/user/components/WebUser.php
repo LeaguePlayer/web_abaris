@@ -199,4 +199,10 @@ class WebUser extends AuthWebUser
                 $cartDetails->remove($key);
         }
     }
+
+    public function getDiscount()
+    {
+        $user = $this->model();
+        return $user !== null ? $user->discount : 0;
+    }
 }

@@ -1,29 +1,24 @@
 <div class="catalog-grid-row active-grey">
     <div class="container">
         <div class="row-fluid">
+            <div class="field span1">
+                <div class="valign-text">
+                    <p><a href="<?php echo $data->viewUrl; ?>"><?php echo $data->id;?></a></p>
+                </div>
+            </div>
             <div class="field span2">
                 <div class="valign-text">
-                    <p><a href="#">Блок цилиндров</a></p>
+                    <p><?php echo SiteHelper::russianDate($data->order_date); ?></p>
+                </div>
+            </div>
+            <div class="field span2">
+                <div class="valign-text">
+                    <p><?php echo SiteHelper::russianDate($data->delivery_date); ?></p>
                 </div>
             </div>
             <div class="field span1">
                 <div class="valign-text">
-                    <p>21</p>
-                </div>
-            </div>
-            <div class="field span2">
-                <div class="valign-text">
-                    <p>2006</p>
-                </div>
-            </div>
-            <div class="field span2">
-                <div class="valign-text">
-                    <p>2006</p>
-                </div>
-            </div>
-            <div class="field span1">
-                <div class="valign-text">
-                    <p>2006</p>
+                    <p><?php echo $data->full_cost; ?></p>
                 </div>
             </div>
             <div class="field span1">
@@ -33,7 +28,7 @@
             </div>
             <div class="field span2">
                 <div class="valign-text">
-                    <p>Отправлено</p>
+                    <p><?php echo $data->getOrderStatus(); ?></p>
                 </div>
             </div>
             <div class="field span1">

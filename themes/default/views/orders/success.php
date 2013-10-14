@@ -6,14 +6,14 @@
     <?php if ( Yii::app()->user->isGuest ): ?>
         <div class="row-fluid">
             <div class="span6"><a class="valign" href="<?php echo $this->createUrl('/user/registration'); ?>">Зарегистрироваться</a></div>
-            <div class="span6"><a href="#" class="blue-button">Записаться на СТО</a></div>
+            <div class="span6"><a href="<?php echo $this->createUrl('/pages/sto'); ?>" class="blue-button">Записаться на СТО</a></div>
         </div>
     <?php else: ?>
         <div class="row-fluid">
             <div class="span12"><a href="<?php echo $this->createUrl('/user/cabinet'); ?>">Перейти в личный кабинет</a></div>
         </div>
         <div class="row-fluid">
-            <div class="span12"><a href="#" class="blue-button">Записаться на СТО</a></div>
+            <div class="span12"><a href="<?php echo $this->createUrl('/pages/sto'); ?>" class="blue-button">Записаться на СТО</a></div>
         </div>
     <?php endif; ?>
 </div>
