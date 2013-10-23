@@ -114,6 +114,32 @@
         return $.registration();
       }
     });
+    $.bind_ajax_modal('a.feedback', {
+      afterShow: function() {
+        var clickListener;
+        clickListener = function(context) {
+          var form;
+          $('.close-box', context).click(function(e) {
+            $.fancybox.close();
+            return false;
+          });
+          form = context.find('form');
+          return form.find('button').click(function(e) {
+            $.ajax({
+              url: form.attr('action'),
+              type: 'POST',
+              data: form.serialize(),
+              success: function(data) {
+                context.html(data);
+                return clickListener(context);
+              }
+            });
+            return false;
+          });
+        };
+        return clickListener(this.inner);
+      }
+    });
     $.datepicker.regional['ru'] = {
       closeText: 'Закрыть',
       prevText: '&#x3c;Пред',
@@ -132,13 +158,14 @@
       yearSuffix: ''
     };
     $.datepicker.setDefaults($.datepicker.regional['ru']);
-    return $('.fancy_run').fancybox({
-      wrapCSS: 'abaris-modal',
-      padding: 5,
-      autoSize: true,
-      minWidth: 550,
-      fitToView: true
+    $('#inline_logs .log_message').each(function() {
+      return alertify.log($(this).html(), '', 1000 * 60);
     });
+    $('.tooltip-msg').popover({
+      html: true,
+      trigger: 'hover'
+    });
+    return $('.tooltip-msg').popover('show');
   });
 
 }).call(this);

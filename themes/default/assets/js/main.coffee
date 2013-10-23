@@ -91,6 +91,26 @@ $ ->
 		afterShow: () ->
 			$.registration()
 
+
+	$.bind_ajax_modal 'a.feedback',
+		afterShow: () ->
+			clickListener = (context) ->
+				$('.close-box', context).click (e) ->
+					$.fancybox.close()
+					false
+				form = context.find('form')
+				form.find('button').click (e) ->
+					$.ajax
+						url: form.attr 'action'
+						type: 'POST'
+						data: form.serialize()
+						success: (data) ->
+							context.html data
+							clickListener context
+					false
+			clickListener @.inner
+
+
 	$.datepicker.regional['ru'] =
 		closeText: 'Закрыть',
 		prevText: '&#x3c;Пред',
@@ -111,9 +131,13 @@ $ ->
 		yearSuffix: ''
 	$.datepicker.setDefaults $.datepicker.regional['ru']
 
-	$('.fancy_run').fancybox
-		wrapCSS: 'abaris-modal'
-		padding: 5
-		autoSize: true,
-		minWidth: 550,
-		fitToView: true
+
+	$('#inline_logs .log_message').each ->
+		alertify.log $(@).html(), '', 1000 * 60
+
+
+	$('.tooltip-msg').popover
+		html: true
+		trigger: 'hover'
+	$('.tooltip-msg').popover('show')
+

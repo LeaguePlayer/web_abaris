@@ -50,6 +50,9 @@ button.b-button {
     position: relative;
     z-index: 1000; }
 
+#inline_logs {
+  display: none; }
+
 /* ====================
  *  User-panel
  * ==================== */
@@ -78,17 +81,15 @@ button.b-button {
       font-size: 10px;
       color: #777777;
       text-decoration: none; }
-    .up-item a:hover .icon, .up-item a:active, .up-item a.active .icon {
-      background-position-y: -16px; }
-    .up-item a:hover .i-user {
+    .up-item a:hover .i-user, .up-item a:active .i-user, .up-item a.active .i-user {
       background-position: 0 -16px; }
-    .up-item a:hover .i-msg {
+    .up-item a:hover .i-msg, .up-item a:active .i-msg, .up-item a.active .i-msg {
       background-position: -18px -16px; }
-    .up-item a:hover .i-adm {
+    .up-item a:hover .i-adm, .up-item a:active .i-adm, .up-item a.active .i-adm {
       background-position: -36px -16px; }
-    .up-item a:hover .i-cart {
+    .up-item a:hover .i-cart, .up-item a:active .i-cart, .up-item a.active .i-cart {
       background-position: -54px -16px; }
-    .up-item a:hover .i-auth {
+    .up-item a:hover .i-auth, .up-item a:active .i-auth, .up-item a.active .i-auth {
       background-position: -72px -16px; }
   .up-item span {
     color: #ff665d; }
@@ -491,6 +492,14 @@ button.b-button {
     max-width: 450px;
     padding: 10px 0;
     line-height: 1.1; }
+
+.brand-box h3 {
+  line-height: 1.2;
+  margin-top: 0; }
+.brand-box img {
+  float: left;
+  display: inline-block;
+  margin: 0 10px 10px 0; }
 
 a, a:visited {
   color: #296bb1; }

@@ -65,7 +65,7 @@
     $('.list-view').each(function() {
       return filterListView($(this).attr('id'));
     });
-    return $.bind_ajax_modal('#details-list .to_cart', {
+    $.bind_ajax_modal('#details-list .to_cart', {
       afterShow: function() {
         $('#cart-info').find('.cost').text(this.inner.find('#cost').val()).end().find('.count').text(this.inner.find('#quantity').val());
         return $('.close-button', this.inner).click(function(e) {
@@ -74,6 +74,7 @@
         });
       }
     });
+    return $.bind_ajax_modal('.view_brand');
     /*$('.catalog-grid-row').each () ->
     		max_height = 0
     		$(@).find('.field').each ()->

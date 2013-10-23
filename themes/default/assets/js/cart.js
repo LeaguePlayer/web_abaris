@@ -86,7 +86,7 @@
         }
       }
     });
-    return $('.spinner').spinner({
+    $('.spinner').spinner({
       min: 1,
       value: 1,
       icons: {
@@ -112,6 +112,29 @@
           }
         });
       }
+    });
+    return $('.subtotal .delete').click(function(e) {
+      var form;
+      form = $(this).parents('form');
+      if (form.find('.blue-check input:checked').size() === 0) {
+        alertify.alert("Ничего не выбрано");
+      } else {
+        alertify.confirm("Подтвердите удаление выбранных элементов", function(e, str) {
+          if (e) {
+            form.append($('<input type="hidden" />').attr('name', 'CartItems[action]').attr('value', 'delete'));
+            return $.ajax({
+              url: form.attr('action'),
+              type: 'POST',
+              data: form.serialize(),
+              success: function(data) {
+                $('#cart-wrap').replaceWith(data);
+                return cart.updateCost();
+              }
+            });
+          }
+        });
+      }
+      return false;
     });
   });
 

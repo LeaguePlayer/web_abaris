@@ -60,7 +60,6 @@ class SiteController extends FrontController
 		$model = new Feedback();
 		
 		
-		
 		if( isset($_POST['Feedback']) )
 		{
 			$model->attributes = $_POST['Feedback'];
@@ -156,4 +155,11 @@ class SiteController extends FrontController
 				$this->render('error', $error);
 		}
 	}
+
+
+    public function actionSearch()
+    {
+        $this->layout = '//layouts/main';
+
+    }
 }

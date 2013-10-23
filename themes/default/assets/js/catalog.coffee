@@ -57,6 +57,8 @@ $ ->
 				$.fancybox.close()
 				false
 
+	$.bind_ajax_modal '.view_brand'
+
 
 	###$('.catalog-grid-row').each () ->
 		max_height = 0

@@ -65,6 +65,14 @@ class CartController extends FrontController
             'pagination'=>false,
         ));
 
+        if ( Yii::app()->request->isAjaxRequest ) {
+            $this->renderPartial('index', array(
+                'cartDataProvider'=>$cartDataProvider,
+                'userDiscount'=>$userDiscount,
+            ));
+            Yii::app()->end();
+        }
+
         $cs = Yii::app()->clientScript;
         $assetsPath = $this->getAssetsUrl('application');
         $cs->registerCssFile($assetsPath.'/css/spinner.css');
@@ -164,5 +172,15 @@ class CartController extends FrontController
             $detailInfo->status = CartDetails::STATUS_ACTIVE;
             $detailInfo->save(false);
         }
+    }
+
+    public function actionRemindSto()
+    {
+        if ( Yii::app()->request->isAjaxRequest ) {
+            $this->renderPartial('_remind_sto');
+            Yii::app()->end();
+        }
+
+        $this->render('_remind_sto');
     }
 }

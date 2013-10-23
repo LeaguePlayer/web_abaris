@@ -13,6 +13,7 @@
 
         <div class="catalog-container">
                 <div class="catalog-grid">
+
                     <div class="catalog-grid-header">
                         <div class="container">
                             <div class="row-fluid">
@@ -34,11 +35,7 @@
                                 <div class="field span2">
                                     <div class="valign-text">
                                         <p class="bottom">Статус<br>
-                                            <select name="" id="">
-                                                <option value="">Отправлено</option>
-                                                <option value="">Отправлено</option>
-                                                <option value="">Отправлено</option>
-                                            </select>
+                                            <?php echo CHtml::activeDropDownList($invoiceFinder, 'pay_status', UserInvoices::getStatusLabels(), array('empty'=>'-')); ?>
                                         </p>
                                     </div>
                                 </div>
@@ -55,78 +52,17 @@
                             </div>
                         </div>
                     </div>
-                    <div class="catalog-grid-row">
-                         <div class="container">
-                            <div class="row-fluid">
-                                <div class="field span3">
-                                    <div class="valign-text">
-                                        <p><a href="#">Блок цилиндров</a></p>
-                                    </div>
-                                </div>
-                                <div class="field span3">
-                                    <div class="valign-text">
-                                        <p>21</p>
-                                    </div>
-                                </div>
-                                <div class="field span2">
-                                    <div class="valign-text">
-                                        <p>2006</p>
-                                    </div>
-                                </div>
-                                <div class="field span2">
-                                    <div class="valign-text">
-                                        <p>Не оплачен</p>
-                                    </div>
-                                </div>
-                                <div class="field span1">
-                                    <div class="valign-text">
-                                        <p><a href="#">Оплатить</a></p>
-                                    </div>
-                                </div>
-                                <div class="field span1">
-                                    <div class="valign-text">
-                                        <p><a href="#" class="admin-icon admin-icon-print-b"></a></p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="catalog-grid-row active-grey">
-                         <div class="container">
-                            <div class="row-fluid">
-                                <div class="field span3">
-                                    <div class="valign-text">
-                                        <p><a href="#">Блок цилиндров</a></p>
-                                    </div>
-                                </div>
-                                <div class="field span3">
-                                    <div class="valign-text">
-                                        <p>21</p>
-                                    </div>
-                                </div>
-                                <div class="field span2">
-                                    <div class="valign-text">
-                                        <p>2006</p>
-                                    </div>
-                                </div>
-                                <div class="field span2">
-                                    <div class="valign-text">
-                                        <p>Оплачен</p>
-                                    </div>
-                                </div>
-                                <div class="field span1">
-                                    <div class="valign-text">
-                                        <p></p>
-                                    </div>
-                                </div>
-                                <div class="field span1">
-                                    <div class="valign-text">
-                                        <p><a href="#" class="admin-icon admin-icon-print-b"></a></p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+
+                    <?php $this->widget('zii.widgets.CListView', array(
+                        'id'=>'orders-list',
+                        'template'=>'{items}',
+                        'dataProvider'=>$invoicesDataProvider,
+                        'itemView'=>'_invoice_item',
+                        'emptyTagName'=>'div',
+                        'emptyText'=>'<div class="container">Нет записей</div>',
+                        'updateSelector'=>'.catalog-pager a',
+                    )); ?>
+
                 </div>
             </div>
 

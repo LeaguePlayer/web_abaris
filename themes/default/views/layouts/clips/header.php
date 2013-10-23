@@ -21,7 +21,7 @@
             <div class="header-block span3">
                 <div class="header-phone">
 
-                    +7 <span>(<?=Settings::getOption('code')?>)</span> <?=Settings::getOption('phone')?><br><a class="fancy_run fancybox.ajax" href="/site/feedback">напишите нам</a>
+                    +7 <span>(<?=Settings::getOption('code')?>)</span> <?=Settings::getOption('phone')?><br><a class="feedback" href="<?php echo $this->createUrl('/site/feedback'); ?>">напишите нам</a>
 
                 </div>
             </div>

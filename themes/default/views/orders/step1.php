@@ -95,3 +95,15 @@
 <?php $this->endWidget(); ?>
 </div>
 <!-- end oreder steps -->
+
+
+<?php if ( !Yii::app()->user->getState('__remindSTO') ): ?>
+    <div id="inline_logs">
+        <div class="log_message">
+            <?php
+                $this->renderPartial('_remind_sto');
+                Yii::app()->user->setState('__remindSTO', true);
+            ?>
+        </div>
+    </div>
+<?php endif; ?>

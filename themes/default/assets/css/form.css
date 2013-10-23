@@ -138,6 +138,9 @@
   float: left;
   margin-left: 30px;
   background: no-repeat 0 0 url("../img/step_arrows.gif"); }
+.abaris-form .next-step:disabled, .abaris-form .prev-step:disabled {
+  background-color: #60a2e8;
+  cursor: default; }
 .abaris-form .sms-info {
   font-size: 12px;
   color: #717171;
@@ -173,3 +176,8 @@
   margin-right: 15px; }
 .abaris-form .sep {
   height: 20px; }
+.abaris-form .successMessage {
+  padding: 10px;
+  background-color: #f6ffe0;
+  border: 1px solid #008855;
+  border-radius: 4px; }

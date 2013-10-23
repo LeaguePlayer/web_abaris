@@ -22,6 +22,7 @@
     * @property integer $create_time
     * @property integer $update_time
     * @property decimal $full_cost
+    * @property integer $archived
 */
 class Orders extends EActiveRecord
 {
@@ -35,7 +36,6 @@ class Orders extends EActiveRecord
     const PAYTYPE_YANDEX = 'yandex';
     const PAYTYPE_SBERBANK = 'sberbank';
     const PAYTYPE_WEBMONEY = 'webmoney';
-
     public function getPaytypes($type = false)
     {
         $paytypes = array(
@@ -51,17 +51,22 @@ class Orders extends EActiveRecord
     }
 
 
-
     const ORDERSTATUS_NOPAYD = 0;
     const ORDERSTATUS_PAYD = 1;
-
-
     public static function getStatusLabels()
     {
         return array(
             self::ORDERSTATUS_NOPAYD => 'Не оплачено',
             self::ORDERSTATUS_PAYD => 'Оплачено',
         );
+    }
+
+
+    const IS_UNARCHIVED = 0;
+    const IS_ARCHIVED = 1;
+    public function isArchived()
+    {
+        return $this->archived == self::IS_ARCHIVED;
     }
 
 
@@ -105,6 +110,7 @@ class Orders extends EActiveRecord
     {
         return array(
             'cart' => array(self::BELONGS_TO, 'Cart', 'cart_id'),
+            'positions' => array(self::HAS_MANY, 'OrderPositions', 'order_id'),
         );
     }
 
@@ -188,7 +194,28 @@ class Orders extends EActiveRecord
 
     public function getOrderStatus()
     {
+        if ( $this->isArchived() ) {
+            return 'В архиве';
+        }
         $labels = self::getStatusLabels();
         return $labels[$this->order_status];
+    }
+
+    public function beforeSave()
+    {
+    	if (parent::beforeSave()) {
+            if ( empty($this->order_date) )
+                $this->order_date = date('Y-m-d H:i');
+    		return true;
+    	}
+    	return false;
+    }
+
+    public function getArchiveAction()
+    {
+        if ( $this->isArchived() )
+            return Yii::app()->urlManager->createUrl('/user/cabinet/unarchiveOrder', array('id'=>$this->id));
+        else
+            return Yii::app()->urlManager->createUrl('/user/cabinet/archiveOrder', array('id'=>$this->id));
     }
 }

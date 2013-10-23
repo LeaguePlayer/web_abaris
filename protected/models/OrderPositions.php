@@ -9,6 +9,7 @@
  * @property integer $count
  * @property string $cost
  * @property integer $discount
+ * @property string $name
  */
 class OrderPositions extends CActiveRecord
 {
@@ -30,9 +31,10 @@ class OrderPositions extends CActiveRecord
 		return array(
 			array('order_id, position_id, count, discount', 'numerical', 'integerOnly'=>true),
 			array('cost', 'length', 'max'=>10),
+			array('name', 'length', 'max'=>255),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('order_id, position_id, count, cost, discount', 'safe', 'on'=>'search'),
+			array('order_id, position_id, count, cost, discount, name', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -58,6 +60,7 @@ class OrderPositions extends CActiveRecord
 			'count' => 'Количество деталей',
 			'cost' => 'Цена товара',
 			'discount' => 'Скидка',
+			'name' => 'Наименование',
 		);
 	}
 
@@ -84,6 +87,7 @@ class OrderPositions extends CActiveRecord
 		$criteria->compare('count',$this->count);
 		$criteria->compare('cost',$this->cost,true);
 		$criteria->compare('discount',$this->discount);
+		$criteria->compare('name',$this->discount, true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

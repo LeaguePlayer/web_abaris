@@ -72,6 +72,7 @@ class User extends CActiveRecord
             array('lastvisit_at', 'default', 'value' => '0000-00-00 00:00:00', 'setOnEmpty' => true, 'on' => 'insert'),
 			array('username, email, superuser, status', 'required'),
 			array('superuser, status', 'numerical', 'integerOnly'=>true),
+            array('user_type', 'numerical', 'integerOnly' => true),
 			array('id, username, password, email, activkey, create_at, lastvisit_at, superuser, status', 'safe', 'on'=>'search'),
 		):((Yii::app()->user->id==$this->id)?array(
 			array('username, email', 'required'),
@@ -80,6 +81,7 @@ class User extends CActiveRecord
 			array('username', 'unique', 'message' => UserModule::t("This user's name already exists.")),
 			array('username', 'match', 'pattern' => '/^[A-Za-z0-9_]+$/u','message' => UserModule::t("Incorrect symbols (A-z0-9).")),
 			array('email', 'unique', 'message' => UserModule::t("This user's email address already exists.")),
+            array('user_type', 'numerical', 'integerOnly' => true),
 		):array()));
 	}
 
@@ -92,6 +94,7 @@ class User extends CActiveRecord
         if (!isset($relations['profile']))
             $relations['profile'] = array(self::HAS_ONE, 'Profile', 'user_id');
         $relations['cars'] = array(self::HAS_MANY, 'UserCars', 'user_id');
+        $relations['messages'] = array(self::HAS_MANY, 'Messages', 'user_id');
         return $relations;
 	}
 
@@ -142,7 +145,7 @@ class User extends CActiveRecord
     {
         return CMap::mergeArray(Yii::app()->getModule('user')->defaultScope,array(
             'alias'=>'user',
-            'select' => 'user.id, user.username, user.email, user.create_at, user.lastvisit_at, user.superuser, user.status',
+            'select' => 'user.id, user.username, user.email, user.create_at, user.lastvisit_at, user.superuser, user.status, user.SID, user.user_type',
         ));
     }
 	

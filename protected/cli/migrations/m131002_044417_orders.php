@@ -46,6 +46,8 @@ class m131002_044417_orders extends CDbMigration
 			'sort' => "integer COMMENT 'Вес для сортировки'",
             'create_time' => "integer COMMENT 'Дата создания'",
             'update_time' => "integer COMMENT 'Дата последнего редактирования'",
+            'full_cost' => "decimal COMMENT 'Стоимость'",
+            'archived' => "int(1) DEFAULT 0 COMMENT 'Архивная'",
         ),
         'ENGINE=MyISAM DEFAULT CHARACTER SET = utf8 COLLATE = utf8_general_ci');
     }

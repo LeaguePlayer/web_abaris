@@ -78,7 +78,9 @@ $this->breadcrumbs = array(
         </div>
         <div class="row">
             <div class="span1">Или</div>
-            <div class="span4"><a href="/site/feedback" class="b-button b-button-blue fancy_run fancybox.ajax">Напишите нам</a></div>
+            <div class="span4">
+                <a href="<?php echo $this->createUrl('/site/feedback'); ?>" class="b-button b-button-blue feedback">Напишите нам</a>
+            </div>
         </div>
     </div>
 </div>

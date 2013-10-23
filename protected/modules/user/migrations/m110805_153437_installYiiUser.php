@@ -35,6 +35,7 @@ class m110805_153437_installYiiUser extends CDbMigration
                         "status" => "int(1) NOT NULL DEFAULT 0",
                         "discount" => "FLOAT DEFAULT 0",
                         "user_type" => "int(1) NOT NULL DEFAULT 0",
+                        "SID" => "varchar(20) COMMENT 'Уникальный код пользователя'",
                     ), $this->MySqlOptions);
                     //$this->createIndex('user_username', Yii::app()->getModule('user')->tableUsers, 'username', true);
                     $this->createIndex('user_email', Yii::app()->getModule('user')->tableUsers, 'email', true);

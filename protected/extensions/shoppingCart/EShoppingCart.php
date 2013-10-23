@@ -240,4 +240,14 @@ class EShoppingCart extends CMap {
     {
         return !(bool)$this->getCount();
     }
+
+    public function getDeliveryDate()
+    {
+        $deliveryDate = 0;
+        foreach ($this->getPositions() as $position) {
+            if ( strtotime( $position->delivery_date ) > $deliveryDate ) {
+                $deliveryDate = strtotime($position->delivery_date);
+            }
+        }
+    }
 }

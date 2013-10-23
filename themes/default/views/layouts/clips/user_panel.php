@@ -13,7 +13,14 @@
                 } ?>
                 <li class="up-item no-link"><i class="icon i-user"></i>Здравствуйте, <?php echo $userName; ?>!</li>
                 <?php if ( !Yii::app()->user->isGuest ): ?>
-                    <li class="up-item"><a href="<?php echo $this->createUrl('/user/messages'); ?>" class="active"><i class="icon i-msg"></i>Сообщения</a></li>
+                    <li class="up-item">
+                        <?php $newMessage = Yii::app()->user->getNewMessage(); ?>
+                        <?php if ( !empty($newMessage) ): ?>
+                            <a href="<?php echo $this->createUrl('/user/messages'); ?>" class="active tooltip-msg" data-toggle="tooltip" data-placement="bottom" data-content="<?php echo $newMessage; ?>"><i class="icon i-msg"></i>Сообщения</a>
+                        <?php else: ?>
+                            <a href="<?php echo $this->createUrl('/user/messages'); ?>"><i class="icon i-msg"></i>Сообщения</a>
+                        <?php endif; ?>
+                    </li>
                     <li class="up-item"><a href="<?php echo $this->createUrl('/user/cabinet'); ?>"><i class="icon i-adm"></i>Личный кабинет</a></li>
                 <?php endif; ?>
                 <?php

@@ -112,4 +112,9 @@ class Brands extends EActiveRecord
         }
         return false;
     }
+
+    public function getViewUrl()
+    {
+        return Yii::app()->urlManager->createUrl('/brands/view', array('alias'=>$this->alias));
+    }
 }

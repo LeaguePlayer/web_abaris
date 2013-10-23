@@ -87,3 +87,22 @@ $ ->
 						$this.parents('.catalog-grid-row').data 'count', ui.value
 						cart.updateCost()
 						#$this.spinner 'enable'
+
+
+
+	$('.subtotal .delete').click (e) ->
+		form = $(@).parents('form')
+		if ( form.find('.blue-check input:checked').size() == 0 )
+			alertify.alert "Ничего не выбрано"
+		else
+			alertify.confirm "Подтвердите удаление выбранных элементов", (e, str) ->
+				if e
+					form.append $('<input type="hidden" />').attr('name', 'CartItems[action]').attr('value', 'delete')
+					$.ajax
+						url: form.attr 'action'
+						type: 'POST'
+						data: form.serialize()
+						success: (data) ->
+							$('#cart-wrap').replaceWith data
+							cart.updateCost()
+		false

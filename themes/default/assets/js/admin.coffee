@@ -1,9 +1,4 @@
 $ ->
-	$('.tooltip-msg').popover
-		html: true
-		trigger: 'hover'
-	$('.tooltip-msg').popover('show')
-
 	alertify.set labels:
 		ok     : "Ок"
 		cancel : "Отмена"
@@ -12,23 +7,42 @@ $ ->
 
 	hide_popover = () -> $('.tooltip-msg').popover('destroy')
 	setTimeout hide_popover, 5000
+	
 
-	form = $('.abaris-form')
-	form.find(':radio').on 'change', () ->
-		if $(this).attr('id') == 'ur' 
-			form.find('.organization').show()
-		else
-			form.find('.organization').hide()
+	bindCabinetEvents = ->
+		if $('.print-page').size() > 0
+			$('.print-page').printPage()
 
 
 
-	bindUpdateCars = ->
 		$.bind_rows_check()
+
+
+
+		form = $('.abaris-form')
+		$('.choose_usertype:radio', form).click (e) ->
+			if parseInt($(@).val()) == 0
+				$('.organization', form).addClass('hidden')
+			else
+				$('.organization', form).removeClass('hidden')
+
+
+		$.mask.definitions['d'] = "[0-9]"
+		form.find('#Profile_phone').mask "dddddddddd"
+
+
+		$.bind_ajax_modal '.view-invoice, .view-order'
+
+
+
 
 		grid = $('.catalog-grid').first()
 		deleteCounter = $('.subtotal .delete .selected_count')
 		$('.blue-check input:checkbox').change () ->
 			deleteCounter.text grid.find('.blue-check input:checkbox:checked').size()
+
+
+
 
 		$.bind_ajax_modal '.pencil, .subtotal .add',
 			afterShow: () ->
@@ -47,10 +61,13 @@ $ ->
 									$.fancybox.reposition()
 								else
 									$('#usercabinet-wrap').replaceWith data
-									bindUpdateCars()
+									bindCabinetEvents()
 									$.fancybox.close()
 						false
 				bindEvents $(@.inner)
+
+
+
 
 		$('.subtotal .delete').click (e) ->
 			form = $(@).parents('form')
@@ -66,7 +83,9 @@ $ ->
 							data: form.serialize()
 							success: (data) ->
 								$('#usercabinet-wrap').replaceWith data
-								bindUpdateCars()
+								bindCabinetEvents()
 			false
 
-	bindUpdateCars()
+
+
+	bindCabinetEvents()

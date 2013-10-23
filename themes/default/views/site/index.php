@@ -45,9 +45,9 @@
                     </div>
                     <div class="row">
                         <div class="span5">
-                            <div class="or">
+                            <div class="or-line">
                                 <div class="line">&nbsp;</div>
-                                <span class="or-text">или</span>
+                                <span class="text">или</span>
                             </div>
                         </div>
                     </div>

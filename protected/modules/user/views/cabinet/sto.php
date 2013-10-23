@@ -19,7 +19,7 @@
                             </div>
                             <div class="field span2">
                                 <div class="valign-text">
-                                    <p class="bottom">Дата прохождения ТО<br><?php echo CHtml::activeTextField($stoFinder, 'maintenance_date'); ?></p>
+                                    <p class="bottom">Дата прохождения ТО<br><?php echo CHtml::activeTextField($stoFinder, 'maintenance_date', array('id'=>'UserCarsSTO_maintenance_date-filter')); ?></p>
                                 </div>
                             </div>
                             <div class="field span2">

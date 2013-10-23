@@ -2,7 +2,7 @@
     <h2 class="georgia">Личный кабинет</h2>
     <div>
         <span class="blue-line"></span><br>
-        <span class="red">Ваш уникальный код пользователя <?Yii::app()->user->id?></span>
+        <span class="red">Ваш уникальный код пользователя <?php echo Yii::app()->user->model()->SID; ?></span>
     </div>
 </div>
 
@@ -22,10 +22,12 @@
         <div class="step <?php if ($this->getAction()->id == 'invoices') echo 'active'; ?>">
             <a href="<?=$this->createUrl('cabinet/invoices')?>"><table><tr><td><span class="big">4</span></td><td>Проверять и оплачивать счета</td></tr></table></a>
         </div>
-        <div class="step <?php if ($this->getAction()->id == 'profile') echo 'active'; ?>">
+        <div class="step <?php if ($this->id == 'profile') echo 'active'; ?>">
             <a href="/user/profile"><table><tr><td><span class="big">5</span></td><td>Вносить изменения в личные данные</td></tr></table></a>
         </div>
     </div>
 
-    <div class="text">Вы можете привязать один или несколько автомобилей к аккаунту <br> прямо сейчас или сделать это позже в личном кабинете.</div>
+    <?php if ($this->getAction()->id == 'cars'): ?>
+        <div class="text">Вы можете привязать один или несколько автомобилей к аккаунту <br> прямо сейчас или сделать это позже в личном кабинете.</div>
+    <?php endif; ?>
 </div>

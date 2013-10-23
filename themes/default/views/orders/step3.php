@@ -101,7 +101,7 @@
         </div>
         <div class="row">
             <div class="span4"><a href="<?php echo $this->createUrl('/orders/create', array('step'=>2)); ?>" class="prev-step">Верунться к шагу 2<i></i></a></div>
-            <div class="span4"><button type="submit" class="next-step order-button">Подтвердить<i></i></button></div>
+            <div class="span4"><button disabled type="submit" class="next-step order-button finish">Подтвердить<i></i></button></div>
         </div>
     </form>
 </div>

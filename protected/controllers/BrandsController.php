@@ -27,10 +27,17 @@ class BrandsController extends FrontController
 	}
 
 	
-	public function actionView($id)
+	public function actionView($alias)
 	{
+        $model = Brands::model()->findByAttributes(array('alias'=>$alias));
+        if ( Yii::app()->request->isAjaxRequest ) {
+            $this->renderPartial('view',array(
+                'model'=>$model,
+            ));
+            Yii::app()->end();
+        }
 		$this->render('view',array(
-			'model'=>$this->loadModel('Brands', $id),
+			'model'=>$model,
 		));
 	}
 

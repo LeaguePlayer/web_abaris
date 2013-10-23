@@ -6,15 +6,20 @@
     $cs->registerCssFile($assetsPath.'/css/fancybox/jquery.fancybox.css');
     $cs->registerCssFile($assetsPath.'/css/main.css', '', 100);
     $cs->registerCssFile($assetsPath.'/css/form.css', '', 200);
+    $cs->registerCssFile($assetsPath."/css/alertify/alertify-core.css", '', 800);
+    $cs->registerCssFile($assetsPath."/css/alertify/alertify-default.css", '', 900);
 	
 	$cs->registerCoreScript('jquery');
     //$cs->registerCoreScript('jquery.ui');
+    $cs->registerScriptFile($assetsPath."/js/vendor/alertify.js", CClientScript::POS_HEAD);
     $cs->registerScriptFile($assetsPath.'/js/vendor/jquery-ui-1.9.2.custom.js', CClientScript::POS_HEAD);
 	$cs->registerScriptFile($assetsPath.'/js/vendor/fancybox/jquery.fancybox.pack.js', CClientScript::POS_END);
 	$cs->registerScriptFile($assetsPath.'/js/vendor/bootstrap.min.js', CClientScript::POS_END);
 	$cs->registerScriptFile($assetsPath.'/js/vendor/jquery.maskedinput.js', CClientScript::POS_END);
+	$cs->registerScriptFile($assetsPath.'/js/vendor/jquery.qtip.js', CClientScript::POS_END);
 	$cs->registerScriptFile($assetsPath.'/js/main.js', CClientScript::POS_BEGIN);
     $cs->registerScriptFile($assetsPath.'/js/sign_up.js', CClientScript::POS_END);
+    $cs->registerScriptFile($assetsPath.'/js/orders.js', CClientScript::POS_END);
 ?>
 <?php echo $this->getClip('head'); ?>
 <body>
@@ -40,12 +45,7 @@
                 ),
                 'links'=>$this->breadcrumbs,
             )); ?>
-            <form class="search-form">
-                <div class="input-wrap clearfix">
-                    <input class="search-input" type="search" name="search-text" placeholder="поиск..."/>
-                    <input class="search-button" type="submit" value=""/>
-                </div>
-            </form>
+            <?php $this->widget('application.widgets.SiteSearch'); ?>
         </div>
         <!-- end breadcrumbs -->
 

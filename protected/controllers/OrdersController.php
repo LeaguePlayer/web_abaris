@@ -39,6 +39,12 @@ class OrdersController extends FrontController
                 if ( empty($model->client_email) ) $model->client_email = $prefferedState['client_email'];
                 if ( empty($model->client_phone) ) $model->client_phone = $prefferedState['client_phone'];
             }
+        } else {
+            $user = Yii::app()->user->model();
+            $model->recipient_firstname = $user->profile->first_name;
+            $model->recipient_family = $user->profile->last_name;
+            $model->client_email = $user->email;
+            $model->client_phone = $user->profile->phone;
         }
         $model->cart_id = Yii::app()->user->dbCart->id;
         if ( isset($_POST['Orders']) ) {
@@ -61,18 +67,21 @@ class OrdersController extends FrontController
                 } else {
                     $model->full_cost = Yii::app()->cart->getCost(true);
                     $model->order_status = Orders::ORDERSTATUS_NOPAYD;
+
                     $model->save(false);
                     $userDiscount = Yii::app()->user->getDiscount();
                     foreach (Yii::app()->cart->getPositions() as $position) {
                         $orderPosition = new OrderPositions();
                         $orderPosition->order_id = $model->id;
                         $orderPosition->position_id = $position->id;
+                        $orderPosition->name = $position->name;
                         $orderPosition->count = $position->getQuantity();
                         $orderPosition->cost = $position->getPrice();
                         $orderPosition->discount = $position->discount + $userDiscount;
                         $orderPosition->save();
                     }
                     Yii::app()->session->remove('orderState');
+                    Yii::app()->user->setState('__remindSTO', false);
                     $this->redirect('success');
                 }
             }
@@ -82,15 +91,28 @@ class OrdersController extends FrontController
         $assetsPath = $this->getAssetsUrl('application');
         Yii::app()->clientScript->registerCssFile($assetsPath.'/css/order.css', '', 500);
         Yii::app()->clientScript->registerCssFile($assetsPath.'/css/catalog.css', '', 600);
-        Yii::app()->clientScript->registerScriptFile($assetsPath.'/js/orders.js', CClientScript::POS_END);
+        Yii::app()->clientScript->registerScriptFile($assetsPath.'/js/orders.js', EClientScript::POS_BEGIN);
         $this->render('step'.$step, array(
             'model'=>$model,
         ));
+
     }
 
 
     public function actionSuccess()
     {
         $this->render('success');
+    }
+
+
+    public function actionView($id)
+    {
+        $model = $this->loadModel('Orders', $id, array('with'=>'positions'));
+        if ( Yii::app()->request->isAjaxRequest ) {
+            $this->renderPartial('view', array('model'=>$model));
+            Yii::app()->end();
+        }
+
+        $this->render('view', array('model'=>$model));
     }
 }

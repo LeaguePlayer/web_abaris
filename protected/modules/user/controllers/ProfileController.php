@@ -41,10 +41,14 @@ class ProfileController extends FrontController
 	 */
 	public function actionEdit()
 	{
-		$model = $this->loadUser();
+		$model = User::model()->notsafe()->findByPk( Yii::app()->user->id );
+        if ( $model === null ) {
+            $this->redirect(Yii::app()->controller->module->loginUrl);
+        }
 		$profile=$model->profile;
 
-		//$model->password = '';
+        $currentPassword = $model->password;
+		$model->password = '';
 		
 		// ajax validator
 		if(isset($_POST['ajax']) && $_POST['ajax']==='profile-form')
@@ -56,12 +60,13 @@ class ProfileController extends FrontController
 		if(isset($_POST['User']))
 		{
 			$model->attributes=$_POST['User'];
+            if ( empty($model->password) ) {
+                $model->password = $currentPassword;
+            } else {
+                $model->password = UserModule::encrypting($model->password);
+            }
 			$profile->attributes=$_POST['Profile'];
-			
 			if($model->validate()&&$profile->validate()) {
-				//change password
-				$model->password = UserModule::encrypting($model->password);
-
 				$model->save();
 				$profile->save();
 				Yii::app()->user->setFlash('profileMessage',UserModule::t("Changes is saved."));
@@ -108,7 +113,8 @@ class ProfileController extends FrontController
 	 * Returns the data model based on the primary key given in the GET variable.
 	 * If the data model is not found, an HTTP exception will be raised.
 	 * @param integer the primary key value. Defaults to null, meaning using the 'id' GET variable
-	 */
+     * @return \CActiveRecord|null
+     */
 	public function loadUser()
 	{
 		if($this->_model===null)

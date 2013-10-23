@@ -38,7 +38,7 @@ class m130916_114341_user_involces extends CDbMigration
 			'attache_file' => "VARCHAR(256) COMMENT 'Файл'",
 			'user_id' => "INT(11) COMMENT 'ID пользователя'",
 			
-			'status' => "tinyint COMMENT 'Статус'",
+			'paystatus' => "int(3) COMMENT 'Статус'",
 			'sort' => "integer COMMENT 'Вес для сортировки'",
             'create_time' => "integer COMMENT 'Дата создания'",
             'update_time' => "integer COMMENT 'Дата последнего редактирования'",

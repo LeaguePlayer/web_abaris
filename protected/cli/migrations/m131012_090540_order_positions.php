@@ -34,6 +34,7 @@ class m131012_090540_order_positions extends CDbMigration
             'count' => "integer(2) COMMENT 'Количество деталей'",
             'cost' => "decimal COMMENT 'Цена товара'",
             'discount' => "integer(3) COMMENT 'Скидка'",
+            'name' => "string COMMENT 'Наименование'",
         ),
         'ENGINE=MyISAM DEFAULT CHARACTER SET = utf8 COLLATE = utf8_general_ci');
         $this->addPrimaryKey('orderpos_id_pk', '{{order_positions}}', 'order_id, position_id');

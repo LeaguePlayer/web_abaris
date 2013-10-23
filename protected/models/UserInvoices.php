@@ -14,9 +14,20 @@
     * @property integer $sort
     * @property integer $create_time
     * @property integer $update_time
+    * @property integer $pay_status
 */
-class UserInvolces extends EActiveRecord
+class UserInvoices extends EActiveRecord
 {
+    const STATUS_NOPAYD = 0;
+    const STATUS_PAYD = 1;
+    public static function getStatusLabels()
+    {
+        return array(
+            self::STATUS_NOPAYD => 'Не оплачено',
+            self::STATUS_PAYD => 'Оплачено',
+        );
+    }
+
     public function tableName()
     {
         return '{{user_involces}}';
@@ -26,7 +37,7 @@ class UserInvolces extends EActiveRecord
     public function rules()
     {
         return array(
-            array('status, user_id, sort, create_time, update_time', 'numerical', 'integerOnly'=>true),
+            array('pay_status, status, user_id, sort, create_time, update_time', 'numerical', 'integerOnly'=>true),
             array('invoice_number, cost', 'length', 'max'=>45),
             array('attache_file', 'length', 'max'=>256),
             array('date', 'safe'),
@@ -69,6 +80,7 @@ class UserInvolces extends EActiveRecord
 		$criteria->compare('invoice_number',$this->invoice_number,true);
 		$criteria->compare('date',$this->date,true);
 		$criteria->compare('cost',$this->cost,true);
+		$criteria->compare('pay_status',$this->pay_status);
 		$criteria->compare('status',$this->status);
 		$criteria->compare('attache_file',$this->attache_file,true);
 		$criteria->compare('user_id',$this->user_id);
@@ -92,5 +104,19 @@ class UserInvolces extends EActiveRecord
         return 'Счета пользователей';
     }
 
+    public function getPayStatus()
+    {
+        $labels = self::getStatusLabels();
+        return $labels[$this->status];
+    }
 
+    public function isPayd()
+    {
+        return $this->pay_status == self::STATUS_PAYD;
+    }
+
+    public function getPrintUrl()
+    {
+        return Yii::app()->createUrl('/userInvoices/print', array('id'=>$this->id));
+    }
 }

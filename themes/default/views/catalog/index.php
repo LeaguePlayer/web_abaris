@@ -56,7 +56,7 @@
                     <div class="span2">
                         <div class="valign-text">
                             <p>
-                                <a href="<?php echo $this->createUrl('/catalog/engines', array('model_id'=>$item['id'])); ?>"><?php echo $item['name'].' - '.$item['bodytype']; ?></a><br>
+                                <a href="<?php echo $this->createUrl('/catalog/engines', array('model_id'=>$item['id'])); ?>"><?php echo $item['name'].' - '. $item['brand'].' ('.$item['bodytype'].')'; ?></a><br>
                                 <span><?php echo $item['release_date'].' - '.$item['end_release_date']; ?></span>
                             </p>
                         </div>
@@ -87,7 +87,7 @@
                     <div class="span2">
                         <div class="valign-text">
                             <p>
-                                <a href="<?php echo $this->createUrl('/catalog/engines', array('model_id'=>$item->id)); ?>"><?php echo $item->name.' - '.$item->bodytype->name; ?></a><br>
+                                <a href="<?php echo $this->createUrl('/catalog/engines', array('model_id'=>$item->id)); ?>"><?php echo $item->name.' - '. $item->brand->name.' ('.$item->bodytype->name.')'; ?></a><br>
                                 <span><?php echo $item->releaseYear.' - '.$item->endReleaseYear; ?></span>
                             </p>
                         </div>

@@ -53,6 +53,9 @@ button.b-button
       z-index: 1000
 
 
+#inline_logs
+  display: none
+
 /* ====================
  *  User-panel
  * ====================*/
@@ -82,18 +85,17 @@ button.b-button
       font-size: 10px
       color: #777
       text-decoration: none
-    &:hover .icon, &:active, &.active .icon
-      background-position-y: -16px
-    &:hover .i-user
-      background-position: 0 -16px
-    &:hover .i-msg
-      background-position: -18px -16px
-    &:hover .i-adm
-      background-position: -36px -16px
-    &:hover .i-cart
-      background-position: -54px -16px
-    &:hover .i-auth
-      background-position: -72px -16px
+    &:hover, &:active, &.active
+      .i-user
+        background-position: 0 -16px
+      .i-msg
+        background-position: -18px -16px
+      .i-adm
+        background-position: -36px -16px
+      .i-cart
+        background-position: -54px -16px
+      .i-auth
+        background-position: -72px -16px
 
   span
     color: #ff665d
@@ -509,6 +511,15 @@ button.b-button
     max-width: 450px
     padding: 10px 0
     line-height: 1.1
+
+.brand-box
+  h3
+    line-height: 1.2
+    margin-top: 0
+  img
+    float: left
+    display: inline-block
+    margin: 0 10px 10px 0
 
 
 a, a:visited

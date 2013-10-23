@@ -15,7 +15,7 @@ class CabinetController extends FrontController
     {
         return array(
             array('allow',  // allow all users to perform 'index' and 'view' actions
-                'actions'=>array('cars','carForm', 'sto', 'stoForm', 'orders', 'invoices'),
+                'actions'=>array('cars','carForm', 'sto', 'stoForm', 'orders', 'invoices', 'archiveOrder', 'unarchiveOrder'),
                 'users'=>array('@'),
             ),
             array('deny',  // deny all users
@@ -30,11 +30,11 @@ class CabinetController extends FrontController
 		Yii::app()->clientScript->registerCssFile($this->getAssetsUrl('application')."/css/admin.css", '', 500);
 		Yii::app()->clientScript->registerCssFile($this->getAssetsUrl('application')."/css/catalog.css", '', 600);
 		Yii::app()->clientScript->registerCssFile($this->getAssetsUrl('application')."/css/form.css", '', 700);
-        Yii::app()->clientScript->registerCssFile($this->getAssetsUrl('application')."/css/alertify/alertify-core.css", '', 800);
-        Yii::app()->clientScript->registerCssFile($this->getAssetsUrl('application')."/css/alertify/alertify-default.css", '', 900);
-        Yii::app()->clientScript->registerScriptFile($this->getAssetsUrl('application')."/js/vendor/alertify.js", CClientScript::POS_HEAD);
-        Yii::app()->clientScript->registerScriptFile($this->getAssetsUrl('application')."/js/admin.js", CClientScript::POS_END);
+		Yii::app()->clientScript->registerCssFile($this->getAssetsUrl('user')."/css/cabinet.css", '', 800);
         Yii::app()->clientScript->registerCssFile($this->getAssetsUrl('application').'/css/cupertino/jquery-ui-1.9.2.custom.min.css');
+        Yii::app()->clientScript->registerScriptFile($this->getAssetsUrl('application')."/js/admin.js", CClientScript::POS_END);
+        Yii::app()->clientScript->registerScriptFile($this->getAssetsUrl('application')."/js/vendor/jquery.printPage.js", CClientScript::POS_END);
+
 		return true;
 	}
 	
@@ -157,6 +157,7 @@ class CabinetController extends FrontController
     {
         $criteria = new CDbCriteria();
         $criteria->compare('cart_id', Yii::app()->user->dbCart->id);
+        $criteria->order = 'archived';
         $ordersDataProvider = new CActiveDataProvider("Orders", array(
             'criteria' => $criteria,
             "pagination" => array(
@@ -173,11 +174,37 @@ class CabinetController extends FrontController
         ));
     }
 
-     public function actionInvoices()
+    public function actionArchiveOrder($id)
     {
-        $this->render("invoices", array(
-            "invoicesDataProvider" => $invoicesDataProvider
-        ));
+        $order = $this->loadModel('Orders', $id);
+        $order->archived = Orders::IS_ARCHIVED;
+        $order->save(false);
+        $this->redirect('/user/cabinet/orders');
     }
 
+    public function actionUnarchiveOrder($id)
+    {
+        $order = $this->loadModel('Orders', $id);
+        $order->archived = Orders::IS_UNARCHIVED;
+        $order->save(false);
+        $this->redirect('/user/cabinet/orders');
+    }
+
+    public function actionInvoices()
+    {
+        $invoiceFinder = new UserInvoices();
+        $invoiceFinder->unsetAttributes();
+        $criteria = new CDbCriteria();
+        $criteria->compare('user_id', Yii::app()->user->id);
+        $invoicesDataProvider = new CActiveDataProvider('UserInvoices', array(
+            'criteria' => $criteria,
+            'pagination' => array(
+                'pageSize' => 1000,
+            )
+        ));
+        $this->render("invoices", array(
+            "invoicesDataProvider" => $invoicesDataProvider,
+            'invoiceFinder' => $invoiceFinder,
+        ));
+    }
 }

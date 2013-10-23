@@ -94,6 +94,7 @@ class WebUser extends AuthWebUser
         $userAttributes = CMap::mergeArray(array(
                                                 'email'=>$user->email,
                                                 'username'=>$user->username,
+                                                'SID'=>$user->SID,
                                                 'create_at'=>$user->create_at,
                                                 'lastvisit_at'=>$user->lastvisit_at,
                                            ),$user->profile->getAttributes());
@@ -204,5 +205,18 @@ class WebUser extends AuthWebUser
     {
         $user = $this->model();
         return $user !== null ? $user->discount : 0;
+    }
+
+    public function getNewMessage()
+    {
+        $criteria = new CDbCriteria();
+        $criteria->compare('user_id', $this->id);
+        $criteria->compare('status', Messages::STATUS_NEW);
+        $criteria->order = 'create_time';
+        $message = Messages::model()->find($criteria);
+        if ( $message === null ) {
+            return null;
+        }
+        return $message->message;
     }
 }
