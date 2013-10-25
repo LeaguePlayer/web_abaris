@@ -11,6 +11,7 @@ framework
 /protected/config/console.php
 /protected/config/cron.php
 /uploads
+/dump
 /media
 /gallery
 *~
