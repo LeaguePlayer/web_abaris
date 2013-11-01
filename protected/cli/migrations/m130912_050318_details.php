@@ -31,6 +31,7 @@ class m130912_050318_details extends CDbMigration
         $this->createTable('{{details}}', array(
             'id' => 'pk', // auto increment
             'article' => "varchar(45) NOT NULL COMMENT 'Артикул'",
+            'article_alias' => "varchar(45) NOT NULL COMMENT 'Артикул поиска'",
             'name' => "varchar(256) NOT NULL COMMENT 'Наименование товара'",
             'price' => "decimal(10,2) NOT NULL COMMENT 'Стоимтость'",
             'in_stock' => "integer DEFAULT 0 COMMENT 'В наличии'",
@@ -45,6 +46,9 @@ class m130912_050318_details extends CDbMigration
             'create_time' => "integer COMMENT 'Дата создания'",
             'update_time' => "integer COMMENT 'Дата последнего редактирования'",
             'discount' => "float DEFAULT 0 COMMENT 'Скидка'",
+            'producer_name' => "string COMMENT 'Производитель'",
+            'producer_country' => "string COMMENT 'Страна'",
+            'is_original' => "int(1) COMMENT 'Оригинал'",
         ),
         'ENGINE=MyISAM DEFAULT CHARACTER SET = utf8 COLLATE = utf8_general_ci');
     }

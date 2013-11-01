@@ -1,5 +1,6 @@
 <?php
-Yii::import('application.components.AbarisXMLParser');
+Yii::import('application.components.*');
+Yii::import('application.models.*');
 
 class XMLParseCommand extends CConsoleCommand {
     public function run($args) {

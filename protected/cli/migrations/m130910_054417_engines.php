@@ -31,6 +31,7 @@ class m130910_054417_engines extends CDbMigration
         $this->createTable('{{engines}}', array(
             'id' => 'pk', // auto increment
 			'name' => "varchar(100) COMMENT 'Название'",
+			'alias' => "varchar(100) COMMENT 'Сокращенное название'",
             'volume' => "FLOAT COMMENT 'Объем двигателя'",
             'fuel' => "tinyint COMMENT 'Тип топлива'",
             'power' => "FLOAT COMMENT 'Мощность'",

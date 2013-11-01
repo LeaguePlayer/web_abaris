@@ -99,6 +99,8 @@
     text-decoration: none; }
     .valign-text p a:hover {
       text-decoration: none; }
+    .valign-text p a.admin-icon, .valign-text p a.pencil {
+      border-bottom: none; }
 
 .catalog-grid .field:last-child {
   background: none; }

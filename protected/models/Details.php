@@ -66,7 +66,7 @@ class Details extends EActiveRecord implements IECartPosition
             array('in_stock, brand_id, category_id, status, sort, create_time, update_time', 'numerical', 'integerOnly'=>true),
             array('price, discount', 'numerical'),
             array('type', 'numerical', 'integerOnly'=>true),
-            array('article', 'length', 'max'=>45),
+            array('article, article_alias', 'length', 'max'=>45),
             array('name, img_photo', 'length', 'max'=>256),
             // The following rule is used by search().
             array('id, article, name, price, discount, in_stock, dt_delivery_date, img_photo, wswg_description, brand_id, category_id, status, sort, create_time, update_time', 'safe', 'on'=>'search'),
@@ -92,6 +92,7 @@ class Details extends EActiveRecord implements IECartPosition
         return array(
             'id' => 'ID',
             'article' => 'Артикул',
+            'article_alias' => 'Артикул поиска',
             'name' => 'Наименование товара',
             'price' => 'Стоимтость',
             'in_stock' => 'В наличии',
@@ -140,7 +141,8 @@ class Details extends EActiveRecord implements IECartPosition
     {
         $criteria=new CDbCriteria;
 		$criteria->compare('id',$this->id);
-		$criteria->compare('article',$this->article,true);
+		$criteria->compare('article',$this->article);
+		$criteria->compare('article_alias',$this->article);
 		$criteria->compare('name',$this->name,true);
 		$criteria->compare('price',$this->price);
 		$criteria->compare('in_stock',$this->in_stock);

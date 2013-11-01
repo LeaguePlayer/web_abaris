@@ -6,6 +6,7 @@
 * The followings are the available columns in table '{{auto_models}}':
     * @property integer $id
     * @property string $name
+    * @property string $alias
     * @property integer $brand_id
     * @property string $img_photo
     * @property string $description
@@ -32,13 +33,13 @@ class AutoModels extends EActiveRecord
     {
         return array(
             array('name', 'required'),
-            array('brand_id, number_doors, engine_model_id, bodytype_id, status, sort, create_time, update_time', 'numerical', 'integerOnly'=>true),
-            array('name', 'length', 'max'=>100),
+            array('brand_id, number_doors, bodytype_id, status, sort, create_time, update_time', 'numerical', 'integerOnly'=>true),
+            array('name, alias', 'length', 'max'=>100),
             array('img_photo', 'length', 'max'=>256),
             array('VIN', 'length', 'max'=>20),
             array('description, dt_release_date, dt_end_release_date', 'safe'),
             // The following rule is used by search().
-            array('id, name, brand_id, img_photo, description, dt_release_date, dt_end_release_date, number_doors, engine_model_id, bodytype_id, VIN, status, sort, create_time, update_time', 'safe', 'on'=>'search'),
+            array('id, name, brand_id, img_photo, description, dt_release_date, dt_end_release_date, number_doors, bodytype_id, VIN, status, sort, create_time, update_time', 'safe', 'on'=>'search'),
         );
     }
 
@@ -46,7 +47,6 @@ class AutoModels extends EActiveRecord
     public function relations()
     {
         return array(
-            'engine'=>array(self::BELONGS_TO, 'Engines', 'engine_model_id'),
             'engines'=>array(self::MANY_MANY, 'Engines', AutoEngines::model()->tableName().'(auto_model_id, engine_id)'),
             'bodytype'=>array(self::BELONGS_TO, 'Bodytypes', 'bodytype_id'),
             'brand'=>array(self::BELONGS_TO, 'Brands', 'brand_id'),
@@ -60,13 +60,13 @@ class AutoModels extends EActiveRecord
         return array(
             'id' => 'ID',
             'name' => 'Модель',
+            'alias' => 'Сокращенное название',
             'brand_id' => 'Марка',
             'img_photo' => 'Фото',
             'description' => 'Описание',
             'dt_release_date' => 'Дата выпуска',
             'dt_end_release_date' => 'Дата окончания выпуска',
             'number_doors' => 'Количество дверей',
-            'engine_model_id' => 'Двигатель',
             'bodytype_id' => 'Тип кузова',
             'VIN' => 'VIN',
             'status' => 'Статус',
@@ -107,13 +107,13 @@ class AutoModels extends EActiveRecord
         $criteria=new CDbCriteria;
 		$criteria->compare('id',$this->id);
 		$criteria->compare('name',$this->name,true);
+		$criteria->compare('alias',$this->name);
 		$criteria->compare('brand_id',$this->brand_id);
 		$criteria->compare('img_photo',$this->img_photo,true);
 		$criteria->compare('description',$this->description,true);
 		$criteria->compare('dt_release_date',$this->dt_release_date,true);
 		$criteria->compare('dt_end_release_date',$this->dt_end_release_date,true);
 		$criteria->compare('number_doors',$this->number_doors);
-		$criteria->compare('engine_model_id',$this->engine_model_id);
 		$criteria->compare('bodytype_id',$this->bodytype_id);
 		$criteria->compare('VIN',$this->VIN,true);
 		$criteria->compare('status',$this->status);

@@ -106,7 +106,7 @@ class Brands extends EActiveRecord
     {
         if ( parent::beforeSave() ) {
             if ( empty($this->alias) ) {
-                $this->alias = SiteHelper::translit($this->name);
+                $this->alias = strtolower(SiteHelper::translit($this->name));
             }
             return true;
         }

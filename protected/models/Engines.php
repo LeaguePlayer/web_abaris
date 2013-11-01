@@ -6,6 +6,7 @@
 * The followings are the available columns in table '{{engines}}':
     * @property integer $id
     * @property string $name
+    * @property string $alias
     * @property double $volume
     * @property integer $fuel
     * @property double $power
@@ -45,7 +46,7 @@ class Engines extends EActiveRecord
         return array(
             array('fuel, status, sort, create_time, update_time', 'numerical', 'integerOnly'=>true),
             array('volume, power', 'numerical'),
-            array('name', 'length', 'max'=>100),
+            array('name, alias', 'length', 'max'=>100),
             array('description', 'safe'),
             // The following rule is used by search().
             array('id, name, volume, fuel, power, description, status, sort, create_time, update_time', 'safe', 'on'=>'search'),
@@ -65,6 +66,7 @@ class Engines extends EActiveRecord
         return array(
             'id' => 'ID',
             'name' => 'Название',
+            'alias' => "Сокращенное название",
             'volume' => 'Объем двигателя',
             'fuel' => 'Тип топлива',
             'power' => 'Мощность',
@@ -84,6 +86,7 @@ class Engines extends EActiveRecord
         $criteria=new CDbCriteria;
 		$criteria->compare('id',$this->id);
 		$criteria->compare('name',$this->name,true);
+		$criteria->compare('alias',$this->name);
 		$criteria->compare('volume',$this->volume);
 		$criteria->compare('fuel',$this->fuel);
 		$criteria->compare('power',$this->power);

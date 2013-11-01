@@ -31,6 +31,7 @@ class m130910_053607_auto_models extends CDbMigration
         $this->createTable('{{auto_models}}', array(
             'id' => 'pk', // auto increment
 			'name' => "varchar(100) NOT NULL COMMENT 'Модель'",
+			'alias' => "varchar(100) NOT NULL COMMENT 'Сокращенное название'",
             'brand_id' => "integer COMMENT 'Марка'",
             'img_photo' => "varchar(256) COMMENT 'Фото'",
             'description' => "text COMMENT 'Описание'",
