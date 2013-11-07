@@ -19,7 +19,7 @@
                 <div class="span4">
                     <div class="auto-title">
                         <h2><?php echo $autoModel->name; ?></h2>
-                        <span><?php echo $autoModel->releaseYear.' - '.$autoModel->endReleaseYear; ?></span>
+                        <span><?php echo $autoModel->releaseRange; ?></span>
                     </div>
                 </div>
             </div>
@@ -27,6 +27,8 @@
     </div>
     <?php if ( $inStockDetailsData->totalItemCount > 0 ) {
         $this->renderPartial('_catalog_grid', array(
+            'title' => 'Детали в наличии',
+            'originalDetail'=>$originalDetail,
             'detailsData' => $inStockDetailsData,
         ));
     } ?>
@@ -34,6 +36,7 @@
     <?php if ( $nonInStockDetailsData->totalItemCount > 0 ) {
         $this->renderPartial('_catalog_grid', array(
             'title' => 'Вы можете заказать детали, если их нет в наличии',
+            'originalDetail'=>$originalDetail,
             'detailsData' => $nonInStockDetailsData,
         ));
     } ?>

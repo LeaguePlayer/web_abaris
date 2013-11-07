@@ -21,7 +21,7 @@ class Adaptabillity extends CActiveRecord
     public function rules()
     {
         return array(
-            array('detail_id, auto_model_id, engine_model_id', 'required'),
+            array('detail_id', 'required'),
             array('detail_id, auto_model_id, engine_model_id', 'numerical', 'integerOnly'=>true),
             array('description', 'safe'),
             // The following rule is used by search().

@@ -1,8 +1,8 @@
-<div class="catalog-grid-row">
+<div class="catalog-grid-row <?php if ($data->id === $originalDetail->id) echo 'search'; ?>">
     <div class="container">
         <div class="row-fluid">
             <div class="span2 field img"><?php echo $data->getImage('small'); ?></div>
-            <div class="span1 field"><div class="valign-text"><p><a class="view_brand" href="<?php echo $data->brand->getViewUrl(); ?>"><?php echo $data->brand->name; ?></a></p></div></div>
+            <div class="span1 field"><div class="valign-text"><p><a class="view_brand" href="<?php if ($data->brand) echo $data->brand->getViewUrl(); ?>"><?php if ($data->brand) echo $data->brand->name; ?></a></p></div></div>
             <div class="span2 field"><div class="valign-text"><p><?php echo $data->article; ?></p></div></div>
             <div class="span2 field"><div class="valign-text"><p><?php echo $data->name; ?></p></div></div>
             <div class="span2 field"><div class="valign-text"><p><?php echo $data->toStringInStock(); ?></p></div></div>

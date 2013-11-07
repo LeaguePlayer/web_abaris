@@ -56,8 +56,8 @@
                     <div class="span2">
                         <div class="valign-text">
                             <p>
-                                <a href="<?php echo $this->createUrl('/catalog/engines', array('model_id'=>$item['id'])); ?>"><?php echo $item['name'].' - '. $item['brand'].' ('.$item['bodytype'].')'; ?></a><br>
-                                <span><?php echo $item['release_date'].' - '.$item['end_release_date']; ?></span>
+                                <a href="<?php echo $this->createUrl('/catalog/engines', array('model_id'=>$item['id'])); ?>"><?php echo $item['full_name']; ?></a><br>
+                                <span><?php echo $item['release_range']; ?></span>
                             </p>
                         </div>
                     </div>
@@ -71,40 +71,44 @@
             $counter = 0;
             $rowOpened = false;
         ?>
-        <?php foreach ( $autoModels as $item ): ?>
-            <?php if ( !$rowOpened ): ?>
-                <!-- open row -->
-                <div class="row">
-                <?php $rowOpened = true; ?>
-            <?php endif; ?>
-            <div class="span4 auto">
-                <div class="row">
-                    <div class="span2 img">
-                        <div class="valign-text">
-                            <p><a href="<?php echo $this->createUrl('/catalog/engines', array('model_id'=>$item->id)); ?>"><?php echo $item->getImage('small'); ?></a></p>
+        <?php if ( count($autoModels) > 0 ): ?>
+            <?php foreach ( $autoModels as $item ): ?>
+                <?php if ( !$rowOpened ): ?>
+                    <!-- open row -->
+                    <div class="row">
+                    <?php $rowOpened = true; ?>
+                <?php endif; ?>
+                <div class="span4 auto">
+                    <div class="row">
+                        <div class="span2 img">
+                            <div class="valign-text">
+                                <p><a href="<?php echo $this->createUrl('/catalog/engines', array('model_id'=>$item->id)); ?>"><?php echo $item->getImage('small'); ?></a></p>
+                            </div>
                         </div>
-                    </div>
-                    <div class="span2">
-                        <div class="valign-text">
-                            <p>
-                                <a href="<?php echo $this->createUrl('/catalog/engines', array('model_id'=>$item->id)); ?>"><?php echo $item->name.' - '. $item->brand->name.' ('.$item->bodytype->name.')'; ?></a><br>
-                                <span><?php echo $item->releaseYear.' - '.$item->endReleaseYear; ?></span>
-                            </p>
+                        <div class="span2">
+                            <div class="valign-text">
+                                <p>
+                                    <a href="<?php echo $this->createUrl('/catalog/engines', array('model_id'=>$item->id)); ?>"><?php echo $item->fullName; ?></a><br>
+                                    <span><?php echo $item->releaseRange; ?></span>
+                                </p>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <?php $counter++; ?>
-            <?php if ( $counter % 3 == 0 and $rowOpened ): ?>
+                <?php $counter++; ?>
+                <?php if ( $counter % 3 == 0 and $rowOpened ): ?>
+                    </div>
+                    <!-- close row -->
+                    <?php $rowOpened = false; ?>
+                <?php endif ?>
+            <?php endforeach ?>
+            <?php if ( $rowOpened ): ?>
                 </div>
                 <!-- close row -->
-                <?php $rowOpened = false; ?>
             <?php endif; ?>
-        <?php endforeach; ?>
-        <?php if ( $rowOpened ): ?>
-            </div>
-            <!-- close row -->
-        <?php endif; ?>
+        <?php else: ?>
+            <div class="container">Ничего не найдено</div>
+        <?php endif ?>
     </div>
 </div>
 <!-- end auto catalog -->

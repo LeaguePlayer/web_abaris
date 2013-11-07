@@ -84,6 +84,7 @@ class Details extends EActiveRecord implements IECartPosition
             //'analogsInStock'=>array(self::MANY_MANY, 'Details', AnalogDetails::model()->tableName().'(original_id, analog_id)', 'condition'=>'analogsInStock.in_stock>0'),
             //'analogsNonInStock'=>array(self::MANY_MANY, 'Details', AnalogDetails::model()->tableName().'(original_id, analog_id)', 'condition'=>'analogsInStock.in_stock=0'),
             'cartInfo'=>array(self::HAS_ONE, 'CartDetails', 'detail_id', 'condition'=>'cart_id=:cart_id', 'params'=>array(':cart_id'=>$cart->id)),
+            'adaptAutoModels'=>array(self::MANY_MANY, 'AutoModels', Adaptabillity::model()->tableName().'(detail_id, auto_model_id)'),
         );
     }
 
@@ -94,7 +95,7 @@ class Details extends EActiveRecord implements IECartPosition
             'article' => 'Артикул',
             'article_alias' => 'Артикул поиска',
             'name' => 'Наименование товара',
-            'price' => 'Стоимтость',
+            'price' => 'Стоимость',
             'in_stock' => 'В наличии',
             'dt_delivery_date' => 'Примерная дата доставки',
             'img_photo' => 'Фото',
@@ -142,7 +143,7 @@ class Details extends EActiveRecord implements IECartPosition
         $criteria=new CDbCriteria;
 		$criteria->compare('id',$this->id);
 		$criteria->compare('article',$this->article);
-		$criteria->compare('article_alias',$this->article);
+		$criteria->compare('article_alias',$this->article_alias);
 		$criteria->compare('name',$this->name,true);
 		$criteria->compare('price',$this->price);
 		$criteria->compare('in_stock',$this->in_stock);
@@ -161,6 +162,9 @@ class Details extends EActiveRecord implements IECartPosition
 
         return new CActiveDataProvider($this, array(
             'criteria'=>$criteria,
+            'pagination'=>array(
+                'pageSize'=>100
+            ),
         ));
     }
 

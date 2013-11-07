@@ -180,7 +180,7 @@ class AbarisXMLParser extends SimpleXMLReader
     }
 
     protected function insertPosition($name, $article, $article_alias, $in_stock, $price,
-                                      $producer_name, $producer_country, $is_original)
+                                      $brand_id, $producer_name, $producer_country, $is_original)
     {
         $db = Yii::app()->db;
         $command = $db->createCommand();
@@ -192,6 +192,7 @@ class AbarisXMLParser extends SimpleXMLReader
             'price' => $price,
             'producer_name' => $producer_name,
             'producer_country' => $producer_country,
+            'brand_id' => $brand_id,
             'is_original' => $is_original
         ));
         if ( $affectedRows > 0 ) {
@@ -203,7 +204,7 @@ class AbarisXMLParser extends SimpleXMLReader
     }
 
     protected function updatePosition($id, $name, $article, $article_alias, $in_stock, $price,
-                                      $producer_name, $producer_country, $is_original)
+                                      $brand_id, $producer_name, $producer_country, $is_original)
     {
         $db = Yii::app()->db;
         $command = $db->createCommand();
@@ -215,6 +216,7 @@ class AbarisXMLParser extends SimpleXMLReader
             'price' => $price,
             'producer_name' => $producer_name,
             'producer_country' => $producer_country,
+            'brand_id' => $brand_id,
             'is_original' => $is_original
         ), 'id=:id', array(':id'=>$id));
     }
@@ -402,6 +404,12 @@ class AbarisXMLParser extends SimpleXMLReader
             'Страна' => trim( (string)$attributes->{'Страна'} ),
             'Оригинал' => trim( (string)$attributes->{'Оригинал'} ),
         );
+        $brandName = $this->currentPositionAttributes['producer']['Производитель'];
+        if ( !empty($brandName) ) {
+            if ( !$this->hasBrand($brandName) )
+                $this->saveBrand($brandName);
+            $this->currentPositionAttributes['producer']['id'] = $this->getBrandId($brandName);
+        }
         return true;
     }
 
@@ -437,7 +445,7 @@ class AbarisXMLParser extends SimpleXMLReader
             }
             $brandName = $autoAttributes['НаименованиеМарки'];
             if ( !$this->hasBrand($brandName) ) {
-                $this->saveBrand($autoAttributes['НаименованиеМарки']);
+                $this->saveBrand($brandName);
             }
             $autoAlias = $autoAttributes['СокрМодельАвто'];
             if ( !$this->hasAuto($autoAlias) ) {
@@ -515,28 +523,33 @@ class AbarisXMLParser extends SimpleXMLReader
             $is_original = 0;
         }
 
+        if ( isset($this->currentPositionAttributes['producer']['id']) )
+            $brand_id = $this->currentPositionAttributes['producer']['id'];
+        else
+            $brand_id = 0;
+
         if ( $this->hasPosition($article_alias) ) {
             $posId = $this->getPositionId($article_alias);
             $this->updatePosition($posId, $name, $article, $article_alias,
-                                  $in_stock, $price, $producer_name,
+                                  $in_stock, $price, $brand_id, $producer_name,
                                   $producer_country, $is_original);
         } else {
             $posId = $this->insertPosition($name, $article, $article_alias,
-                                  $in_stock, $price, $producer_name,
+                                  $in_stock, $price, $brand_id, $producer_name,
                                   $producer_country, $is_original);
         }
 
         // Обновление информации о соответствии моделей авто и двигателей
-        if ( isset($this->currentAdaptabillities['auto']) && isset($this->currentAdaptabillities['engine']) ) {
-            foreach ( $this->currentAdaptabillities['auto'] as $autoAlias ) {
-                $autoId = $this->getAutoId($autoAlias);
-                foreach ( $this->currentAdaptabillities['engine'] as $engineAlias ) {
-                    $engineId = $this->getEngineId($engineAlias);
-                    if ( !$this->hasAutoEngine($autoId, $engineId) )
-                        $this->saveAutoEngine($autoId, $engineId);
-                }
-            }
-        }
+//        if ( isset($this->currentAdaptabillities['auto']) && isset($this->currentAdaptabillities['engine']) ) {
+//            foreach ( $this->currentAdaptabillities['auto'] as $autoAlias ) {
+//                $autoId = $this->getAutoId($autoAlias);
+//                foreach ( $this->currentAdaptabillities['engine'] as $engineAlias ) {
+//                    $engineId = $this->getEngineId($engineAlias);
+//                    if ( !$this->hasAutoEngine($autoId, $engineId) )
+//                        $this->saveAutoEngine($autoId, $engineId);
+//                }
+//            }
+//        }
 
 
         if ( !$posId ) {

@@ -563,25 +563,29 @@ a, a:visited {
     display: inline-block; }
   .catalog-pager li {
     display: inline-block;
-    margin-right: 5px;
-    height: 15px; }
+    vertical-align: middle; }
+    .catalog-pager li.pageselected {
+      padding: 3px 10px; }
+    .catalog-pager li a {
+      padding: 3px 10px; }
+    .catalog-pager li a, .catalog-pager li a:visited {
+      color: #717171;
+      text-decoration: none; }
+    .catalog-pager li a:hover {
+      color: #ff665d; }
     .catalog-pager li.arrow a {
       display: inline-block;
       width: 8px;
-      height: 15px; }
-  .catalog-pager a, .catalog-pager a:visited {
-    color: #717171;
-    text-decoration: none; }
-  .catalog-pager a:hover {
-    color: #ff665d; }
-  .catalog-pager .arrow {
-    width: 8px;
-    height: 15px;
-    display: inline-block; }
-  .catalog-pager .left {
-    background: no-repeat 0 0 url("../img/pager_arrows.gif"); }
-  .catalog-pager .right {
-    background: no-repeat -8px 0 url("../img/pager_arrows.gif"); }
+      height: 15px;
+      background: no-repeat url("../img/pager_arrows.gif"); }
+    .catalog-pager li.arrow.right a {
+      background-position: -12px 5px; }
+      .catalog-pager li.arrow.right a:hover {
+        background-position: -12px -20px; }
+    .catalog-pager li.arrow.left a {
+      background-position: 10px 5px; }
+      .catalog-pager li.arrow.left a:hover {
+        background-position: 10px -20px; }
 
 /* popover */
 .user-panel .popover {

@@ -47,7 +47,7 @@ $this->breadcrumbs = array(
             'itemView'=>'_view',
             'pagerCssClass'=>'container',
             'emptyTagName'=>'div',
-            'emptyText'=>'Не найдено',
+            'emptyText'=>'<div class="container">Нет аксессуаров</div>',
             'updateSelector'=>'.catalog-pager a',
             'pager'=>array(
                 'class'=>'application.widgets.ELinkPager',

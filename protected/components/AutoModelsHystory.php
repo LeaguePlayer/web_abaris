@@ -31,8 +31,8 @@ class AutoModelsHystory extends Hystory
             'photo'=>$element->getImageUrl('small'),
             'name'=>$element->name,
             'bodytype'=>$element->bodytype->name,
-            'release_date'=>$element->getReleaseYear(),
-            'end_release_date'=>$element->getEndReleaseYear(),
+            'release_range'=>$element->getReleaseRange(),
+            'full_name'=>$element->getFullName(),
         );
         $this->stack[$this->currentBrand][] = $item;
 

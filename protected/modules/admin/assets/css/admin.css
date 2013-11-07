@@ -83,3 +83,6 @@ form .line{
     display: inline-block;
     vertical-align: top;
 }
+.clear {
+    clear: both;
+}

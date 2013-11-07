@@ -150,18 +150,41 @@ class AutoModels extends EActiveRecord
 		}
 	}
 
-    public function getReleaseYear()
+//    public function getReleaseYear()
+//    {
+//
+//        return !empty($this->dt_release_date)
+//            ? date('Y', strtotime($this->dt_release_date))
+//            : '';
+//    }
+//
+//    public function getEndReleaseYear()
+//    {
+//        return !empty($this->dt_end_release_date)
+//            ? date('Y', strtotime($this->dt_end_release_date))
+//            : 'наст. время';
+//    }
+
+    public function getReleaseRange()
     {
-        return !empty($this->dt_release_date)
-            ? date('Y', strtotime($this->dt_release_date))
-            : '';
+        $ts = strtotime($this->dt_release_date);
+        if ( $ts <= 0 )
+            return '';
+        $releaseDate = date('Y', $ts);
+        $ts = strtotime($this->dt_end_release_date);
+        if ( $ts <= 0 )
+            $endReleaseDate = 'наст. время';
+        else
+            $endReleaseDate = date('Y', $ts);
+        return $releaseDate.' - '.$endReleaseDate;
     }
 
-    public function getEndReleaseYear()
+    public function getFullName()
     {
-        return !empty($this->dt_end_release_date)
-            ? date('Y', strtotime($this->dt_end_release_date))
-            : 'наст. время';
+        $result = $this->name.' - '. $this->brand->name;
+        if ( $this->bodytype !== null )
+            $result .= ' ('.$this->bodytype->name.')';
+        return $result;
     }
 
     public function getDetailInfo()

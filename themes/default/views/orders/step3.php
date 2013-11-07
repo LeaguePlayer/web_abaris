@@ -95,8 +95,10 @@
         <div class="row">
             <div class="span12 grey">
                 <span>* Подтверждая заказ Вы обязуетесь оплатить и забрать товар</span><br>
-                <?php echo AbarisHtml::activeCheckBox($model, 'confirm', array('class'=>'css-checkbox')); ?>
-                <?php echo CHtml::activeLabelEx($model, 'confirm', array('class'=>'css-label')); ?>
+                <div id="snake-element">
+                    <?php echo AbarisHtml::activeCheckBox($model, 'confirm', array('class'=>'css-checkbox')); ?>
+                    <?php echo CHtml::activeLabelEx($model, 'confirm', array('class'=>'css-label')); ?>
+                </div>
             </div>
         </div>
         <div class="row">

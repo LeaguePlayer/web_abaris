@@ -25,7 +25,7 @@ class DetailsController extends FrontController
 //            }
 //        }
 
-        $autoModel = $this->loadModel('AutoModels', $_GET['model_id'], array('with'=>array('bodytype', 'engines', 'engine')), false);
+        $autoModel = $this->loadModel('AutoModels', $_GET['model_id'], array('with'=>array('bodytype', 'engines')), false);
         if ( !empty($_GET['engine_id']) ) {
             foreach ( $this->engines as $engine) {
                 if ( $engine->id === $_GET['engine_id'] ) {
@@ -33,8 +33,6 @@ class DetailsController extends FrontController
                     break;
                 }
             }
-        } else {
-            $engineModel = $autoModel->engine;
         }
 
         $criteria = new CDbCriteria();
@@ -44,21 +42,15 @@ class DetailsController extends FrontController
         } else if ( $article ) {
             $criteria->compare('t.article', $article);
         } else {
-			// ЕСЛИ ЗАПЧАСТЬ НЕ НАЙДЕНА
-			$detailNotFound = Details::detailNotFound($article);
-			
-            $this->render('nofounddetail', array('detailNotFound'=>$detailNotFound) );	
-			die();
+
         }
 
         $model = Details::model()->find($criteria);
         if ( $model === null ) {
 			// ЕСЛИ ЗАПЧАСТЬ НЕ НАЙДЕНА
-			
 			$detailNotFound = Details::detailNotFound($article);
-			
-            $this->render('nofounddetail', array('detailNotFound'=>$detailNotFound) );	
-			die();
+            $this->render('nofounddetail', array('detailNotFound'=>$detailNotFound) );
+			throw new CHttpException(404, 'Запчасть не найдена');
         }
 
         $inStockDetails = array();

@@ -14,7 +14,7 @@
                 <div class="span4">
                     <div class="auto-title">
                         <h2><?php echo $autoModel->name; ?></h2>
-                        <span><?php echo $autoModel->releaseYear.' - '.$autoModel->endReleaseYear; ?></span>
+                        <span><?php echo $autoModel->releaseRange; ?></span>
                     </div>
                 </div>
             </div>

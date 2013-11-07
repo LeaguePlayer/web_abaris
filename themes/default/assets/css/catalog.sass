@@ -2,6 +2,9 @@ $grey: #717171
 $dark-grey: #252525
 $red: #ff665d
 
+$yellow: #fffad3
+$yellow-dark: #fff9bf
+
 @import "helper"
 
 .catalog
@@ -60,6 +63,10 @@ $red: #ff665d
   border-bottom: 1px dashed #9e9e9e
   &.select, &.select.active
     background: #E8E8E8
+  &.search
+    background: $yellow
+    &:hover
+      background: $yellow-dark
   .field
     padding: 0
     border: none

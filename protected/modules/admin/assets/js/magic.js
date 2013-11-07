@@ -5,6 +5,27 @@ $(document).ready(function() {
         var $this = $(this);
         deletePhoto($this);
     });
+
+
+    $.bindModal = function(selector, callback) {
+        $(selector).click(function() {
+            var self = $(this);
+            $.ajax({
+                url: self.attr('href'),
+                type: self.data('method'),
+                success: function(data) {
+                    $.fancybox.open({
+                        content: data,
+                        afterShow: function() {
+                            if ( callback !== undefined )
+                                callback.call();
+                        }
+                    });
+                }
+            });
+            return false;
+        });
+    }
 });
 
 

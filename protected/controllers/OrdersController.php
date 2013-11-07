@@ -91,11 +91,11 @@ class OrdersController extends FrontController
         $assetsPath = $this->getAssetsUrl('application');
         Yii::app()->clientScript->registerCssFile($assetsPath.'/css/order.css', '', 500);
         Yii::app()->clientScript->registerCssFile($assetsPath.'/css/catalog.css', '', 600);
+        Yii::app()->clientScript->registerCssFile($assetsPath.'/css/animate-custom.css', '', 600);
         Yii::app()->clientScript->registerScriptFile($assetsPath.'/js/orders.js', EClientScript::POS_BEGIN);
         $this->render('step'.$step, array(
             'model'=>$model,
         ));
-
     }
 
 

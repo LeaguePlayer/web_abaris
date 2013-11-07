@@ -13,6 +13,7 @@ class AdminModule extends EWebModule
             'admin.components.*',
             'admin.helpers.*',
             'appext.EPhpThumb.EPhpThumb',
+            'appext.yii-select2.Select2',
         ));
 
         $this->setComponents(array(
@@ -31,6 +32,7 @@ class AdminModule extends EWebModule
 		if(parent::beforeControllerAction($controller, $action))
 		{
             $this->registerBootstrap();
+            $this->registerFancybox($controller);
             $this->registerCoreScripts();
             return true;
         }

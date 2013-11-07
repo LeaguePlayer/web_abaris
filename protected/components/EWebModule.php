@@ -54,6 +54,13 @@ class EWebModule extends CWebModule
         Yii::app()->getComponent('bootstrap')->register();
     }
 
+    public function registerFancybox(Controller $controller)
+    {
+        $assetsPath = $controller->getAssetsUrl('application');
+        Yii::app()->clientScript->registerCssFile($assetsPath.'/css/fancybox/jquery.fancybox.css');
+        Yii::app()->clientScript->registerScriptFile($assetsPath.'/js/vendor/fancybox/jquery.fancybox.pack.js', CClientScript::POS_END);
+    }
+
     protected function registerCoreScripts()
     {
         Yii::app()->clientScript->registerCoreScript('jquery');

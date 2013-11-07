@@ -49,7 +49,7 @@ class CatalogController extends FrontController
     {
         // Получаем выбранную марку авто
         $criteria = new CDbCriteria();
-        $criteria->with = array('engines', 'engine');
+        $criteria->with = array('engines');
         if ( $model_id ) {
             $criteria->compare('t.id', $model_id);
         } else if ( $VIN ) {
@@ -64,17 +64,16 @@ class CatalogController extends FrontController
             throw new CHttpException(403, 'Неверный запрос');
         }
 
-        $autoModel = AutoModels::model()->with('engines')->find($criteria);
+        $autoModel = AutoModels::model()->find($criteria);
         if ( $autoModel === null ) {
             throw new CHttpException(404, 'Страница не найдена');
         }
 
         $engines = $autoModel->engines;
-        if ( empty($engines) )
-            $engines = $autoModel->engine === null ? array() : array($autoModel->engine);
+        if ( empty($engines) ) {
+            $this->redirect(array('details', 'model_id'=>$autoModel->id));
+        }
 
-        //$engines = !empty($autoModel->engines) ? $autoModel->engines :
-        //    !empty($autoModel->engine) ? array($autoModel->engine) : array();
         $enginesDataProvider = new CArrayDataProvider($engines);
 
         Yii::app()->clientScript->registerCssFile( $this->getAssetsUrl().'/css/catalog.css' );
@@ -99,11 +98,6 @@ class CatalogController extends FrontController
                     break;
                 }
             }
-            if ( !$engineModel and $engine_id === $autoModel->engine->id ) {
-                $engineModel = $autoModel->engine;
-            }
-        } else {
-            $engineModel = $autoModel->engine;
         }
 
         // Сохраняем в истории просмотра
@@ -208,12 +202,24 @@ class CatalogController extends FrontController
             )
         ));
 
-        $renderMethod = Yii::app()->request->isAjaxRequest ? 'renderPartial' : 'render';
+        if ( Yii::app()->request->isAjaxRequest ) {
+            $this->renderPartial('details', array(
+                'autoModel'=>$autoModel,
+                'engineModel'=>$engineModel,
+                'categories'=>$categories,
+                'childCategories'=>$childCategories,
+                'currentCategory'=>$currentCategory,
+                'currentSubCategory'=>$currentSubCategory,
+                'detailsData'=>$detailsData,
+                'detailFinder'=>$detailFinder,
+            ));
+            Yii::app()->end();
+        }
 
         Yii::app()->clientScript->registerCssFile( $this->getAssetsUrl().'/css/catalog.css' );
         Yii::app()->clientScript->registerCssFile( $this->getAssetsUrl().'/css/engine.css' );
         Yii::app()->clientScript->registerScriptFile( $this->getAssetsUrl().'/js/catalog.js', CClientScript::POS_END );
-        $this->{$renderMethod}('details', array(
+        $this->render('details', array(
             'autoModel'=>$autoModel,
             'engineModel'=>$engineModel,
             'categories'=>$categories,

@@ -30,7 +30,7 @@ class SiteController extends FrontController
         if ( ($this->brand === null) or ($do == 'select_brand') ) {
             $this->layout = '//layouts/headband';
             $criteria = new CDbCriteria();
-            $criteria->addInCondition('alias', array('Hyundai', 'Kia_Motors', 'Chevrolet', 'Daewoo', 'Ssang_Yong'));
+            $criteria->addInCondition('alias', array('hyundai', 'kia', 'chevrolet', 'daewoo', 'ssang_yong'));
             $brands = Brands::model()->findAll($criteria);
             $this->render('select_brand', array('brands'=>$brands));
             Yii::app()->end();
@@ -128,15 +128,12 @@ class SiteController extends FrontController
 	
 	public function actionThanks()
 	{
-		
-		
-		
 		if(Yii::app()->request->isAjaxRequest)
-			$this->renderPartial('thanks', array( 'model'=>$model ));
+			$this->renderPartial('thanks');
 		else
 		{
 			Yii::app()->clientScript->registerCssFile( $this->getAssetsUrl().'/css/feedback.css' );
-			$this->render('thanks', array( 'model'=>$model ));	
+			$this->render('thanks');
 		}
 	}
 

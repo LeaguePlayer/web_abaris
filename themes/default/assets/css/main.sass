@@ -585,26 +585,30 @@ a, a:visited
     display: inline-block
   li
     display: inline-block
-    margin-right: 5px
-    height: 15px
+    vertical-align: middle
+    &.pageselected
+      padding: 3px 10px
+    a
+      padding: 3px 10px
+    a, a:visited
+      color: $grey
+      text-decoration: none
+    a:hover
+      color: $red
     &.arrow a
       display: inline-block
       width: 8px
       height: 15px
-  a, a:visited
-    color: $grey
-    text-decoration: none
-  a:hover
-    color: $red
-  .arrow
-    width: 8px
-    height: 15px
-    display: inline-block
-    // margin-bottom: -3px
-  .left
-    background: no-repeat 0 0 url('../img/pager_arrows.gif')
-  .right
-    background: no-repeat -8px 0 url('../img/pager_arrows.gif')
+      background: no-repeat url('../img/pager_arrows.gif')
+    &.arrow.right a
+      background-position: -12px 5px
+      &:hover
+        background-position: -12px -20px
+    &.arrow.left a
+      background-position: 10px 5px
+      &:hover
+        background-position: 10px -20px
+
 
 /* popover */
 

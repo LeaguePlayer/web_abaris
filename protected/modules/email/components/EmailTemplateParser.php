@@ -19,8 +19,9 @@ class EmailTemplateParser extends CComponent
      */
     protected $replacements;
 
-    public function __construct($replacements = array())
+    public function __construct($text = '', $replacements = array())
     {
+        $this->text = $text;
         $this->replacements = is_array($replacements) ? $replacements : array();
     }
 
