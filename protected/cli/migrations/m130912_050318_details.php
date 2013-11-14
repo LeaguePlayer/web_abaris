@@ -51,6 +51,8 @@ class m130912_050318_details extends CDbMigration
             'is_original' => "int(1) COMMENT 'Оригинал'",
         ),
         'ENGINE=MyISAM DEFAULT CHARACTER SET = utf8 COLLATE = utf8_general_ci');
+
+        $this->createIndex('detail_article', '{{details}}', 'article');
     }
  
     public function safeDown()

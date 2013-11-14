@@ -50,7 +50,7 @@ class SiteController extends FrontController
             $brandState['alias'] = $brand->alias;
             $cookie = new CHttpCookie(self::COOKIE_VAR_CURRENT_BRAND, CJSON::encode($brandState));
             Yii::app()->request->cookies[self::COOKIE_VAR_CURRENT_BRAND] = $cookie;
-            $this->redirect('/');
+            $this->redirect(array('site/index', 'brand'=>$brand->alias));
         }
     }
 	

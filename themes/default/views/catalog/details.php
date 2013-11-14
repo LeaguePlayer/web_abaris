@@ -1,7 +1,7 @@
 <?php
     $this->breadcrumbs = array(
-        'Каталог абарис'=>array('/catalog'),
-        $autoModel->name=>array('/catalog/engines', 'model_id'=>$autoModel->id),
+        'Каталог абарис'=>array('catalog/index', 'brand'=>$this->brand['alias']),
+        $autoModel->name=>array('/catalog/engines', 'model_id'=>$autoModel->id, 'brand'=>$this->brand['alias']),
         $engineModel->name
     );
 ?>

@@ -1,6 +1,6 @@
 <?php
 $this->breadcrumbs = array(
-    'Каталог абарис'=>array('/catalog'),
+    'Каталог абарис'=>array('catalog/index', array('brand'=>$this->brand['alias'])),
     $autoModel->name,
 );
 ?>

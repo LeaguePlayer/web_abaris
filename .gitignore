@@ -5,6 +5,8 @@
 Capfile
 #---
 
+/.idea
+
 framework
 /protected/runtime/
 /protected/config/main.php

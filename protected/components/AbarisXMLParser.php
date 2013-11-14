@@ -1,4 +1,8 @@
 <?php
+/*
+ * Если много чего непонятно, проще переписать парсер заново
+ */
+
 Yii::import('application.extensions.vendor.SimpleXMLReader.library.SimpleXMLReader');
 
 class AbarisXMLParser extends SimpleXMLReader
@@ -383,6 +387,10 @@ class AbarisXMLParser extends SimpleXMLReader
      */
     protected function callbackPositionBegin($reader)
     {
+        // Проверяю, завршилась ли обработка предыдущего узла
+        // По идее после обработки каждого узла, массив $this->currentPositionAttributes обнуляется
+        // Это по-видимому ошибка синтаксиса в xml-файле, когда отсутствует закрывающий тэг "Товар",
+        // но допускаю, что это может быть и мой косяк (см. метод callbackPositionEnd)
         if ( !empty( $this->currentPositionAttributes ) )
             return true;
 
@@ -491,8 +499,6 @@ class AbarisXMLParser extends SimpleXMLReader
     // Перед выходом из метода важно вызвать reset()!
     protected function callbackPositionEnd($reader)
     {
-        print($this->callbabackEnd++);print("\n");
-        $this->callbabackEnd++;
         $code = (int) $this->currentPositionAttributes['Код'];
         $name = $this->currentPositionAttributes['Наименование'];
 
@@ -559,7 +565,8 @@ class AbarisXMLParser extends SimpleXMLReader
 
 
         // Сохранение кода категории, соответсвующей данному товару
-        // На данном этапе id категории может быть не найден, поэтому
+        // На данном этапе категории с кодом, записанном в атрибуте "Родитель" может еще не существовать в бд
+        // (я не использую id-ки из xml в качестве ключей для записей), поэтому
         // присваивание категории товарам будет произведено в дополнительном цикле
         // по окончании парсинга
         $categoryCode = (int) $this->currentPositionAttributes['Родитель'];

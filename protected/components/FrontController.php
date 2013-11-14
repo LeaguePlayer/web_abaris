@@ -49,4 +49,37 @@ class FrontController extends Controller
         $this->renderPartial('//layouts/clips/footer');
         return parent::beforeRender($view);
     }
+
+    public function beforeAction($action)
+    {
+        $getParams = $_GET;
+        if ( isset($getParams['brand']) ) {
+            if ( $getParams['brand'] != $this->brand['alias'] ) {
+                $brandModel = Brands::model()->findByAttributes(array('alias'=>$getParams['brand']));
+                if ( $brandModel === null )
+                    throw new CHttpException(404, 'Страница не найдена');
+
+                $brandState['id'] = $brandModel->id;
+                $brandState['logo'] = $brandModel->getImageUrl('icon');
+                $brandState['name'] = $brandModel->name;
+                $brandState['alias'] = $brandModel->alias;
+                $cookie = new CHttpCookie(self::COOKIE_VAR_CURRENT_BRAND, CJSON::encode($brandState));
+                Yii::app()->request->cookies[self::COOKIE_VAR_CURRENT_BRAND] = $cookie;
+                $this->brand = $brandState;
+            }
+        } else if ( $this->brand ) {
+            switch ($this->route) {
+                case 'site/index':
+                case 'catalog/index':
+                case 'catalog/engines':
+                case 'catalog/details':
+                case 'details/view':
+                    $getParams['brand'] = $this->brand['alias'];
+                    $this->redirect($this->createUrl($this->route, $getParams));
+                    break;
+            }
+
+        }
+        return parent::beforeAction($action);
+    }
 }

@@ -9,7 +9,7 @@
                 <div class="span1 big-num">1</div>
                 <div class="span5"><p>Знаешь VIN-номер автомобиля? Введи его сюда:</p>
                     <div class="row">
-                        <form action="<?php echo $this->createUrl('/catalog/engines'); ?>" method="GET" class="abaris-form">
+                        <form action="<?php echo $this->createUrl('/catalog/engines', array('brand'=>$this->brand['alias'])); ?>" method="GET" class="abaris-form">
                             <div class="span3"><?php echo CHtml::textField('VIN', '', array('class'=>'text-input s-input')); ?></div>
                             <div class="span2"><button type="submit" class="b-button b-button-blue">Найти</button></div>
                         </form>
@@ -50,13 +50,13 @@
                 <div class="row">
                     <div class="span2 img">
                         <div class="valign-text">
-                            <p><a href="<?php echo $this->createUrl('/catalog/engines', array('model_id'=>$item['id'])); ?>"><img src='<?php echo $item['photo']; ?>' alt=""></a></p>
+                            <p><a href="<?php echo $this->createUrl('/catalog/engines', array('model_id'=>$item['id'], 'brand'=>$this->brand['alias'])); ?>"><img src='<?php echo $item['photo']; ?>' alt=""></a></p>
                         </div>
                     </div>
                     <div class="span2">
                         <div class="valign-text">
                             <p>
-                                <a href="<?php echo $this->createUrl('/catalog/engines', array('model_id'=>$item['id'])); ?>"><?php echo $item['full_name']; ?></a><br>
+                                <a href="<?php echo $this->createUrl('/catalog/engines', array('model_id'=>$item['id'], 'brand'=>$this->brand['alias'])); ?>"><?php echo $item['full_name']; ?></a><br>
                                 <span><?php echo $item['release_range']; ?></span>
                             </p>
                         </div>
@@ -82,13 +82,13 @@
                     <div class="row">
                         <div class="span2 img">
                             <div class="valign-text">
-                                <p><a href="<?php echo $this->createUrl('/catalog/engines', array('model_id'=>$item->id)); ?>"><?php echo $item->getImage('small'); ?></a></p>
+                                <p><a href="<?php echo $this->createUrl('/catalog/engines', array('model_id'=>$item->id, 'brand'=>$this->brand['alias'])); ?>"><?php echo $item->getImage('small'); ?></a></p>
                             </div>
                         </div>
                         <div class="span2">
                             <div class="valign-text">
                                 <p>
-                                    <a href="<?php echo $this->createUrl('/catalog/engines', array('model_id'=>$item->id)); ?>"><?php echo $item->fullName; ?></a><br>
+                                    <a href="<?php echo $this->createUrl('/catalog/engines', array('model_id'=>$item->id, 'brand'=>$this->brand['alias'])); ?>"><?php echo $item->fullName; ?></a><br>
                                     <span><?php echo $item->releaseRange; ?></span>
                                 </p>
                             </div>
