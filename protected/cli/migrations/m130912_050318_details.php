@@ -35,7 +35,7 @@ class m130912_050318_details extends CDbMigration
             'name' => "varchar(256) NOT NULL COMMENT 'Наименование товара'",
             'price' => "decimal(10,2) NOT NULL COMMENT 'Стоимтость'",
             'in_stock' => "integer DEFAULT 0 COMMENT 'В наличии'",
-            'dt_delivery_date' => "date COMMENT 'Примерная дата доставки'",
+            'delivery_time' => "int(3) COMMENT 'Время доставки (в днях)'",
             'img_photo' => "varchar(256) COMMENT 'Фото'",
             'wswg_description' => "text COMMENT 'Описание'",
             'brand_id' => "integer NOT NULL COMMENT 'Бренд'",

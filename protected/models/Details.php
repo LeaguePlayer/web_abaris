@@ -68,8 +68,9 @@ class Details extends EActiveRecord implements IECartPosition
             array('type', 'numerical', 'integerOnly'=>true),
             array('article, article_alias', 'length', 'max'=>45),
             array('name, img_photo', 'length', 'max'=>256),
+            array('delivery_time', 'safe'),
             // The following rule is used by search().
-            array('id, article, name, price, discount, in_stock, dt_delivery_date, img_photo, wswg_description, brand_id, category_id, status, sort, create_time, update_time', 'safe', 'on'=>'search'),
+            array('id, article, name, price, discount, in_stock, delivery_time, img_photo, wswg_description, brand_id, category_id, status, sort, create_time, update_time', 'safe', 'on'=>'search'),
         );
     }
 
@@ -97,7 +98,7 @@ class Details extends EActiveRecord implements IECartPosition
             'name' => 'Наименование товара',
             'price' => 'Стоимость',
             'in_stock' => 'В наличии',
-            'dt_delivery_date' => 'Примерная дата доставки',
+            'delivery_time' => 'Время доставки (в днях)',
             'img_photo' => 'Фото',
             'wswg_description' => 'Описание',
             'brand_id' => 'Бренд',
@@ -147,7 +148,7 @@ class Details extends EActiveRecord implements IECartPosition
 		$criteria->compare('name',$this->name,true);
 		$criteria->compare('price',$this->price);
 		$criteria->compare('in_stock',$this->in_stock);
-		$criteria->compare('dt_delivery_date',$this->dt_delivery_date,true);
+		$criteria->compare('delivery_time',$this->delivery_time);
 		$criteria->compare('img_photo',$this->img_photo,true);
 		$criteria->compare('wswg_description',$this->wswg_description,true);
 		$criteria->compare('brand_id',$this->brand_id);
@@ -177,21 +178,6 @@ class Details extends EActiveRecord implements IECartPosition
     {
         return 'Запчасти';
     }
-
-	public function beforeSave()
-	{
-		if (!empty($this->dt_delivery_date))
-			$this->dt_delivery_date = Yii::app()->date->toMysql($this->dt_delivery_date);
-		return parent::beforeSave();
-	}
-
-	public function afterFind()
-	{
-		parent::afterFind();
-		if ( in_array($this->scenario, array('insert', 'update')) ) { 
-			$this->dt_delivery_date = ($this->dt_delivery_date !== '0000-00-00' ) ? date('d-m-Y', strtotime($this->dt_delivery_date)) : '';
-		}
-	}
 
     public function getUrl()
     {

@@ -55,7 +55,7 @@ class DetailsController extends FrontController
 
         $inStockDetails = array();
         $nonInStockDetails = array();
-        if ( $model->in_stock > 0 ) {
+        if ( $model->in_stock > 0 && $model->delivery_time == 0 ) {
             $inStockDetails[] = $model;
         } else {
             $nonInStockDetails[] = $model;

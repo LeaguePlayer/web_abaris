@@ -56,7 +56,6 @@ class EShoppingCart extends CMap {
         }
 
         $this->update($position, $quantity);
-
     }
 
 
@@ -73,6 +72,8 @@ class EShoppingCart extends CMap {
     /**
      * Removes position from the shopping cart of key
      * @param mixed $key
+     * @param bool $raiseEvent
+     * @return mixed|void
      */
     public function remove($key, $raiseEvent = true) {
         parent::remove($key);
@@ -102,6 +103,8 @@ class EShoppingCart extends CMap {
      *
      * @param IECartPosition $position
      * @param int $quantity
+     * @param bool $raiseEvent
+     * @throws InvalidArgumentException
      */
     public function update(IECartPosition $position, $quantity, $raiseEvent = true) {
         if (!($position instanceof CComponent))
@@ -192,6 +195,7 @@ class EShoppingCart extends CMap {
 
     /**
      * Apply discounts to all positions
+     * @param IECartPosition $position
      * @return void
      */
     protected function applyDiscounts(IECartPosition $position = null) {
