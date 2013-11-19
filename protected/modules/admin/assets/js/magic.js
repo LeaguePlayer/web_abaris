@@ -67,7 +67,6 @@ function deletePhoto(target) {
     var target = $(target);
     var data = {};
     data[target.data('modelname')] = {'deletePhoto': target.data('attributename')};
-    console.log(data);
     $.ajax({
         type: 'POST',
         data: data,

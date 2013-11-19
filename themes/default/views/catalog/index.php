@@ -1,3 +1,9 @@
+<?php
+$this->breadcrumbs = array(
+    'Каталог ' . $this->brand['name']
+);
+?>
+
 <!-- begin auto catalog-->
 <div class="container auto-catalog">
     <div class="row">
@@ -6,29 +12,9 @@
     <div class="row">
         <div class="span6 column1">
             <div class="row num-block">
-                <div class="span1 big-num">1</div>
-                <div class="span5"><p>Знаешь VIN-номер автомобиля? Введи его сюда:</p>
-                    <div class="row">
-                        <form action="<?php echo $this->createUrl('/catalog/engines'); ?>" method="GET" class="abaris-form">
-                            <div class="span3"><?php echo CHtml::textField('VIN', '', array('class'=>'text-input s-input')); ?></div>
-                            <div class="span2"><button type="submit" class="b-button b-button-blue">Найти</button></div>
-                        </form>
-                    </div>
-                    <div class="row">
-                        <div class="span5">
-                            <div class="or-line">
-                                <div class="line">&nbsp;</div>
-                                <span class="text">или</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="row num-block">
-                <div class="span1 big-num">2</div>
                 <div class="span4"><p>Выбирите модель. <br>Не хотите долго искать? Выберите Первую букву названия.</p>
                 </div>
-                <div class="span1">
+                <div class="span2">
                     <?php echo CHtml::dropDownList('BrandFirstLettet', $currentFirstLetter, $firstLetters, array('class'=>'choose_letter', 'empty'=>'—')); ?>
                 </div>
             </div>

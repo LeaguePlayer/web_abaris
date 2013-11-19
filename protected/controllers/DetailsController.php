@@ -5,30 +5,12 @@ class DetailsController extends FrontController
 	public $layout='//layouts/main';
 
 	
-	public function actionView($id = false, $article = false, $brand = false)
+	public function actionView($id = false, $article = false, $model_id = false, $engine_id = false)
 	{
-//        if ( $brand and $brand != $this->brand['alias'] ) {
-//            $brandModel = Brands::model()->findByAttributes(array('alias'=>$brand));
-//            if ( $brandModel !== null ) {
-//                $brandState['id'] = $brandModel->id;
-//                $brandState['logo'] = $brandModel->getImageUrl('icon');
-//                $brandState['name'] = $brandModel->name;
-//                $brandState['alias'] = $brandModel->alias;
-//                $cookie = new CHttpCookie(self::COOKIE_VAR_CURRENT_BRAND, CJSON::encode($brandState));
-//                Yii::app()->request->cookies[self::COOKIE_VAR_CURRENT_BRAND] = $cookie;
-//                if ( $id ) {
-//                    $url = $this->createUrl('/details/view', array('id'=>$id));
-//                } else {
-//                    $url = $this->createUrl('/details/view', array('article'=>$article));
-//                }
-//                $this->redirect($url);
-//            }
-//        }
-
-        $autoModel = $this->loadModel('AutoModels', $_GET['model_id'], array('with'=>array('bodytype', 'engines')), false);
-        if ( !empty($_GET['engine_id']) ) {
+        $autoModel = $this->loadModel('AutoModels', $model_id, array('with'=>array('bodytype', 'engines')), false);
+        if ( !empty($engine_id) ) {
             foreach ( $this->engines as $engine) {
-                if ( $engine->id === $_GET['engine_id'] ) {
+                if ( $engine->id === $engine_id ) {
                     $engineModel = $engine;
                     break;
                 }
@@ -36,7 +18,7 @@ class DetailsController extends FrontController
         }
 
         $criteria = new CDbCriteria();
-        $criteria->with = 'analogs';
+        $criteria->with = array('analogs', 'depot');
         if ( $id ) {
             $criteria->compare('t.id', $id);
         } else if ( $article ) {
@@ -60,28 +42,44 @@ class DetailsController extends FrontController
         } else {
             $nonInStockDetails[] = $model;
         }
+        $counterInStock = 0;
+        $counterNonInStock = 0;
+        $firstAnalogInStockId = 0;
+        $firstAnalogNonInStockId = 0;
         foreach ( $model->analogs as $analog ) {
             if ( $analog->in_stock > 0 ) {
                 $inStockDetails[] = $analog;
+                if ( $counterInStock === 0 ) {
+                    $firstAnalogInStockId = $analog->id;
+                }
+                $counterInStock++;
             } else {
                 $nonInStockDetails[] = $analog;
+                if ( $counterNonInStock === 0 ) {
+                    $firstAnalogNonInStockId = $analog->id;
+                }
+                $counterNonInStock++;
             }
         }
         $inStockDetailsData = new CArrayDataProvider($inStockDetails, array(
-            'pagination'=>array('pageSize'=>100),
+            'pagination'=>array('pageSize'=>10000),
         ));
         $nonInStockDetailsData = new CArrayDataProvider($nonInStockDetails, array(
-            'pagination'=>array('pageSize'=>100),
+            'pagination'=>array('pageSize'=>10000),
         ));
 
-        Yii::app()->clientScript->registerCssFile( $this->getAssetsUrl().'/css/catalog.css' );
-        Yii::app()->clientScript->registerScriptFile( $this->getAssetsUrl().'/js/catalog.js', CClientScript::POS_END );
+        $assetsPath = $this->getAssetsUrl();
+        Yii::app()->clientScript->registerCssFile( $assetsPath.'/css/catalog.css' );
+        Yii::app()->clientScript->registerScriptFile( $assetsPath.'/js/vendor/jquery-scrolltofixed-ext.js', CClientScript::POS_END );
+        Yii::app()->clientScript->registerScriptFile( $assetsPath.'/js/catalog.js', CClientScript::POS_END );
 		$this->render('view',array(
-            'originalDetail'=>$model,
+            'findedDetail'=>$model,
             'autoModel'=>$autoModel,
             'engineModel'=>$engineModel,
 			'inStockDetailsData'=>$inStockDetailsData,
             'nonInStockDetailsData'=>$nonInStockDetailsData,
+            'firstAnalogInStockId'=>$firstAnalogInStockId,
+            'firstAnalogNonInStockId'=>$firstAnalogNonInStockId
 		));
 	}
 }

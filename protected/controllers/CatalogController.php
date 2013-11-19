@@ -76,9 +76,11 @@ class CatalogController extends FrontController
 
         $enginesDataProvider = new CArrayDataProvider($engines);
 
-        Yii::app()->clientScript->registerCssFile( $this->getAssetsUrl().'/css/catalog.css' );
-        Yii::app()->clientScript->registerCssFile( $this->getAssetsUrl().'/css/engine.css' );
-        Yii::app()->clientScript->registerScriptFile( $this->getAssetsUrl().'/js/catalog.js', CClientScript::POS_END );
+        $assetsPath = $this->getAssetsUrl();
+        Yii::app()->clientScript->registerCssFile( $assetsPath.'/css/catalog.css' );
+        Yii::app()->clientScript->registerCssFile( $assetsPath.'/css/engine.css' );
+        Yii::app()->clientScript->registerScriptFile( $assetsPath.'/js/vendor/jquery-scrolltofixed-ext.js', CClientScript::POS_END );
+        Yii::app()->clientScript->registerScriptFile( $assetsPath.'/js/catalog.js', CClientScript::POS_END );
         $this->render('engines',array(
             'autoModel'=>$autoModel,
             'enginesDataProvider'=>$enginesDataProvider,
@@ -175,7 +177,11 @@ class CatalogController extends FrontController
 
         // Вытаскиваем детали для выбранной модели авто с учетом текущей категории и фильтра, а также типом движка
         $criteriaDet = new CDbCriteria();
+        $criteriaDet->order = 'name';
         $criteriaDet->compare('type', Details::TYPE_DETAIL);
+        $criteriaDet->compare('name', $detailFinder->name, true);
+        $criteriaDet->compare('article', $detailFinder->article, true);
+        $criteriaDet->compare('is_original', 1);
         if ( $currentCategory->isNewRecord ) {
             $categoriesList = CMap::mergeArray( CHtml::listData($categories, 'id', 'id'), CHtml::listData($childCategories, 'id', 'id') );
         } else if ( $currentSubCategory->isNewRecord ) {
@@ -183,8 +189,6 @@ class CatalogController extends FrontController
         } else {
             $categoriesList = array($currentCategory->id, $currentSubCategory->id);
         }
-        $criteriaDet->compare('name', $detailFinder->name, true);
-        $criteriaDet->compare('article', $detailFinder->article, true);
         $criteriaDet->addInCondition('category_id', $categoriesList);
         $sqlCond = 'id IN (SELECT DISTINCT detail_id FROM '.Adaptabillity::model()->tableName().' WHERE auto_model_id=:model_id';
         $criteriaDet->params[':model_id'] = $model_id;
@@ -198,7 +202,7 @@ class CatalogController extends FrontController
         $detailsData = new CActiveDataProvider('Details', array(
             'criteria'=>$criteriaDet,
             'pagination'=>array(
-                'pageSize'=>20
+                'pageSize'=>50
             )
         ));
 
@@ -216,9 +220,12 @@ class CatalogController extends FrontController
             Yii::app()->end();
         }
 
-        Yii::app()->clientScript->registerCssFile( $this->getAssetsUrl().'/css/catalog.css' );
-        Yii::app()->clientScript->registerCssFile( $this->getAssetsUrl().'/css/engine.css' );
-        Yii::app()->clientScript->registerScriptFile( $this->getAssetsUrl().'/js/catalog.js', CClientScript::POS_END );
+        $assetsPath = $this->getAssetsUrl();
+        Yii::app()->clientScript->registerCssFile( $assetsPath.'/css/catalog.css' );
+        Yii::app()->clientScript->registerCssFile( $assetsPath.'/css/engine.css' );
+        Yii::app()->clientScript->registerScriptFile( $assetsPath.'/js/vendor/jquery-scrolltofixed-ext.js', CClientScript::POS_END );
+        Yii::app()->clientScript->registerScriptFile( $assetsPath.'/js/vendor/jquery.scrollTo.js', CClientScript::POS_END );
+        Yii::app()->clientScript->registerScriptFile( $assetsPath.'/js/catalog.js', CClientScript::POS_END );
         $this->render('details', array(
             'autoModel'=>$autoModel,
             'engineModel'=>$engineModel,

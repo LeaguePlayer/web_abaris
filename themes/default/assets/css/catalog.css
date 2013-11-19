@@ -66,6 +66,8 @@
     background: no-repeat right center url("../img/field-border.png");
     position: relative;
     text-align: center; }
+  .catalog-grid-row.small-height .field {
+    height: 60px; }
   .catalog-grid-row .no-background {
     background: none; }
   .catalog-grid-row .img {

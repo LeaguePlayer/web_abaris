@@ -1,4 +1,4 @@
-<div class="catalog-grid-row no-hover">
+<div class="catalog-grid-row no-hover small-height">
     <div class="container">
         <div class="row-fluid">
             <div class="field span4">

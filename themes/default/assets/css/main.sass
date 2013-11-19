@@ -41,16 +41,21 @@ button.b-button
   border: none
 
 .blue-check
-  label
-    display: inline-block
-    width: 28px
-    height: 26px
   input[type='checkbox']
     display: none
+    & + label
+      display: inline-block
+      width: 31px
+      height: 26px
+      background: no-repeat 0 0 url('../img/row_checks.png')
+      &:hover
+        background-position: 0 -30px
     &:checked + label
-      background: no-repeat 0 -23px url('../img/cart_checks.png')
+      background-position: -31px 0
       position: relative
-      z-index: 1000
+      z-index: 500
+      &:hover
+        background-position: -64px -30px
 
 
 #inline_logs

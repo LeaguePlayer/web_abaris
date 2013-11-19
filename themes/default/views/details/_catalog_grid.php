@@ -9,14 +9,14 @@
 
 
 <div class="catalog-grid">
-    <div class="catalog-grid-header">
+    <div class="catalog-grid-header scroll-fixed">
         <div class="container">
             <div class="row-fluid">
                 <div class="field span2"><div class="valign-text"><p>Фото продукта</p></div></div>
-                <div class="field span1"><div class="valign-text"><p>Бренд</p></div></div>
+                <div class="field span2"><div class="valign-text"><p>Бренд</p></div></div>
                 <div class="field span2"><div class="valign-text"><p>Артикул</p></div></div>
                 <div class="field span2"><div class="valign-text"><p>Наименование</p></div></div>
-                <div class="field span2"><div class="valign-text"><p>В наличии</p></div></div>
+                <div class="field span1"><div class="valign-text"><p>В наличии</p></div></div>
                 <div class="field span1"><div class="valign-text"><p>Срок доставки</p></div></div>
                 <div class="field span2"><div class="valign-text"><p>Цена</p></div></div>
             </div>
@@ -27,7 +27,7 @@
         'template'=>'{items}<div class="catalog-pager">{pager}</div>',
         'dataProvider'=>$detailsData,
         'itemView'=>'_view',
-        'viewData'=>array('originalDetail'=>$originalDetail),
+        'viewData'=>array('findedDetail'=>$findedDetail, 'firstAnalogId' => $firstAnalogId),
         'pagerCssClass'=>'container',
         'emptyTagName'=>'div',
         'emptyText'=>'',

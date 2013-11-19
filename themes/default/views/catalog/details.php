@@ -20,6 +20,14 @@
             </div>
         </div>
     </div>
+
+    <div id="top-grid" class="container page-title">
+        <h2 class="georgia">Запчасти Абарис</h2>
+        <div>
+            <span class="blue-line"></span>
+        </div>
+    </div>
+
     <div class="parts">
         <div class="container">
             <form action="" class="abaris-form">
@@ -30,6 +38,7 @@
                         </select>
                     </div>
                 </div>
+                <?php /*
                 <div class="row">
                     <div class="span3">
                         <label for="">Подгруппа запчастей</label>
@@ -37,12 +46,13 @@
                         </select>
                     </div>
                 </div>
+                */ ?>
             </form>
         </div>
     </div>
 
     <div class="catalog-grid">
-        <div class="catalog-grid-header">
+        <div class="catalog-grid-header scroll-fixed">
             <div class="container">
                 <div class="row-fluid">
                     <?php $form = $this->beginWidget('CActiveForm'); ?>
@@ -70,6 +80,7 @@
             'viewData'=>array('autoModel'=>$autoModel, 'engineModel'=>$engineModel),
             'pagerCssClass'=>'container',
             'emptyTagName'=>'div',
+            'emptyText'=>'<div class="container">По вашему запросу ничего не найдено</div>',
             'updateSelector'=>'.catalog-pager a',
             'pager'=>array(
                 'class'=>'application.widgets.ELinkPager',

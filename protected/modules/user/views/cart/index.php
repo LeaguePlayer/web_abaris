@@ -10,7 +10,7 @@
         <form method="POST" action="">
             <div class="catalog-container grid-items">
                 <div class="catalog-grid">
-                    <div class="catalog-grid-header">
+                    <div class="catalog-grid-header scroll-fixed">
                         <div class="container">
                             <div class="row-fluid">
                                 <div class="field span1"><div class="valign-text"><p><span class="check grey-check"></span></p></div></div>

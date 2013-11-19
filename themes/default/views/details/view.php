@@ -8,7 +8,7 @@
             $this->breadcrumbs[$engineModel->name] = array('/catalog/details', 'model_id'=>$autoModel->id, 'engine_id'=>$engineModel->id, 'cat'=>$_GET['cat']);
         }
     }
-    $this->breadcrumbs[] = $originalDetail->name;
+    $this->breadcrumbs[] = $findedDetail->name;
 ?>
 
 <div class="catalog-container">
@@ -28,16 +28,18 @@
     <?php if ( $inStockDetailsData->totalItemCount > 0 ) {
         $this->renderPartial('_catalog_grid', array(
             'title' => 'Детали в наличии',
-            'originalDetail'=>$originalDetail,
+            'findedDetail'=>$findedDetail,
             'detailsData' => $inStockDetailsData,
+            'firstAnalogId'=>$firstAnalogInStockId,
         ));
     } ?>
 
     <?php if ( $nonInStockDetailsData->totalItemCount > 0 ) {
         $this->renderPartial('_catalog_grid', array(
             'title' => 'Вы можете заказать детали, если их нет в наличии',
-            'originalDetail'=>$originalDetail,
+            'findedDetail'=>$findedDetail,
             'detailsData' => $nonInStockDetailsData,
+            'firstAnalogId'=>$firstAnalogNonInStockId,
         ));
     } ?>
 </div>

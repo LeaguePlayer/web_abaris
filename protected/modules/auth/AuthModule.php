@@ -32,7 +32,7 @@ class AuthModule extends EWebModule
 	 * @var string name of the user name column.
 	 * Change this if the name column in your user table is different than the default value.
 	 */
-	public $userNameColumn = 'username';
+	public $userNameColumn = 'email';
 	/**
 	 * @var string the application layout.
 	 * Change this if you wish to use a different layout with the module.

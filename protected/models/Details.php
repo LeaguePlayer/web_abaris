@@ -18,6 +18,8 @@
     * @property integer $sort
     * @property integer $create_time
     * @property integer $update_time
+    * @property integer $virtualType in depot or from provider
+    * @property integer $virtualId id depot or id provider
     * @property double $discount
 */
 Yii::import('application.behaviors.UploadableImageBehavior');
@@ -26,6 +28,20 @@ class Details extends EActiveRecord implements IECartPosition
     const TYPE_DETAIL = 0;
     const TYPE_ACCESSORY = 1;
     const TYPE_CONSUMABLE = 2;
+
+    const VIRTUALTYPE_PROVIDER = 1;
+    const VIRTUALTYPE_DEPOT = 2;
+
+    /*
+     * При просмотре товара на странице браузера
+     * один и тот же товар может быть выведен несколько раз с разбивкой либо по складу,
+     * либо по поставщикам (при этом будет различаться цена и время доставки).
+     * Параметры virtualType и virtualId введены для того, чтобы различать товары в корзине с одинаковыми
+     * артикулом и id-шником, но различным виртуальным типом.
+     * См. метод actionView в классе DetailsController
+     */
+    public $virtualType;
+    public $virtualId;
 
     public static function getDetailTypes($type = false)
     {
@@ -47,7 +63,12 @@ class Details extends EActiveRecord implements IECartPosition
      */
     public function getId()
     {
-        return $this->id;
+        if ($this->virtualType === null)
+            return $this->id;
+        else {
+            return $this->id.'_'.$this->virtualType.'_'.$this->virtualId;
+        }
+
     }
 
     /**
@@ -55,9 +76,16 @@ class Details extends EActiveRecord implements IECartPosition
      */
     public function getPrice()
     {
-        return $this->price;
+        if ($this->virtualType === null || $this->virtualType === self::VIRTUALTYPE_DEPOT) {
+            return $this->price;
+        } else {
+            foreach ( $this->fromProviders as $providerPos ) {
+                if ( $this->virtualId === $providerPos->provider_id )
+                    return $providerPos->price;
+            }
+            return $this->price;
+        }
     }
-
 
     public function rules()
     {
@@ -82,10 +110,12 @@ class Details extends EActiveRecord implements IECartPosition
             'category'=>array(self::BELONGS_TO, 'DetailCategory', 'category_id'),
             'adaptAutoModels'=>array(self::MANY_MANY, 'AutoModels', Adaptabillity::model()->tableName().'(detail_id, auto_model_id)'),
             'analogs'=>array(self::MANY_MANY, 'Details', AnalogDetails::model()->tableName().'(original_id, analog_id)'),
-            //'analogsInStock'=>array(self::MANY_MANY, 'Details', AnalogDetails::model()->tableName().'(original_id, analog_id)', 'condition'=>'analogsInStock.in_stock>0'),
-            //'analogsNonInStock'=>array(self::MANY_MANY, 'Details', AnalogDetails::model()->tableName().'(original_id, analog_id)', 'condition'=>'analogsInStock.in_stock=0'),
             'cartInfo'=>array(self::HAS_ONE, 'CartDetails', 'detail_id', 'condition'=>'cart_id=:cart_id', 'params'=>array(':cart_id'=>$cart->id)),
             'adaptAutoModels'=>array(self::MANY_MANY, 'AutoModels', Adaptabillity::model()->tableName().'(detail_id, auto_model_id)'),
+            'depot'=>array(self::MANY_MANY, 'Depot', DepotPosition::model()->tableName().'(position_id, depot_id)'),
+            'inDepot'=>array(self::HAS_MANY, 'DepotPosition', 'position_id'),
+            'providers'=>array(self::MANY_MANY, 'Provider', ProviderPosition::model()->tableName().'(position_id, provider_id)'),
+            'fromProviders'=>array(self::HAS_MANY, 'DepotPosition', 'position_id'),
         );
     }
 
@@ -184,6 +214,10 @@ class Details extends EActiveRecord implements IECartPosition
         return Yii::app()->urlManager->createUrl('/details/view', array('id', $this->id));
     }
 
+    /*
+     * 1) Если товар есть на складе выводить информацию о количестве с рабивкой по складам
+     * 2) Если нет
+     */
     public function toStringInStock()
     {
         return !empty($this->in_stock) ? is_numeric($this->in_stock) ? $this->in_stock.' шт.' : $this->in_stock : '—';
@@ -191,7 +225,10 @@ class Details extends EActiveRecord implements IECartPosition
 
     public function toStringPrice()
     {
-        return SiteHelper::priceFormat($this->price, 'руб.');
+        if ( $this->price > 0 )
+            return SiteHelper::priceFormat($this->price, 'руб.');
+        else
+            return '—';
     }
 
     public function isArchived()
