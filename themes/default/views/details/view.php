@@ -1,11 +1,11 @@
 <?php
     $this->breadcrumbs = array(
-        $this->brand['name']=>array('/catalog'),
+        $this->brand['name']=>array('catalog/index', 'brand'=>$this->brand['alias']),
     );
     if ( isset($autoModel) ) {
-        $this->breadcrumbs[$autoModel->name] = array('/catalog/engines', 'model_id'=>$autoModel->id);
+        $this->breadcrumbs[$autoModel->name] = array('catalog/engines', 'model_id'=>$autoModel->id, 'brand'=>$this->brand['alias']);
         if ( isset($engineModel) ) {
-            $this->breadcrumbs[$engineModel->name] = array('/catalog/details', 'model_id'=>$autoModel->id, 'engine_id'=>$engineModel->id, 'cat'=>$_GET['cat']);
+            $this->breadcrumbs[$engineModel->name] = array('catalog/details', 'model_id'=>$autoModel->id, 'engine_id'=>$engineModel->id, 'cat'=>$_GET['cat'], 'brand'=>$this->brand['alias']);
         }
     }
     $this->breadcrumbs[] = $findedDetail->name;

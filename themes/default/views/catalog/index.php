@@ -36,13 +36,13 @@ $this->breadcrumbs = array(
                 <div class="row">
                     <div class="span2 img">
                         <div class="valign-text">
-                            <p><a href="<?php echo $this->createUrl('/catalog/engines', array('model_id'=>$item['id'])); ?>"><img src='<?php echo $item['photo']; ?>' alt=""></a></p>
+                            <p><a href="<?php echo $this->createUrl('/catalog/engines', array('model_id'=>$item['id'], 'brand'=>$this->brand['alias'])); ?>"><img src='<?php echo $item['photo']; ?>' alt=""></a></p>
                         </div>
                     </div>
                     <div class="span2">
                         <div class="valign-text">
                             <p>
-                                <a href="<?php echo $this->createUrl('/catalog/engines', array('model_id'=>$item['id'])); ?>"><?php echo $item['full_name']; ?></a><br>
+                                <a href="<?php echo $this->createUrl('/catalog/engines', array('model_id'=>$item['id'], 'brand'=>$this->brand['alias'])); ?>"><?php echo $item['full_name']; ?></a><br>
                                 <span><?php echo $item['release_range']; ?></span>
                             </p>
                         </div>
@@ -68,13 +68,13 @@ $this->breadcrumbs = array(
                     <div class="row">
                         <div class="span2 img">
                             <div class="valign-text">
-                                <p><a href="<?php echo $this->createUrl('/catalog/engines', array('model_id'=>$item->id)); ?>"><?php echo $item->getImage('small'); ?></a></p>
+                                <p><a href="<?php echo $this->createUrl('/catalog/engines', array('model_id'=>$item->id, 'brand'=>$this->brand['alias'])); ?>"><?php echo $item->getImage('small'); ?></a></p>
                             </div>
                         </div>
                         <div class="span2">
                             <div class="valign-text">
                                 <p>
-                                    <a href="<?php echo $this->createUrl('/catalog/engines', array('model_id'=>$item->id)); ?>"><?php echo $item->fullName; ?></a><br>
+                                    <a href="<?php echo $this->createUrl('/catalog/engines', array('model_id'=>$item->id, 'brand'=>$this->brand['alias'])); ?>"><?php echo $item->fullName; ?></a><br>
                                     <span><?php echo $item->releaseRange; ?></span>
                                 </p>
                             </div>

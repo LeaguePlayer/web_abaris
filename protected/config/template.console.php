@@ -8,6 +8,9 @@ return array(
 
     // preloading 'log' component
     'preload'=>array('log'),
+    'import'=>array(
+        'application.components.*'
+    ),
     // application components
     'components'=>array(
         /*'db'=>array(

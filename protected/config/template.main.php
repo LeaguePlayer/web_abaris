@@ -8,7 +8,7 @@
 
 return array(
     'basePath'=>dirname(__FILE__).DIRECTORY_SEPARATOR.'..',
-    'name'=>'Новый сайт',
+    'name'=>'Абарис',
     'language' => 'ru',
     'theme'=>'default',
     // preloading 'log' component
@@ -105,6 +105,11 @@ return array(
             'showScriptName'=>false,
             'urlFormat'=>'path',
             'rules'=>array(
+                '<brand:hyundai|kia|chevrolet|daewoo|ssang_yong>'=>'site/index',
+                '<brand:hyundai|kia|chevrolet|daewoo|ssang_yong>/<controller:\w+>'=>'<controller>/index',
+                '<brand:hyundai|kia|chevrolet|daewoo|ssang_yong>/<controller:\w+>/<id:\d+>'=>'<controller>/view',
+                '<brand:hyundai|kia|chevrolet|daewoo|ssang_yong>/<controller:\w+>/<action:\w+>/<id:\d+>'=>'<controller>/<action>',
+                '<brand:hyundai|kia|chevrolet|daewoo|ssang_yong>/<controller:\w+>/<action:\w+>'=>'<controller>/<action>',
                 '/'=>'site/index',
                 'gii'=>'gii',
                 'pages/<id:\w+>'=>'pages/view',
@@ -130,8 +135,8 @@ return array(
         'db'=>array(
             'connectionString' => 'mysql:host=localhost;dbname=abaris',
             'emulatePrepare' => true,
-            'username' => 'root',
-            'password' => 'root',
+            'username' => 'abaris',
+            'password' => 'qwe123',
             'charset' => 'utf8',
             'tablePrefix' => 'tbl_',
         ),

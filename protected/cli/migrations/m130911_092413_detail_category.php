@@ -30,6 +30,7 @@ class m130911_092413_detail_category extends CDbMigration
  
         $this->createTable('{{detail_category}}', array(
             'id' => 'pk', // auto increment
+            'sid' => "string",
 			'name' => "string COMMENT 'Наименование категории'",
             'parent_id' => "integer COMMENT 'Родительская категория'",
             'level' => "tinyint COMMENT 'Вложенность'",

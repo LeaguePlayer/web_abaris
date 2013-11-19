@@ -36,6 +36,7 @@ class m130912_054509_adaptabillity extends CDbMigration
             'description' => "text COMMENT 'Описание'",
         ),
         'ENGINE=MyISAM DEFAULT CHARACTER SET = utf8 COLLATE = utf8_general_ci');
+        $this->createIndex('adaptdetail', '{{adaptabillity}}', 'detail_id');
     }
  
     public function safeDown()
