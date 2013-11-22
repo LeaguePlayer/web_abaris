@@ -47,6 +47,7 @@ class WebUser extends AuthWebUser
         $this->updateSession();
 
         // Слияние временной гостевой корзины и корзины пользователя
+        // $userCart - корзина авторизованного пользователя
         $userCart = Cart::model()->with('cart_details')->findByAttributes(array('user_id'=>$this->id));
 
         if ( $userCart === null ) {
@@ -54,16 +55,17 @@ class WebUser extends AuthWebUser
             $userCart->save(false);
         }
 
+        // $userDetails - товары в корзине авторизованного пользователя
         $userDetails = new CTypedMap('CartDetails');
         foreach ( $userCart->cart_details as $userDetail ) {
-            $userDetails->add($userDetail->detail_id, $userDetail);
+            $userDetails->add($userDetail->detail_key, $userDetail);
         }
 
         $currentCart = Cart::model()->with('cart_details')->findByPk($this->getState('__cartID'));
         if ( $currentCart !== null ) {
             foreach ( $currentCart->cart_details as $currentDetail ) {
-                if ( $userDetails->contains( $currentDetail->detail_id ) ) {
-                    $uDetail = $userDetails->itemAt( $currentDetail->detail_id );
+                if ( $userDetails->contains( $currentDetail->detail_key ) ) {
+                    $uDetail = $userDetails->itemAt( $currentDetail->detail_key );
                     $uDetail->count = max($uDetail->count, $currentDetail->count);
                     $uDetail->status = $currentDetail->status;
                     $uDetail->save(false);
@@ -71,7 +73,7 @@ class WebUser extends AuthWebUser
                 } else {
                     $currentDetail->cart_id = $userCart->id;
                     $currentDetail->save(false);
-                    $userDetails->add($currentDetail->detail_id, $currentDetail);
+                    $userDetails->add($currentDetail->detail_key, $currentDetail);
                 }
             }
             $currentCart->delete();
@@ -80,6 +82,7 @@ class WebUser extends AuthWebUser
         foreach ( $userDetails as $uDetail ) {
             $position = $uDetail->detail;
             if ( $position !== null ) {
+                $position->id = $uDetail->detail_key;
                 Yii::app()->cart->update($position, $uDetail->count, false);
             }
             $position = null;
@@ -166,7 +169,7 @@ class WebUser extends AuthWebUser
             $this->_cartDetails = new CTypedMap('CartDetails');
             $cart = $this->getDbCart();
             foreach ( $cart->cart_details as $detail ) {
-                $this->_cartDetails->add($detail->detail_id, $detail);
+                $this->_cartDetails->add($detail->detail_key, $detail);
             }
         }
         return $this->_cartDetails;
@@ -183,10 +186,13 @@ class WebUser extends AuthWebUser
             $cart = $this->getDbCart();
             $detail = new CartDetails();
             $detail->cart_id = $cart->id;
-            $detail->detail_id = $position->getId();
+            $detail->detail_id = $position->id;
+            $detail->detail_key = $position->getCartKey();
             $detail->count = $position->getQuantity();
             if ( $detail->save(false) ) {
                 $cartDetails->add($position->getId(), $detail);
+            } else {
+                Yii::app()->cart->remove($position->getId(), false);
             }
         }
     }

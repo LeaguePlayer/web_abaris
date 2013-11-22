@@ -58,6 +58,21 @@ class Details extends EActiveRecord implements IECartPosition
         return '{{details}}';
     }
 
+    private $_cartKey;
+    public function setCartKey($key)
+    {
+        $this->_cartKey = $key;
+        $keyParts = explode('_', $key);
+        $this->virtualType = $keyParts[1];
+        $this->virtualId = $keyParts[2];
+    }
+    public function getCartKey()
+    {
+        if ( $this->_cartKey === null )
+            $this->_cartKey = $this->id.'_'.$this->virtualType.'_'.$this->virtualId;
+        return $this->_cartKey;
+    }
+
     /**
      * @return mixed id
      */
@@ -66,9 +81,8 @@ class Details extends EActiveRecord implements IECartPosition
         if ($this->virtualType === null)
             return $this->id;
         else {
-            return $this->id.'_'.$this->virtualType.'_'.$this->virtualId;
+            return $this->getCartKey();
         }
-
     }
 
     /**
@@ -79,7 +93,7 @@ class Details extends EActiveRecord implements IECartPosition
         if ($this->virtualType === null || $this->virtualType === self::VIRTUALTYPE_DEPOT) {
             return $this->price;
         } else {
-            foreach ( $this->fromProviders as $providerPos ) {
+            foreach ( $this->providerPositions as $providerPos ) {
                 if ( $this->virtualId === $providerPos->provider_id )
                     return $providerPos->price;
             }
@@ -91,12 +105,15 @@ class Details extends EActiveRecord implements IECartPosition
     {
         return array(
             array('article, name, price', 'required'),
-            array('in_stock, brand_id, category_id, status, sort, create_time, update_time', 'numerical', 'integerOnly'=>true),
+            array('in_stock, brand_id, category_id, status, sort, create_time, update_time, delivery_time', 'numerical', 'integerOnly'=>true),
             array('price, discount', 'numerical'),
             array('type', 'numerical', 'integerOnly'=>true),
             array('article, article_alias', 'length', 'max'=>45),
             array('name, img_photo', 'length', 'max'=>256),
-            array('delivery_time', 'safe'),
+
+            array('virtualType, virtualId', 'safe'),
+
+            array('id, article, article_alias, name, price, type, discount, img_photo, wswg_description, brand_id, status', 'safe', 'on'=>'duplicate'),
             // The following rule is used by search().
             array('id, article, name, price, discount, in_stock, delivery_time, img_photo, wswg_description, brand_id, category_id, status, sort, create_time, update_time', 'safe', 'on'=>'search'),
         );
@@ -113,9 +130,9 @@ class Details extends EActiveRecord implements IECartPosition
             'cartInfo'=>array(self::HAS_ONE, 'CartDetails', 'detail_id', 'condition'=>'cart_id=:cart_id', 'params'=>array(':cart_id'=>$cart->id)),
             'adaptAutoModels'=>array(self::MANY_MANY, 'AutoModels', Adaptabillity::model()->tableName().'(detail_id, auto_model_id)'),
             'depot'=>array(self::MANY_MANY, 'Depot', DepotPosition::model()->tableName().'(position_id, depot_id)'),
-            'inDepot'=>array(self::HAS_MANY, 'DepotPosition', 'position_id'),
+            'depotPositions'=>array(self::HAS_MANY, 'DepotPosition', 'position_id'),
             'providers'=>array(self::MANY_MANY, 'Provider', ProviderPosition::model()->tableName().'(position_id, provider_id)'),
-            'fromProviders'=>array(self::HAS_MANY, 'DepotPosition', 'position_id'),
+            'providerPositions'=>array(self::HAS_MANY, 'ProviderPosition', 'position_id'),
         );
     }
 
@@ -223,10 +240,12 @@ class Details extends EActiveRecord implements IECartPosition
         return !empty($this->in_stock) ? is_numeric($this->in_stock) ? $this->in_stock.' шт.' : $this->in_stock : '—';
     }
 
-    public function toStringPrice()
+    public function toStringPrice($price = null)
     {
-        if ( $this->price > 0 )
-            return SiteHelper::priceFormat($this->price, 'руб.');
+        if ( !is_numeric($price) )
+            $price = $this->price;
+        if ( $price > 0 )
+            return SiteHelper::priceFormat($price, 'руб.');
         else
             return '—';
     }

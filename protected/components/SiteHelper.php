@@ -158,4 +158,11 @@ class SiteHelper {
         list($usec, $sec) = explode(" ", microtime());
         return ((float)$usec + (float)$sec);
     }
+
+    public static function mbr($params)
+    {
+        echo "<pre>";
+        print_r($params);
+        echo "</pre>";
+    }
 }

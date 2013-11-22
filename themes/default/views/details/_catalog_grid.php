@@ -12,11 +12,11 @@
     <div class="catalog-grid-header scroll-fixed">
         <div class="container">
             <div class="row-fluid">
-                <div class="field span2"><div class="valign-text"><p>Фото продукта</p></div></div>
+                <div class="field span1"><div class="valign-text"><p>Фото продукта</p></div></div>
                 <div class="field span2"><div class="valign-text"><p>Бренд</p></div></div>
                 <div class="field span2"><div class="valign-text"><p>Артикул</p></div></div>
                 <div class="field span2"><div class="valign-text"><p>Наименование</p></div></div>
-                <div class="field span1"><div class="valign-text"><p>В наличии</p></div></div>
+                <div class="field span2"><div class="valign-text"><p>В наличии (Адрес)</p></div></div>
                 <div class="field span1"><div class="valign-text"><p>Срок доставки</p></div></div>
                 <div class="field span2"><div class="valign-text"><p>Цена</p></div></div>
             </div>

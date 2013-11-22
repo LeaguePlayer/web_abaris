@@ -80,6 +80,7 @@
       });
       $('.spinner').spinner({
         min: 1,
+        max: $(this).data('max'),
         value: 1,
         icons: {
           down: "spinner-down",
@@ -93,7 +94,7 @@
             type: 'GET',
             dataType: 'json',
             data: {
-              id: $this.data('id'),
+              key: $this.data('id'),
               count: ui.value
             },
             success: function(data) {

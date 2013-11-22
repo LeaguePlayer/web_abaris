@@ -35,9 +35,10 @@ class EShoppingCart extends CMap {
     public function restoreFromSession() {
         $data = unserialize(Yii::app()->getUser()->getState($this->cartId));
         if (is_array($data) || $data instanceof Traversable)
-            foreach ($data as $key => $product)
+            foreach ($data as $key => $product) {
+                $product->setCartKey($key);
                 parent::add($key, $product);
-
+            }
     }
 
     /**

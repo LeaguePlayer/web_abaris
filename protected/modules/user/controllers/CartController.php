@@ -90,17 +90,20 @@ class CartController extends FrontController
 
 
 
-    public function actionPut($id)
+    public function actionPut($key)
     {
-        if ( Yii::app()->cart->contains($id) ) {
-            $position = Yii::app()->cart->itemAt($id);
+        if ( Yii::app()->cart->contains($key) ) {
+            $position = Yii::app()->cart->itemAt($key);
             $position->unarchivate();
         } else {
-            $position = Details::model()->findByPk($id);
+            $keyParts = explode('_', $key);
+            $posId = $keyParts[0];
+            $position = Details::model()->findByPk($posId);
             if ( $position === null ) {
                 throw new CHttpException(404, 'Не найден товар');
                 Yii::app()->end();
             }
+            $position->setCartKey($key);
             Yii::app()->cart->put($position);
         }
 
@@ -117,16 +120,19 @@ class CartController extends FrontController
 
 
 
-    public function actionUpdate($id, $count)
+    public function actionUpdate($key, $count)
     {
         $cart = Yii::app()->cart;
-        if ( $cart->contains($id) ) {
-            $position = $cart->itemAt($id);
+        if ( $cart->contains($key) ) {
+            $position = $cart->itemAt($key);
         } else {
-            $position = Details::model()->with('cartInfo')->findByPk($id);
-        }
-        if ( $position === null ) {
-            throw new CHttpException(404, 'Не найдена деталь');
+            $parts = explode('_', $key);
+            $posId = $parts[0];
+            $position = Details::model()->with('cartInfo')->findByPk($posId);
+            if ( $position === null ) {
+                throw new CHttpException(404, 'Не найдена деталь');
+            }
+            $position->setCartKey($key);
         }
         $cart->update($position, $count);
 
@@ -140,18 +146,18 @@ class CartController extends FrontController
     protected function deleteCartItems($postItems)
     {
         $cart = Yii::app()->cart;
-        foreach ( $postItems['checked'] as $positionId )
+        foreach ( $postItems['checked'] as $positionKey )
         {
-            $cart->remove($positionId);
+            $cart->remove($positionKey);
         }
     }
 
     protected function archiveCartItems($postItems)
     {
         $cart = Yii::app()->cart;
-        foreach ( $postItems['checked'] as $positionId )
+        foreach ( $postItems['checked'] as $positionKey )
         {
-            $position = $cart->itemAt($positionId);
+            $position = $cart->itemAt($positionKey);
             if ( !$position or $position->cartInfo->status == CartDetails::STATUS_ARCHIVED )
                 continue;
             $detailInfo = $position->cartInfo;
@@ -163,9 +169,9 @@ class CartController extends FrontController
     protected function activeCartItems($postItems)
     {
         $cart = Yii::app()->cart;
-        foreach ( $postItems['checked'] as $positionId )
+        foreach ( $postItems['checked'] as $positionKey )
         {
-            $position = $cart->itemAt($positionId);
+            $position = $cart->itemAt($positionKey);
             if ( !$position or $position->cartInfo->status == CartDetails::STATUS_ACTIVE )
                 continue;
             $detailInfo = $position->cartInfo;

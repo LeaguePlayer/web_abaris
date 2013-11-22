@@ -18,11 +18,19 @@ class DetailsController extends FrontController
         }
 
         $criteria = new CDbCriteria();
-        $criteria->with = array('analogs', 'depot');
+        $criteria->with = array(
+            'analogs',
+            'depotPositions'=>array(
+                'with'=>'depot',
+            ),
+            'providerPositions'
+        );
         if ( $id ) {
             $criteria->compare('t.id', $id);
         } else if ( $article ) {
-            $criteria->compare('t.article', $article);
+            $criteria->compare('t.article_alias', $article);
+            //$criteria->addCondition("t.article LIKE ':article%' OR t.article_alias LIKE ':article%'");
+            //$criteria->params[':article'] = $article;
         } else {
 
         }
@@ -37,7 +45,7 @@ class DetailsController extends FrontController
 
         $inStockDetails = array();
         $nonInStockDetails = array();
-        if ( $model->in_stock > 0 && $model->delivery_time == 0 ) {
+        if ( $model->in_stock > 0 ) {
             $inStockDetails[] = $model;
         } else {
             $nonInStockDetails[] = $model;

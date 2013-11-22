@@ -29,6 +29,7 @@ class DepotPosition extends CActiveRecord
     public function relations()
     {
         return array(
+            'depot'=>array(self::BELONGS_TO, 'Depot', 'depot_id'),
         );
     }
 
@@ -61,4 +62,9 @@ class DepotPosition extends CActiveRecord
     }
 
 
+    public function toStringStock()
+    {
+        $pointAddress = $this->depot->address;
+        return $this->stock.' шт / '.$pointAddress;
+    }
 }

@@ -10,6 +10,8 @@ class AbarisXMLParser extends SimpleXMLReader
     protected $currentPositionAttributes;
     protected $currentAdaptabillities;
     protected $currentAnalogs;
+    protected $currentDepotPositions;
+    protected $currentPositionStock;
 
 
     protected $brands = array();
@@ -20,6 +22,8 @@ class AbarisXMLParser extends SimpleXMLReader
     protected $adaptabillities = array();
     protected $autoEngines = array();
     protected $analogs = array();
+    protected $depot = array();
+    protected $depotPositions = array();
 
 
     protected $positionIdAssociations = array();
@@ -40,29 +44,29 @@ class AbarisXMLParser extends SimpleXMLReader
         $this->registerCallback('Аналоги', array($this, 'callbackAnalogs'), XMLREADER::ELEMENT);
         $this->registerCallback('Товары', array($this, 'callbackStart'), XMLREADER::ELEMENT);
         $this->registerCallback('Товары', array($this, 'callbackFinish'), XMLREADER::END_ELEMENT);
+        $this->registerCallback('Остаток', array($this, 'callbackStock'), XMLREADER::ELEMENT);
 
         $this->init();
 
-        $this->currentAdaptabillities = array();
-        $this->currentAnalogs = array();
-        $this->currentPositionAttributes = null;
+        $this->reset();
     }
 
     protected function init()
     {
-        $brands = Yii::app()->db->createCommand()->select('id, name')->from('tbl_brands')->queryAll();
+        $brands = Yii::app()->db->createCommand()->select('id, name')->from('{{brands}}')->queryAll();
         $this->brands = CHtml::listData($brands, 'name', 'id');
 
-        $autoModels = Yii::app()->db->createCommand()->select('id, alias')->from('tbl_auto_models')->queryAll();
+        $autoModels = Yii::app()->db->createCommand()->select('id, alias')->from('{{auto_models}}')->queryAll();
         $this->autoModels = CHtml::listData($autoModels, 'alias', 'id');
 
-        $engines = Yii::app()->db->createCommand()->select('id, alias')->from('tbl_engines')->queryAll();
+        $engines = Yii::app()->db->createCommand()->select('id, alias')->from('{{engines}}')->queryAll();
         $this->engines = CHtml::listData($engines, 'alias', 'id');
 
-        $positions = Yii::app()->db->createCommand()->select('id, article_alias')->from('tbl_details')->queryAll();
+        Yii::app()->db->createCommand()->update('{{details}}', array('in_stock'=>0));
+        $positions = Yii::app()->db->createCommand()->select('id, article_alias')->from('{{details}}')->queryAll();
         $this->positions = CHtml::listData($positions, 'article_alias', 'id');
 
-        $categories = Yii::app()->db->createCommand()->select('id, sid')->from('tbl_detail_category')->queryAll();
+        $categories = Yii::app()->db->createCommand()->select('id, sid')->from('{{detail_category}}')->queryAll();
         $this->categories = CHtml::listData($categories, 'sid', 'id');
 
         $adaptabillities = Yii::app()->db->createCommand()->select('detail_id, auto_model_id, engine_model_id')
@@ -77,10 +81,329 @@ class AbarisXMLParser extends SimpleXMLReader
         foreach ( $autoEngines as $autoEngine )
             $this->autoEngines[$autoEngine['auto_model_id']][] = $autoEngine['engine_id'];
 
-        $analogs = Yii::app()->db->createCommand()->select('original_id, analog_id')->from('tbl_analog_details')->queryAll();
+        $analogs = Yii::app()->db->createCommand()->select('original_id, analog_id')->from('{{analog_details}}')->queryAll();
         foreach ( $analogs as $analogRow )
             $this->analogs[$analogRow['original_id']][] = $analogRow['analog_id'];
+
+        $depot = Yii::app()->db->createCommand()->select('id, id_1C')->from('{{depot}}')->queryAll();
+        foreach ( $depot as $depoItem )
+            $this->depot[$depoItem['id_1C']] = $depoItem['id'];
+
+        $depotPositons = Yii::app()->db->createCommand()->select('depot_id, position_id, stock')->from('{{depot_positions}}')->queryAll();
+
+        foreach ( $depotPositons as $depotPositon ) {
+            $this->depotPositions[$depotPositon['position_id']][$depotPositon['depot_id']] = $depotPositon['stock'];
+        }
     }
+
+
+
+    protected function callbackStart($reader)
+    {
+        echo "Подождите...";
+        return true;
+    }
+
+
+    // Начало нода Товар
+    /*
+     * array(
+     *      'Код'           => <Код>,
+     *      'Наименование'  => <Наименование>,
+     *      'ЭтоГруппа'     => <ЭтоГруппа>,
+     *      'Родитель'      => <Родитель>,
+     *      'Артикул'       => <Артикул>,
+     *      'АртикулПоиска' => <АртикулПоиска>,
+     *      'Цена'          => <Цена>,
+     *      'Остаток'       => <Остаток>
+     * )
+     */
+    protected function callbackPositionBegin($reader)
+    {
+        $this->callbabackBegin++;
+        if ( ($this->currentPos++) % 100 === 0 )
+            echo "\n".$this->currentPos++;
+        // Проверяю, завршилась ли обработка предыдущего узла
+        // По идее после обработки каждого узла, массив $this->currentPositionAttributes обнуляется
+        // Это по-видимому ошибка синтаксиса в xml-файле, когда отсутствует закрывающий тэг "Товар",
+        // но допускаю, что это может быть и мой косяк (см. метод callbackPositionEnd)
+        if ( !empty( $this->currentPositionAttributes ) )
+            return true;
+
+        $xml = $reader->expandSimpleXml('1.0', 'cp1251');
+        foreach ( $xml->attributes() as $name => $attribute ) {
+            $this->currentPositionAttributes[$name] = trim( (string)$attribute );
+        }
+        return true;
+    }
+
+    protected function callbackStock($reader)
+    {
+        $xml = $reader->expandSimpleXml('1.0', 'cp1251');
+        $attributes = $xml->attributes();
+        $id_1C = (int)$attributes->{'КодСклада'};
+        $stock = (int)$attributes->{'Остаток'};
+        $this->currentPositionStock += $stock;
+        $this->currentDepotPositions[] = array(
+            'id_1C'=>$id_1C,
+            'stock'=>$stock,
+        );
+        return true;
+    }
+
+
+    // Производитель
+    protected function callbackProducer($reader)
+    {
+        $xml = $reader->expandSimpleXml('1.0', 'cp1251');
+        $attributes = $xml->attributes();
+        $this->currentPositionAttributes['producer'] = array(
+            'Производитель' => trim( (string)$attributes->{'Наименование'} ),
+            'Страна' => trim( (string)$attributes->{'Страна'} ),
+            'Оригинал' => trim( (string)$attributes->{'Оригинал'} ),
+        );
+        $brandName = $this->currentPositionAttributes['producer']['Производитель'];
+        if ( !empty($brandName) ) {
+            if ( !$this->hasBrand($brandName) )
+                $this->saveBrand($brandName);
+            $this->currentPositionAttributes['producer']['id'] = $this->getBrandId($brandName);
+        }
+        return true;
+    }
+
+
+    /*
+     * Применение
+     *
+     * <Код> => array(
+     *      'auto'   => array(
+     *          'КодМарки'          => <КодМарки>,
+     *          'НаименованиеМарки' => <НаименованиеМарки>,
+     *          'КодМодели'         => КодМодели,
+     *          'СокрМодельАвто'    => СокрМодельАвто
+     *      ),
+     *      'engine' => array(
+     *          'КодКатегории'          => <КодКатегории>,
+     *          'НаименованиеКатегории' => <НаименованиеКатегории>,
+     *          'КодМодели'             => <КодМодели>,
+     *          'НаименованиеМодели'    => <НаименованиеМодели>,
+     *          'СокрМодельДвигателя'   => <СокрМодельДвигателя>
+     *      )
+     * )
+     */
+    protected function callbackAdaptabillity($reader)
+    {
+        $xml = $reader->expandSimpleXml('1.0', 'cp1251');
+
+        $modelAuto = $xml->{'МодельАвто'};
+        if ( $modelAuto ) {
+            $autoAttributes = array();
+            foreach ( $modelAuto->attributes() as $key => $attribute ) {
+                $autoAttributes[$key] = trim( (string)$attribute );
+            }
+            $brandName = $autoAttributes['НаименованиеМарки'];
+            if ( !$this->hasBrand($brandName) ) {
+                $this->saveBrand($brandName);
+            }
+            $autoAlias = $autoAttributes['СокрМодельАвто'];
+            if ( !$this->hasAuto($autoAlias) ) {
+                $autoName = $autoAttributes['НаименованиеМодели'];
+                $this->saveAuto($autoName, $autoAlias, $this->getBrandId($brandName));
+            }
+            $this->currentAdaptabillities['auto'][] = $autoAlias;
+        }
+
+
+        $modelEngine = $xml->{'МодельДвигателя'};
+        if ( $modelEngine ) {
+            $engineAttributes = array();
+            foreach ( $modelEngine->attributes() as $key => $attribute ) {
+                $engineAttributes[$key] = trim( (string)$attribute );
+            }
+            $engineAlias = $engineAttributes['СокрМодельДвигателя'];
+            if (!$this->hasEngine($engineAlias) ) {
+                $engineName = $engineAttributes['НаименованиеМодели'];
+                $this->saveEngine($engineName, $engineAlias);
+            }
+            $this->currentAdaptabillities['engine'][] = $engineAlias;
+        }
+        return true;
+    }
+
+
+    /*
+     * Аналоги
+     *
+     * <Код>
+     */
+    protected function callbackAnalogs($reader)
+    {
+        $xml = $reader->expandSimpleXml('1.0', 'cp1251');
+        $attributes = $xml->attributes();
+        $this->currentAnalogs[] = trim( (string)$attributes->{'Код'} );
+        return true;
+    }
+
+
+    // Конец ноды Товар
+    // Перед выходом из метода важно вызвать reset()!
+    protected function callbackPositionEnd($reader)
+    {
+        $this->callbabackEnd++;
+
+        $code = (int) $this->currentPositionAttributes['Код'];
+        $name = $this->currentPositionAttributes['Наименование'];
+
+        $itsCategory = ($this->currentPositionAttributes['ЭтоГруппа'] === '1');
+
+        if ($itsCategory) {
+            // Сохранение категории
+            if ( !$this->hasCategory($code) )
+                $this->saveCategory($name, 0, 0, $code);
+
+            $this->reset();
+            return true;
+        }
+
+        $id = null;
+        $article = $this->currentPositionAttributes['Артикул'];
+        $article_alias = $this->currentPositionAttributes['АртикулПоиска'];
+        $price = floatval($this->currentPositionAttributes['Цена']);
+
+        if ( isset($this->currentPositionAttributes['producer']) ) {
+            $producer_name = $this->currentPositionAttributes['producer']['Производитель'];
+            $producer_country = $this->currentPositionAttributes['producer']['Страна'];
+            $is_original = (int) $this->currentPositionAttributes['producer']['Оригинал'];
+        } else {
+            $producer_name = "";
+            $producer_country = "";
+            $is_original = 0;
+        }
+
+        if ( isset($this->currentPositionAttributes['producer']['id']) )
+            $brand_id = $this->currentPositionAttributes['producer']['id'];
+        else
+            $brand_id = 0;
+
+        if ( $this->hasPosition($article_alias) ) {
+            $posId = $this->getPositionId($article_alias);
+            $this->updatePosition($posId, $name, $article, $article_alias,
+                                  $this->currentPositionStock, $price, $brand_id, $producer_name,
+                                  $producer_country, $is_original);
+        } else {
+            $posId = $this->insertPosition($name, $article, $article_alias,
+                                  $this->currentPositionStock, $price, $brand_id, $producer_name,
+                                  $producer_country, $is_original);
+        }
+
+        // Обновление информации о соответствии моделей авто и двигателей
+//        if ( isset($this->currentAdaptabillities['auto']) && isset($this->currentAdaptabillities['engine']) ) {
+//            foreach ( $this->currentAdaptabillities['auto'] as $autoAlias ) {
+//                $autoId = $this->getAutoId($autoAlias);
+//                foreach ( $this->currentAdaptabillities['engine'] as $engineAlias ) {
+//                    $engineId = $this->getEngineId($engineAlias);
+//                    if ( !$this->hasAutoEngine($autoId, $engineId) )
+//                        $this->saveAutoEngine($autoId, $engineId);
+//                }
+//            }
+//        }
+
+
+        if ( !$posId ) {
+            $this->reset();
+            return true;
+        }
+
+
+        foreach ( $this->currentDepotPositions as $depotPosition ) {
+            $id_1C = $depotPosition['id_1C'];
+            if ( !$this->hasDepot($id_1C) ) {
+                $depotId = $this->saveDepot($id_1C);
+            } else {
+                $depotId = $this->getDepotId($id_1C);
+            }
+            if ( !$this->hasDepotPosition($depotId, $posId) )
+                $this->saveDepotPosition($depotId, $posId, $depotPosition['stock']);
+            else
+                $this->updateDepotPosition($depotId, $posId, $depotPosition['stock']);
+        }
+
+
+        // Сохранение кода категории, соответсвующей данному товару
+        // На данном этапе категории с кодом, записанном в атрибуте "Родитель" может еще не существовать в бд
+        // (я не использую id-ки из xml в качестве ключей для записей), поэтому
+        // присваивание категории товарам будет произведено в дополнительном цикле
+        // по окончании парсинга
+        $categoryCode = (int) $this->currentPositionAttributes['Родитель'];
+        $this->positionCategories[$posId] = $categoryCode;
+
+
+
+
+
+        // Обработка применения товаров
+        if ( isset($this->currentAdaptabillities['auto']) )
+            foreach ( $this->currentAdaptabillities['auto'] as $alias ) {
+                $autoId = $this->getAutoId($alias);
+                if ( !$this->hasAdaptabillity($posId, $autoId, null) )
+                    $this->saveAdaptabillity($posId, $autoId, null);
+            }
+
+        if ( isset($this->currentAdaptabillities['engine']) )
+            foreach ( $this->currentAdaptabillities['engine'] as $alias ) {
+                $engineId = $this->getEngineId($alias);
+                if ( !$this->hasAdaptabillity($posId, null, $engineId) )
+                    $this->saveAdaptabillity($posId, null, $engineId);
+            }
+
+        // Сохранение соответсвия между идентификаторами товара на сайте и в 1С
+        $this->positionIdAssociations[$code] = $posId;
+
+        // Сохранение аналогов для обработки по окончанию парсинга
+        foreach ($this->currentAnalogs as $positionCode)
+            $this->positionAnalogs[$posId][] = (int) $positionCode;
+
+        $this->reset();
+        return true;
+    }
+
+
+    protected function reset()
+    {
+        $this->currentPositionAttributes = null;
+        $this->currentAdaptabillities = array();
+        $this->currentAnalogs = array();
+        $this->currentDepotPositions = array();
+        $this->currentPositionStock = 0;
+    }
+
+    protected function callbackFinish($reader)
+    {
+        echo "\nОбновление категорий...";
+        // Сохранение категорий товаров
+        foreach ( $this->positionCategories as $posId => $catCode ) {
+            $catId = $this->getCategoryId($catCode);
+            if ( $catId > 0 )
+                $this->updatePositionCategory($posId, $catId);
+        }
+
+        echo "\nОбновление аналогов...";
+        // Сохранение аналогов
+        foreach ( $this->positionAnalogs as $posId => $analogs ) {
+            foreach ( $analogs as $analogCode ) {
+                if ( isset($this->positionIdAssociations[$analogCode]) ) {
+                    $analogId = $this->positionIdAssociations[$analogCode];
+                    if ( !$this->hasAnalog($posId, $analogId) )
+                        $this->saveAnalog($posId, $analogId);
+                }
+            }
+        }
+        echo "\nГотово!\n";
+        print("Обработано тегов Товар - ".$this->callbabackEnd."\n");
+        print("Не обработано тегов Товар - ".($this->callbabackBegin - $this->callbabackEnd)."\n");
+        return true;
+    }
+
 
 
 
@@ -186,9 +509,16 @@ class AbarisXMLParser extends SimpleXMLReader
     protected function insertPosition($name, $article, $article_alias, $in_stock, $price,
                                       $brand_id, $producer_name, $producer_country, $is_original)
     {
+        if (!$article && !$article_alias)
+            return false;
+        if (!$article)
+            $article = $article_alias;
+        if (!$article_alias)
+            $article_alias = strtolower($article);
+
         $db = Yii::app()->db;
         $command = $db->createCommand();
-        $affectedRows = $command->insert('tbl_details', array(
+        $affectedRows = $command->insert('{{details}}', array(
             'name' => $name,
             'article' => $article,
             'article_alias' => strtolower($article_alias),
@@ -212,7 +542,7 @@ class AbarisXMLParser extends SimpleXMLReader
     {
         $db = Yii::app()->db;
         $command = $db->createCommand();
-        $command->update('tbl_details', array(
+        $command->update('{{details}}', array(
             'name' => $name,
             'article' => $article,
             'article_alias' => strtolower($article_alias),
@@ -229,7 +559,7 @@ class AbarisXMLParser extends SimpleXMLReader
     {
         $db = Yii::app()->db;
         $command = $db->createCommand();
-        $command->update('tbl_details', array(
+        $command->update('{{details}}', array(
             'category_id' => $category_id,
         ), 'id=:id', array(':id'=>$id));
     }
@@ -286,7 +616,7 @@ class AbarisXMLParser extends SimpleXMLReader
     {
         $db = Yii::app()->db;
         $command = $db->createCommand();
-        $affectedRows = $command->insert('tbl_adaptabillity', array(
+        $affectedRows = $command->insert('{{adaptabillity}}', array(
             'detail_id' => $posId,
             'auto_model_id' => $autoId,
             'engine_model_id' => $engineId
@@ -318,7 +648,7 @@ class AbarisXMLParser extends SimpleXMLReader
     {
         $db = Yii::app()->db;
         $command = $db->createCommand();
-        $affectedRows = $command->insert('tbl_auto_engines', array(
+        $affectedRows = $command->insert('{{auto_engines}}', array(
             'auto_model_id' => $autoId,
             'engine_id' => $engineId
         ));
@@ -349,7 +679,7 @@ class AbarisXMLParser extends SimpleXMLReader
     {
         $db = Yii::app()->db;
         $command = $db->createCommand();
-        $affectedRows = $command->insert('tbl_analog_details', array(
+        $affectedRows = $command->insert('{{analog_details}}', array(
             'original_id' => $originalId,
             'analog_id' => $analogId
         ));
@@ -363,272 +693,63 @@ class AbarisXMLParser extends SimpleXMLReader
 
 
 
-
-
-    protected function callbackStart($reader)
+    protected function hasDepot($id_1C)
     {
-        echo "Подождите...";
-        return true;
+        return isset($this->depot[$id_1C]);
     }
 
-
-    // Начало нода Товар
-    /*
-     * array(
-     *      'Код'           => <Код>,
-     *      'Наименование'  => <Наименование>,
-     *      'ЭтоГруппа'     => <ЭтоГруппа>,
-     *      'Родитель'      => <Родитель>,
-     *      'Артикул'       => <Артикул>,
-     *      'АртикулПоиска' => <АртикулПоиска>,
-     *      'Цена'          => <Цена>,
-     *      'Остаток'       => <Остаток>
-     * )
-     */
-    protected function callbackPositionBegin($reader)
+    protected function getDepotId($id_1C)
     {
-        // Проверяю, завршилась ли обработка предыдущего узла
-        // По идее после обработки каждого узла, массив $this->currentPositionAttributes обнуляется
-        // Это по-видимому ошибка синтаксиса в xml-файле, когда отсутствует закрывающий тэг "Товар",
-        // но допускаю, что это может быть и мой косяк (см. метод callbackPositionEnd)
-        if ( !empty( $this->currentPositionAttributes ) )
-            return true;
-
-        $xml = $reader->expandSimpleXml('1.0', 'cp1251');
-        foreach ( $xml->attributes() as $name => $attribute ) {
-            $this->currentPositionAttributes[$name] = trim( (string)$attribute );
-        }
-        $this->callbabackBegin++;
-        return true;
-    }
-
-    // Производитель
-    protected function callbackProducer($reader)
-    {
-        $xml = $reader->expandSimpleXml('1.0', 'cp1251');
-        $attributes = $xml->attributes();
-        $this->currentPositionAttributes['producer'] = array(
-            'Производитель' => trim( (string)$attributes->{'Наименование'} ),
-            'Страна' => trim( (string)$attributes->{'Страна'} ),
-            'Оригинал' => trim( (string)$attributes->{'Оригинал'} ),
-        );
-        $brandName = $this->currentPositionAttributes['producer']['Производитель'];
-        if ( !empty($brandName) ) {
-            if ( !$this->hasBrand($brandName) )
-                $this->saveBrand($brandName);
-            $this->currentPositionAttributes['producer']['id'] = $this->getBrandId($brandName);
-        }
-        return true;
-    }
-
-
-    /*
-     * Применение
-     *
-     * <Код> => array(
-     *      'auto'   => array(
-     *          'КодМарки'          => <КодМарки>,
-     *          'НаименованиеМарки' => <НаименованиеМарки>,
-     *          'КодМодели'         => КодМодели,
-     *          'СокрМодельАвто'    => СокрМодельАвто
-     *      ),
-     *      'engine' => array(
-     *          'КодКатегории'          => <КодКатегории>,
-     *          'НаименованиеКатегории' => <НаименованиеКатегории>,
-     *          'КодМодели'             => <КодМодели>,
-     *          'НаименованиеМодели'    => <НаименованиеМодели>,
-     *          'СокрМодельДвигателя'   => <СокрМодельДвигателя>
-     *      )
-     * )
-     */
-    protected function callbackAdaptabillity($reader)
-    {
-        $xml = $reader->expandSimpleXml('1.0', 'cp1251');
-
-        $modelAuto = $xml->{'МодельАвто'};
-        if ( $modelAuto ) {
-            $autoAttributes = array();
-            foreach ( $modelAuto->attributes() as $key => $attribute ) {
-                $autoAttributes[$key] = trim( (string)$attribute );
-            }
-            $brandName = $autoAttributes['НаименованиеМарки'];
-            if ( !$this->hasBrand($brandName) ) {
-                $this->saveBrand($brandName);
-            }
-            $autoAlias = $autoAttributes['СокрМодельАвто'];
-            if ( !$this->hasAuto($autoAlias) ) {
-                $autoName = $autoAttributes['НаименованиеМодели'];
-                $this->saveAuto($autoName, $autoAlias, $this->getBrandId($brandName));
-            }
-            $this->currentAdaptabillities['auto'][] = $autoAlias;
-        }
-
-
-        $modelEngine = $xml->{'МодельДвигателя'};
-        if ( $modelEngine ) {
-            $engineAttributes = array();
-            foreach ( $modelEngine->attributes() as $key => $attribute ) {
-                $engineAttributes[$key] = trim( (string)$attribute );
-            }
-            $engineAlias = $engineAttributes['СокрМодельДвигателя'];
-            if (!$this->hasEngine($engineAlias) ) {
-                $engineName = $engineAttributes['НаименованиеМодели'];
-                $this->saveEngine($engineName, $engineAlias);
-            }
-            $this->currentAdaptabillities['engine'][] = $engineAlias;
-        }
-        return true;
-    }
-
-
-    /*
-     * Аналоги
-     *
-     * <Код>
-     */
-    protected function callbackAnalogs($reader)
-    {
-        $xml = $reader->expandSimpleXml('1.0', 'cp1251');
-        $attributes = $xml->attributes();
-        $this->currentAnalogs[] = trim( (string)$attributes->{'Код'} );
-        return true;
-    }
-
-
-    // Конец ноды Товар
-    // Перед выходом из метода важно вызвать reset()!
-    protected function callbackPositionEnd($reader)
-    {
-        $code = (int) $this->currentPositionAttributes['Код'];
-        $name = $this->currentPositionAttributes['Наименование'];
-
-        $itsCategory = ($this->currentPositionAttributes['ЭтоГруппа'] === '1');
-
-        if ($itsCategory) {
-            // Сохранение категории
-            if ( !$this->hasCategory($code) )
-                $this->saveCategory($name, 0, 0, $code);
-
-            $this->reset();
-            return true;
-        }
-
-        $id = null;
-        $article = $this->currentPositionAttributes['Артикул'];
-        $article_alias = $this->currentPositionAttributes['АртикулПоиска'];
-        $price = floatval($this->currentPositionAttributes['Цена']);
-        $in_stock = (int) $this->currentPositionAttributes['Остаток'];
-
-        if ( isset($this->currentPositionAttributes['producer']) ) {
-            $producer_name = $this->currentPositionAttributes['producer']['Производитель'];
-            $producer_country = $this->currentPositionAttributes['producer']['Страна'];
-            $is_original = (int) $this->currentPositionAttributes['producer']['Оригинал'];
-        } else {
-            $producer_name = "";
-            $producer_country = "";
-            $is_original = 0;
-        }
-
-        if ( isset($this->currentPositionAttributes['producer']['id']) )
-            $brand_id = $this->currentPositionAttributes['producer']['id'];
+        if ( isset($this->depot[$id_1C]) )
+            return $this->depot[$id_1C];
         else
-            $brand_id = 0;
+            return false;
+    }
 
-        if ( $this->hasPosition($article_alias) ) {
-            $posId = $this->getPositionId($article_alias);
-            $this->updatePosition($posId, $name, $article, $article_alias,
-                                  $in_stock, $price, $brand_id, $producer_name,
-                                  $producer_country, $is_original);
-        } else {
-            $posId = $this->insertPosition($name, $article, $article_alias,
-                                  $in_stock, $price, $brand_id, $producer_name,
-                                  $producer_country, $is_original);
+    protected function saveDepot($id_1C)
+    {
+        $db = Yii::app()->db;
+        $command = $db->createCommand();
+        $affectedRows = $command->insert('{{depot}}', array('id_1C' => $id_1C));
+        if ( $affectedRows > 0 ) {
+            $id = $db->getLastInsertID();
+            $this->depot[$id_1C][] = $id;
+            return $id;
         }
-
-        // Обновление информации о соответствии моделей авто и двигателей
-//        if ( isset($this->currentAdaptabillities['auto']) && isset($this->currentAdaptabillities['engine']) ) {
-//            foreach ( $this->currentAdaptabillities['auto'] as $autoAlias ) {
-//                $autoId = $this->getAutoId($autoAlias);
-//                foreach ( $this->currentAdaptabillities['engine'] as $engineAlias ) {
-//                    $engineId = $this->getEngineId($engineAlias);
-//                    if ( !$this->hasAutoEngine($autoId, $engineId) )
-//                        $this->saveAutoEngine($autoId, $engineId);
-//                }
-//            }
-//        }
-
-
-        if ( !$posId ) {
-            $this->reset();
-            return true;
-        }
-
-
-        // Сохранение кода категории, соответсвующей данному товару
-        // На данном этапе категории с кодом, записанном в атрибуте "Родитель" может еще не существовать в бд
-        // (я не использую id-ки из xml в качестве ключей для записей), поэтому
-        // присваивание категории товарам будет произведено в дополнительном цикле
-        // по окончании парсинга
-        $categoryCode = (int) $this->currentPositionAttributes['Родитель'];
-        $this->positionCategories[$posId] = $categoryCode;
-
-
-        // Обработка применения товаров
-        if ( isset($this->currentAdaptabillities['auto']) )
-            foreach ( $this->currentAdaptabillities['auto'] as $alias ) {
-                $autoId = $this->getAutoId($alias);
-                if ( !$this->hasAdaptabillity($posId, $autoId, null) )
-                    $this->saveAdaptabillity($posId, $autoId, null);
-            }
-
-        if ( isset($this->currentAdaptabillities['engine']) )
-            foreach ( $this->currentAdaptabillities['engine'] as $alias ) {
-                $engineId = $this->getEngineId($alias);
-                if ( !$this->hasAdaptabillity($posId, null, $engineId) )
-                    $this->saveAdaptabillity($posId, null, $engineId);
-            }
-
-        // Сохранение соответсвия между идентификаторами товара на сайте и в 1С
-        $this->positionIdAssociations[$code] = $posId;
-
-        // Сохранение аналогов для обработки по окончанию парсинга
-        foreach ($this->currentAnalogs as $positionCode)
-            $this->positionAnalogs[$posId][] = (int) $positionCode;
-
-        $this->reset();
-        return true;
+        return false;
     }
 
 
-    protected function reset()
+
+    protected function hasDepotPosition($depot_id, $position_id)
     {
-        $this->currentPositionAttributes = null;
-        $this->currentAdaptabillities = array();
-        $this->currentAnalogs = array();
+        return isset($this->depotPositions[$position_id]) && isset($this->depotPositions[$position_id][$depot_id]);
     }
 
-    protected function callbackFinish($reader)
+    protected function saveDepotPosition($depot_id, $position_id, $stock)
     {
-        echo "\nОбновление категорий...";
-        // Сохранение категорий товаров
-        foreach ( $this->positionCategories as $posId => $catCode ) {
-            $catId = $this->getCategoryId($catCode);
-            if ( $catId > 0 )
-                $this->updatePositionCategory($posId, $catId);
+        $db = Yii::app()->db;
+        $command = $db->createCommand();
+        $affectedRows = $command->insert('{{depot_positions}}', array(
+            'depot_id'=>(int)$depot_id,
+            'position_id'=>(int)$position_id,
+            'stock'=>(int)$stock,
+        ));
+        if ( $affectedRows > 0 ) {
+            $this->depotPositions[$position_id][$depot_id] = $stock;
         }
+    }
 
-        echo "\nОбновление аналогов...";
-        // Сохранение аналогов
-        foreach ( $this->positionAnalogs as $posId => $analogs ) {
-            foreach ( $analogs as $analogCode ) {
-                if ( isset($this->positionIdAssociations[$analogCode]) ) {
-                    $analogId = $this->positionIdAssociations[$analogCode];
-                    if ( !$this->hasAnalog($posId, $analogId) )
-                        $this->saveAnalog($posId, $analogId);
-                }
-            }
-        }
-        echo "\nГотово!\n";
-        return true;
+    protected function updateDepotPosition($depot_id, $position_id, $stock)
+    {
+        if ( $this->depotPositions[$position_id][$depot_id] == $stock )
+            return;
+        $db = Yii::app()->db;
+        $command = $db->createCommand();
+        $affectedRows = $command->update('{{depot_positions}}', array(
+            'stock'=>$stock,
+        ), 'depot_id=:depot_id AND position_id=:position_id', array(':depot_id'=>$depot_id, ':position_id'=>$position_id));
+        if ( $affectedRows > 0 )
+            $this->depotPositions[$position_id][$depot_id] = $stock;
     }
 }

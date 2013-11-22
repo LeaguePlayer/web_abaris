@@ -1,34 +1,53 @@
 <?php if ($data->id === $findedDetail->id): ?>
     <div class="catalog-grid-subhead">
         <div class="container">
-            <a href="#">Запрошенный артикул</a>
+            <h3>Запрошенный артикул</h3>
         </div>
     </div>
 <?php elseif ( $data->id === $firstAnalogId ): ?>
     <div class="catalog-grid-subhead">
         <div class="container">
-            <a href="#">Список аналогов</a>
+            <h3>Список аналогов</h3>
         </div>
     </div>
 <?php endif ?>
 
-<div class="catalog-grid-row <?php if ($data->id === $findedDetail->id) echo 'search'; ?>">
-    <div class="container">
-        <div class="row-fluid">
-            <div class="span2 field img"><?php echo $data->getImage('small'); ?></div>
-            <div class="span2 field"><div class="valign-text"><p><a class="view_brand" href="<?php if ($data->brand) echo $data->brand->getViewUrl(); ?>"><?php if ($data->brand) echo $data->brand->name; ?></a></p></div></div>
-            <div class="span2 field"><div class="valign-text"><p><?php echo $data->article; ?></p></div></div>
-            <div class="span2 field"><div class="valign-text"><p><?php echo $data->name; ?></p></div></div>
-            <div class="span1 field"><div class="valign-text"><p><?php echo $data->toStringInStock(); ?></p></div></div>
-            <div class="span1 field"><div class="valign-text"><p>14 дней</p></div></div>
-            <div class="span2 field <?php if ( $data->price > 0 ) echo 'price' ?>">
-                <div class="valign-text">
-                    <p><?php echo $data->toStringPrice(); ?></p>
-                    <?php if ( $data->price > 0 ): ?>
-                        <a class="to_cart" data-id="<?php echo $data->id; ?>" href="<?php echo $this->createUrl('/user/cart/put', array('id'=>$data->id)); ?>"></a>
-                    <?php endif; ?>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+<?php
+    if ( $data->in_stock > 0 ) {
+        foreach ( $data->depotPositions as $depotPosition ) {
+            if ( $depotPosition->stock == 0 )
+                continue;
+
+            $position = new Details('duplicate');
+            $position->attributes = $data->attributes;
+            $position->in_stock = $depotPosition->stock;
+            $position->delivery_time = 0;
+            $position->virtualType = Details::VIRTUALTYPE_DEPOT;
+            $position->virtualId = $depotPosition->depot_id;
+
+            $this->renderPartial('_grid_row', array(
+                'findedDetail'=>$findedDetail,
+                'model'=>$position,
+            ));
+        }
+    } else if ( count($data->providerPositions) > 0 ) {
+        foreach ( $data->providerPositions as $providerPosition ) {
+            $this->renderPartial('_grid_row', array(
+                'findedDetail'=>$findedDetail,
+                'model'=>$data,
+                'deliveryTime'=>$providerPosition->delivery_time,
+                'stock'=>$providerPosition->stock,
+                'price'=>$providerPosition->price,
+            ));
+        }
+    } else {
+        $this->renderPartial('_grid_row', array(
+            'findedDetail'=>$findedDetail,
+            'model'=>$data,
+            'deliveryTime'=>'–',
+            'stock'=>$data->in_stock,
+            'price'=>$data->price,
+        ));
+    }
+?>
+

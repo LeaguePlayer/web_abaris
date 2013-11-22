@@ -9,9 +9,9 @@
                 <div class="valign-text">
                     <p>
                         <span class="blue-check">
-                            <input name="CartItems[status][<?=$data->id;?>]" value="<?=$data->cartInfo->status;?>" type="hidden"/>
-                            <input name="CartItems[checked][]" value="<?=$data->id;?>" id="check<?=$data->id;?>" type="checkbox"/>
-                            <label for="check<?=$data->id?>"></label>
+                            <input name="CartItems[status][<?=$data->getId();?>]" value="<?=$data->cartInfo->status;?>" type="hidden"/>
+                            <input name="CartItems[checked][]" value="<?=$data->getId();?>" id="check<?=$data->getId();?>" type="checkbox"/>
+                            <label for="check<?=$data->getId()?>"></label>
                         </span>
                     </p>
                 </div>
@@ -24,7 +24,7 @@
             </div>
             <div class="span2 field">
                 <div class="valign-text">
-                    <p><input data-id="<?php echo $data->id; ?>" name="CartItems[count][<?=$data->id?>]" class="spinner" value="<?php echo $data->getQuantity(); ?>"</p>
+                    <p><input data-max="<?php echo $data->in_stock; ?>" data-id="<?php echo $data->getId(); ?>" name="CartItems[count][<?=$data->getId()?>]" class="spinner" value="<?php echo $data->getQuantity(); ?>"/></p>
                 </div>
             </div>
             <div class="span2 field price_values">
