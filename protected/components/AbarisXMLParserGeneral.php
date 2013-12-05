@@ -10,6 +10,15 @@ class AbarisXMLParserGeneral extends SimpleXMLReader
     protected $currentPosition;
     protected $currentStocks;
     protected $currentFullStock;
+    protected $existsPositions;
+    protected $existCategories;
+    protected $existDepot;
+    protected $existsStocks;
+    protected $existsAuto;
+    protected $existsEngines;
+    protected $existsAdaptAuto;
+    protected $existsAdaptEngines;
+
 
     protected $counter = 0;
 
@@ -34,8 +43,10 @@ class AbarisXMLParserGeneral extends SimpleXMLReader
         $this->registerCallback('Производитель', array($this, 'cbProducer'), XMLREADER::ELEMENT);
         $this->registerCallback('Остаток', array($this, 'cbStock'), XMLREADER::ELEMENT);
         $this->registerCallback('Товар', array($this, 'cbPositionClose'), XMLREADER::END_ELEMENT);
+        $this->registerCallback('Товары', array($this, 'cbPositionsFinish'), XMLREADER::END_ELEMENT);
         $this->registerCallback('ПримененияДеталей', array($this, 'cbAdaptStart'), XMLREADER::ELEMENT);
         $this->registerCallback('ПрименениеДеталей', array($this, 'cbAdapt'), XMLREADER::ELEMENT);
+        $this->registerCallback('ПримененияДеталей', array($this, 'cbAdaptFinish'), XMLREADER::END_ELEMENT);
         $this->reset();
     }
 
@@ -81,37 +92,24 @@ class AbarisXMLParserGeneral extends SimpleXMLReader
     protected function cbAutoEnginesStart($reader)
     {
         echo "Привязка двигателей к автомобилям\n";
-        Yii::app()->db->createCommand()->delete('{{auto_engines}}');
+        Yii::app()->db->createCommand()->truncateTable('{{auto_engines}}');
         return true;
     }
 
     protected function cbDepotStart($reader)
     {
         echo "Обработка складов\n";
-        Yii::app()->db->createCommand()->delete('{{depot}}');
+        Yii::app()->db->createCommand()->truncateTable('{{depot}}');
         return true;
     }
 
     protected function cbCategoriesStart($reader)
     {
         echo "Обработка категорий\n";
-        Yii::app()->db->createCommand()->delete('{{detail_category}}');
+        Yii::app()->db->createCommand()->truncateTable('{{detail_category}}');
         return true;
     }
 
-    protected function cbPositionsStart($reader)
-    {
-        echo "Обработка товаров\n";
-        Yii::app()->db->createCommand()->delete('{{depot_positions}}');
-        return true;
-    }
-
-    protected function cbAdaptStart($reader)
-    {
-        echo "Обработка применений товаров\n";
-        $this->counter = 0;
-        return true;
-    }
 
     /*
      * Узел ГруппаАвтомобилей
@@ -316,6 +314,50 @@ class AbarisXMLParserGeneral extends SimpleXMLReader
         return true;
     }
 
+    protected function cbPositionsStart($reader)
+    {
+        echo "Обработка товаров\n";
+        Yii::app()->db->createCommand()->truncateTable('{{depot_positions}}');
+        $positions = Yii::app()->db->createCommand()
+            ->select('id, sid, in_stock, article_alias, price')
+            ->from('{{details}}')
+            ->queryAll();
+        $count = count( $positions );
+        for ( $i = 0; $i < $count; $i++ ) {
+            $this->existsPositions[$positions[$i]['article_alias']] = array(
+                'id'=>$positions[$i]['id'],
+                'sid'=>$positions[$i]['sid'],
+                'in_stock'=>$positions[$i]['in_stock'],
+                'price'=>$positions[$i]['price']
+            );
+        }
+        unset($positions);
+        $categories = Yii::app()->db->createCommand()
+            ->select('id, sid')
+            ->from('{{detail_category}}')
+            ->queryAll();
+        $this->existCategories = CHtml::listData($categories, 'sid', 'id');
+        unset($categories);
+
+        $depot = Yii::app()->db->createCommand()
+            ->select('id, sid')
+            ->from('{{depot}}')
+            ->queryAll();
+        $this->existDepot = CHtml::listData($depot, 'sid', 'id');
+        unset($depot);
+//        print_r($this->existCategories);
+//        echo memory_get_usage(); die();
+        return true;
+    }
+
+    protected function cbPositionsFinish($reader)
+    {
+        unset($this->existsCategories);
+        unset($this->existsDepot);
+        unset($this->existsStocks);
+        return true;
+    }
+
     /*
      * Узел ГруппаАвтомобилей
      *
@@ -329,8 +371,6 @@ class AbarisXMLParserGeneral extends SimpleXMLReader
      */
     protected function cbPositionOpen($reader)
     {
-        echo $this->counter++; echo "\n";
-
         $this->reset();
         $xml = $reader->expandSimpleXml('1.0', 'cp1251');
         foreach ( $xml->attributes() as $name => $attribute ) {
@@ -372,6 +412,9 @@ class AbarisXMLParserGeneral extends SimpleXMLReader
         if ( $article === '' && $articleAlias === '' ) {
             return true;
         }
+
+        echo $this->counter++; echo "\n";
+
         if ( $article === '' )
             $article = $articleAlias;
         if ( $articleAlias === '' )
@@ -391,18 +434,10 @@ class AbarisXMLParserGeneral extends SimpleXMLReader
             $isOriginal = 0;
         }
 
-        $position = Yii::app()->db->createCommand()
-            ->select('id, sid')
-            ->from('{{details}}')
-            ->where('article_alias=:alias', array(':alias'=>$articleAlias))
-            ->queryRow();
+        $position = isset($this->existsPositions[$articleAlias]) ? $this->existsPositions[$articleAlias] : null;
 
         if ( !$position ) {
-            $categoryId = Yii::app()->db->createCommand()
-                ->select('id')
-                ->from('{{detail_category}}')
-                ->where('sid=:sid', array(':sid'=>$categorySid))
-                ->queryScalar();
+            $categoryId = $this->existCategories[$categorySid];
             Yii::app()->db->createCommand()->insert('{{details}}', array(
                 'article'=>$article,
                 'article_alias'=>$articleAlias,
@@ -416,49 +451,108 @@ class AbarisXMLParserGeneral extends SimpleXMLReader
                 'is_original'=>$isOriginal,
             ));
             $positionId = Yii::app()->db->getLastInsertID();
-        } else {
+            $this->existsPositions[$articleAlias] = array(
+                'id'=>$positionId,
+                'sid'=>$sid,
+                'in_stock'=>$this->currentFullStock,
+                'price'=>$price
+            );
+        } else if ( $position['in_stock'] != $this->currentFullStock || $position['price'] != $price || $position['sid'] != $sid ) {
             Yii::app()->db->createCommand()->update('{{details}}', array(
                 'name'=>$name,
                 'price'=>$price,
                 'sid'=>$sid,
                 'in_stock'=>$this->currentFullStock,
-            ), 'article_alias=:alias', array(':alias'=>$articleAlias));
+            ), 'id=:id', array(':id'=>$position['id']));
+            $positionId = $position['id'];
+            $this->existsPositions[$articleAlias] = array(
+                'id'=>$positionId,
+                'sid'=>$sid,
+                'in_stock'=>$this->currentFullStock,
+                'price'=>$price
+            );
+        } else {
             $positionId = $position['id'];
         }
 
         foreach ( $this->currentStocks as $depotSid => $inStock ) {
-            $depotId = Yii::app()->db->createCommand()
-                ->select('id')
-                ->from('{{depot}}')
-                ->where('sid=:sid', array(':sid'=>$depotSid))
-                ->queryScalar();
-
-            $currentStock = Yii::app()->db->createCommand()
-                ->select('stock')
-                ->from('{{depot_positions}}')
-                ->where('depot_id=:depot_id AND position_id=:position_id', array(
-                    ':depot_id'=>$depotId,
-                    ':position_id'=>$positionId))
-                ->queryScalar();
-            if ( !$currentStock ) {
+            $depotId = $this->existDepot[$depotSid];
+            if ( !isset($this->existsStocks[$positionId.$depotId]) ) {
                 Yii::app()->db->createCommand()->insert('{{depot_positions}}', array(
                     'depot_id'=>$depotId,
                     'position_id'=>$positionId,
                     'stock'=>$inStock
                 ));
-            } else if ( $currentStock != $inStock ) {
+                $this->existsStocks[$positionId.$depotId] = $inStock;
+            } else if ( $this->existsStocks[$positionId.$depotId] != $inStock ) {
                 Yii::app()->db->createCommand()->update('{{depot_positions}}', array(
-                    'stock'=>$inStock
-                ), 'depot_id=:depot_id AND position_id=:position_id', array(
-                    ':depot_id'=>$depotId,
-                    ':position_id'=>$positionId)
+                        'stock'=>$inStock
+                    ), 'depot_id=:depot_id AND position_id=:position_id', array(
+                        ':depot_id'=>$depotId,
+                        ':position_id'=>$positionId)
                 );
             }
-
-
         }
         return true;
     }
+
+
+    protected function cbAdaptStart($reader)
+    {
+        echo "Обработка применений товаров\n";
+        $this->counter = 0;
+
+        $auto = Yii::app()->db->createCommand()
+            ->select('id, sid')
+            ->from('{{auto_models}}')
+            ->queryAll();
+        $this->existsAuto = CHtml::listData($auto, 'sid', 'id');
+        unset($auto);
+
+        $engines = Yii::app()->db->createCommand()
+            ->select('id, sid')
+            ->from('{{engines}}')
+            ->queryAll();
+        $this->existsEngines = CHtml::listData($engines, 'sid', 'id');
+        unset($engines);
+
+        $adaptabillities = Yii::app()->db->createCommand()
+            ->select('detail_id, auto_model_id, engine_model_id')
+            ->from('{{adaptabillity}}')
+            ->queryAll();
+
+        $count = count($adaptabillities);
+
+        for ( $i = 0; $i < $count; $i++ ) {
+            $detailId = $adaptabillities[$i]['detail_id'];
+            $autoId = $adaptabillities[$i]['auto_model_id'];
+            $engineId = $adaptabillities[$i]['engine_model_id'];
+            if ( $autoId )
+                $this->existsAdaptAuto[$detailId][] = $autoId;
+            if ( $engineId )
+                $this->existsAdaptEngines[$detailId][] = $engineId;
+        }
+        unset($adaptabillities);
+        unset($detailId);
+        unset($autoId);
+        unset($engineId);
+
+        //echo memory_get_usage(); die();
+
+        return true;
+    }
+
+
+    protected function cbAdaptFinish($reader)
+    {
+        unset($this->existsPositions);
+        unset($this->existsAuto);
+        unset($this->existsEngines);
+        unset($this->existsAdaptAuto);
+        unset($this->existsAdaptEngines);
+        return true;
+    }
+
 
     // Применение деталей
     protected function cbAdapt($reader)
@@ -470,54 +564,38 @@ class AbarisXMLParserGeneral extends SimpleXMLReader
         $autoSid = trim( (string)$attributes->{'Автомобиль'} );
         $engineSid = trim( (string)$attributes->{'Двигатель'} );
 
-        $positionId  = Yii::app()->db->createCommand()
-            ->select('id')
-            ->from('{{details}}')
-            ->where('sid=:sid', array(':sid'=>$positionSid))
-            ->queryScalar();
-        if ( !$positionId ) {
+        if ( !isset($this->existsPositions[$positionSid]) ) {
             return true;
         }
-
         echo $this->counter++; echo "\n";
+        $positionId = $this->existsPositions[$positionSid]['id'];
 
-        if ( $autoSid !== '' )
-            $autoId  = Yii::app()->db->createCommand()
-                ->select('id')
-                ->from('{{auto_models}}')
-                ->where('sid=:sid', array(':sid'=>$autoSid))
-                ->queryScalar();
-        else
-            $autoId = null;
-        if ( $engineSid !== '' )
-            $engineId  = Yii::app()->db->createCommand()
-                ->select('id')
-                ->from('{{engines}}')
-                ->where('sid=:sid', array(':sid'=>$engineSid))
-                ->queryScalar();
-        else
-            $engineId = null;
+        $autoId = $this->existsAuto[$autoSid];
+        $engineId = $this->existsEngines[$engineSid];
 
         if ( !$autoId && !$engineId )
             return true;
 
-        if ( !$autoId ) $autoId = null;
-        if ( !$engineId ) $engineId = null;
+        if ( $autoId ) {
+            if ( !in_array($autoId, $this->existsAdaptAuto[$positionId]) ) {
+                Yii::app()->db->createCommand()->insert('{{adaptabillity}}', array(
+                    'detail_id'=>$positionId,
+                    'auto_model_id'=>$autoId,
+                    'engine_model_id'=>null
+                ));
+                $this->existsAdaptAuto[$positionId][] = $autoId;
+            }
+        }
 
-        $adapt = Yii::app()->db->createCommand()
-            ->select('detail_id')
-            ->from('{{adaptabillity}}')
-            ->where('detail_id=:position_id AND auto_model_id=:auto_id AND engine_model_id=:engine_id', array(
-                ':position_id'=>$positionId,
-                ':auto_id'=>$autoId,
-                ':engine_id'=>$engineId))
-            ->queryRow();
-        if ( !$adapt ) {
-            Yii::app()->db->createCommand()->insert('{{adaptabillity}}', array(
-                'detail_id'=>$positionId,
-                'auto_model_id'=>$autoId,
-                'engine_model_id'=>$engineId
-            ));
+        if ( $engineId ) {
+            if ( !in_array($engineId, $this->existsAdaptEngines[$positionId]) ) {
+                Yii::app()->db->createCommand()->insert('{{adaptabillity}}', array(
+                    'detail_id'=>$positionId,
+                    'auto_model_id'=>null,
+                    'engine_model_id'=>$engineId
+                ));
+                $this->existsAdaptEngines[$positionId][] = $engineId;
+            }
         }
 
         return true;

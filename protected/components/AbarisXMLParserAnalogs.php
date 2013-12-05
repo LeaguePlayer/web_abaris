@@ -4,12 +4,17 @@ Yii::import('application.extensions.vendor.SimpleXMLReader.library.SimpleXMLRead
 class AbarisXMLParserAnalogs extends SimpleXMLReader
 {
     protected $currentPosId;
+    protected $existsPositions;
+    protected $existsAnalogs;
+
+    protected $counter = 0;
 
     public function __construct()
     {
         $this->registerCallback('Товары', array($this, 'cbStart'), XMLREADER::ELEMENT);
         $this->registerCallback('Товар', array($this, 'cbPositionOpen'), XMLREADER::ELEMENT);
         $this->registerCallback('Аналоги', array($this, 'cbAnalog'), XMLREADER::ELEMENT);
+        $this->registerCallback('Товары', array($this, 'cbFinish'), XMLREADER::END_ELEMENT);
         $this->reset();
     }
 
@@ -21,6 +26,32 @@ class AbarisXMLParserAnalogs extends SimpleXMLReader
     protected function cbStart($reader)
     {
         echo "Обработка аналогов\n";
+        $positions = Yii::app()->db->createCommand()
+            ->select('id, sid')
+            ->from('{{details}}')
+            ->queryAll();
+        $this->existsPositions = CHtml::listData($positions, 'sid', 'id');
+        unset($positions);
+
+        $analogs = Yii::app()->db->createCommand()
+            ->select('original_id, analog_id')
+            ->from('{{analog_details}}')
+            ->order('original_id')
+            ->queryAll();
+        $count = count($analogs);
+        for ( $i = 0; $i < $count; $i++ ) {
+            $originalId = $analogs[$i]['original_id'];
+            $analogId = $analogs[$i]['analog_id'];
+            $this->existsAnalogs[$originalId][] = $analogId;
+        }
+        unset($analogs);
+        return true;
+    }
+
+    protected function cbFinish($reader)
+    {
+        unset($this->existsPositions);
+        unset($this->existsAnalogs);
         return true;
     }
 
@@ -30,13 +61,10 @@ class AbarisXMLParserAnalogs extends SimpleXMLReader
         $xml = $reader->expandSimpleXml('1.0', 'cp1251');
         $attributes = $xml->attributes();
         $positionSid = trim( (string)$attributes->{'Код'} );
-
-        $this->currentPosId = Yii::app()->db->createCommand()
-            ->select('id')
-            ->from('{{details}}')
-            ->where('sid=:sid', array(':sid'=>$positionSid))
-            ->queryScalar();
-
+        if ( isset($this->existsPositions[$positionSid]) ) {
+            $this->currentPosId = $this->existsPositions[$positionSid];
+        }
+        echo $this->counter++; echo "\n";
         return true;
     }
 
@@ -49,22 +77,12 @@ class AbarisXMLParserAnalogs extends SimpleXMLReader
         $attributes = $xml->attributes();
         $analogSid = trim( (string)$attributes->{'Код'} );
 
-        $analogId = Yii::app()->db->createCommand()
-            ->select('id')
-            ->from('{{details}}')
-            ->where('sid=:sid', array(':sid'=>$analogSid))
-            ->queryScalar();
-
-        if ( !$analogId )
+        if ( !isset($this->existsPositions[$analogSid]) )
             return true;
+        $analogId = $this->existsPositions[$analogSid];
 
-        $hasAnalog = Yii::app()->db->createCommand()
-            ->select('original_id')
-            ->from('{{analog_details}}')
-            ->where('original_id=:original_id AND analog_id=:analog_id', array(
-                ':original_id'=>$this->currentPosId,
-                ':analog_id'=>$analogId))
-            ->queryScalar();
+        $hasAnalog = isset($this->existsAnalogs[$this->currentPosId]) &&
+            in_array($analogId, $this->existsAnalogs[$this->currentPosId]);
 
         if ( $hasAnalog )
             return true;
@@ -73,6 +91,7 @@ class AbarisXMLParserAnalogs extends SimpleXMLReader
             'original_id'=>$this->currentPosId,
             'analog_id'=>$analogId
         ));
+        $this->existsAnalogs[$this->currentPosId][] = $analogId;
 
         return true;
     }
