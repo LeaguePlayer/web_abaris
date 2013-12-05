@@ -11,6 +11,8 @@ class AbarisXMLParserGeneral extends SimpleXMLReader
     protected $currentStocks;
     protected $currentFullStock;
 
+    protected $counter = 0;
+
     public function __construct()
     {
         $this->registerCallback('Выгрузка', array($this, 'cbStart'), XMLREADER::ELEMENT);
@@ -107,6 +109,7 @@ class AbarisXMLParserGeneral extends SimpleXMLReader
     protected function cbAdaptStart($reader)
     {
         echo "Обработка применений товаров\n";
+        $this->counter = 0;
         return true;
     }
 
@@ -326,6 +329,8 @@ class AbarisXMLParserGeneral extends SimpleXMLReader
      */
     protected function cbPositionOpen($reader)
     {
+        echo $this->counter++; echo "\n";
+
         $this->reset();
         $xml = $reader->expandSimpleXml('1.0', 'cp1251');
         foreach ( $xml->attributes() as $name => $attribute ) {
@@ -473,6 +478,8 @@ class AbarisXMLParserGeneral extends SimpleXMLReader
         if ( !$positionId ) {
             return true;
         }
+
+        echo $this->counter++; echo "\n";
 
         if ( $autoSid !== '' )
             $autoId  = Yii::app()->db->createCommand()
