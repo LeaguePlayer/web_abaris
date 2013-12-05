@@ -26,6 +26,7 @@ class XMLParseCommand extends CConsoleCommand {
         echo $lastUploadedFile;
         $file = $dumpPath.$lastUploadedFile;
         try {
+            set_time_limit(0);
             $parser = new AbarisXMLParserGeneral();
             $parser->open($file);
             $parser->parse();
