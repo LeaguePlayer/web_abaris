@@ -12,7 +12,7 @@ $this->breadcrumbs = array(
             <div class="span4 img"><?php echo $autoModel->getImage('big'); ?></div>
             <div class="span4">
                 <h2 class="georgia"><?php echo $autoModel->name; ?></h2>
-                <p><?php echo '<span class="grey">'.$autoModel->releaseYear.'</span> - '.$autoModel->endReleaseYear; ?></p>
+                <p><?php echo '<span class="grey">'.$autoModel->startRelease.'</span> - '.$autoModel->endRelease; ?></p>
                 <?php foreach ( $autoModel->detailInfo as $item ): ?>
                 <div class="row">
                     <div class="span2"><?php echo $item['label']; ?></div>

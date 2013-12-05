@@ -5,7 +5,6 @@ Yii::import('application.models.*');
 class XMLParseCommand extends CConsoleCommand {
     public function run($args) {
         $SLASH = DIRECTORY_SEPARATOR;
-        $parser = new AbarisXMLParser();
         $dumpPath = __DIR__.$SLASH.'..'.$SLASH.'..'.$SLASH.'..'.$SLASH.'dump'.$SLASH;
         $files = scandir($dumpPath);
 
@@ -27,6 +26,13 @@ class XMLParseCommand extends CConsoleCommand {
         echo $lastUploadedFile;
         $file = $dumpPath.$lastUploadedFile;
         try {
+            $parser = new AbarisXMLParserGeneral();
+            $parser->open($file);
+            $parser->parse();
+            $parser->close();
+
+            // Второй проход файла для чтения аналогов
+            $parser = new AbarisXMLParserAnalogs();
             $parser->open($file);
             $parser->parse();
             $parser->close();

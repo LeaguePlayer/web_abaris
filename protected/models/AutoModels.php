@@ -165,6 +165,22 @@ class AutoModels extends EActiveRecord
 //            : 'наст. время';
 //    }
 
+    public function getStartRelease()
+    {
+        $ts = strtotime($this->dt_release_date);
+        if ( $ts <= 0 )
+            return '';
+        return date('Y', $ts);
+    }
+
+    public function getEndRelease()
+    {
+        $ts = strtotime($this->dt_end_release_date);
+        if ( $ts <= 0 )
+            return '';
+        return date('Y', $ts);
+    }
+
     public function getReleaseRange()
     {
         $ts = strtotime($this->dt_release_date);

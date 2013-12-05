@@ -54,7 +54,10 @@
   line-height: 1; }
   .catalog-grid-subhead h3 {
     text-align: center;
-    font-size: 1.2em; }
+    font-size: 1.2em;
+    line-height: 20px;
+    margin-top: 20px;
+    margin-bottom: 5px; }
   .catalog-grid-subhead + catalog-grid-row {
     border-top: 2px solid #9e9e9e; }
 

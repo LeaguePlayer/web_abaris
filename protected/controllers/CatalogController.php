@@ -14,7 +14,6 @@ class CatalogController extends FrontController
     public function actionIndex($chooseLetter = false)
     {
         $criteria = new CDbCriteria();
-        $criteria->addCondition('status='.AutoModels::STATUS_PUBLISH);
         if ( $this->brand !== null ) {
             $criteria->addCondition('brand_id=:brand_id');
             $criteria->params[':brand_id'] = $this->brand['id'];
@@ -45,24 +44,12 @@ class CatalogController extends FrontController
     }
 
 
-    public function actionEngines($model_id = false, $VIN = false)
+    public function actionEngines($model_id)
     {
         // Получаем выбранную марку авто
         $criteria = new CDbCriteria();
         $criteria->with = array('engines');
-        if ( $model_id ) {
-            $criteria->compare('t.id', $model_id);
-        } else if ( $VIN ) {
-            $relAutoEngine = AutoEngines::model()->findByAttributes(array('VIN'=>$VIN));
-            if ( $relAutoEngine !== null ) {
-                $criteria->compare('t.id', $relAutoEngine->auto_model_id);
-                $currentEngineId = $relAutoEngine->engine_id;
-            } else {
-                $criteria->compare('t.VIN', $VIN);
-            }
-        } else {
-            throw new CHttpException(403, 'Неверный запрос');
-        }
+        $criteria->compare('t.id', $model_id);
 
         $autoModel = AutoModels::model()->find($criteria);
         if ( $autoModel === null ) {
@@ -84,7 +71,6 @@ class CatalogController extends FrontController
         $this->render('engines',array(
             'autoModel'=>$autoModel,
             'enginesDataProvider'=>$enginesDataProvider,
-            'currentEngineId'=>$currentEngineId,
         ));
     }
 
