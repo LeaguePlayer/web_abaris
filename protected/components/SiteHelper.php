@@ -119,6 +119,8 @@ class SiteHelper {
         } else {
 			$timestamp = time();
 		}
+        if ( $timestamp < 0 )
+            return;
 		$date = explode(".", date("d.m.Y", $timestamp));
 		$m = self::russianMonth($date[1]);
 		return $date[0] . '&nbsp;' . $m . '&nbsp;' . $date[2];

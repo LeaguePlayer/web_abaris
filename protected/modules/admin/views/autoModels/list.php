@@ -41,24 +41,12 @@ $this->menu=array(
 		),
 		'number_doors',
         array(
-            'name'=>'engine_model_id',
-            'type'=>'raw',
-            'value'=>'$data->engine->name',
-            'filter'=>CHtml::listData(Engines::model()->findAll(), 'id', 'name')
-        ),
-        array(
             'name'=>'bodytype_id',
             'type'=>'raw',
             'value'=>'$data->bodytype->name',
             'filter'=>CHtml::listData(Bodytypes::model()->findAll(), 'id', 'name')
         ),
 		'VIN',
-		array(
-			'name'=>'status',
-			'type'=>'raw',
-			'value'=>'AutoModels::getStatusAliases($data->status)',
-			'filter'=>AutoModels::getStatusAliases()
-		),
 		array(
 			'class'=>'bootstrap.widgets.TbButtonColumn',
 		),

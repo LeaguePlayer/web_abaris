@@ -44,6 +44,8 @@ button.b-button
   input[type='checkbox']
     display: none
     & + label
+      position: relative
+      z-index: 600
       display: inline-block
       width: 31px
       height: 26px
@@ -52,8 +54,6 @@ button.b-button
         background-position: 0 -30px
     &:checked + label
       background-position: -31px 0
-      position: relative
-      z-index: 500
       &:hover
         background-position: -64px -30px
 

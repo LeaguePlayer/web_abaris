@@ -18,6 +18,7 @@ class AbarisXMLParserGeneral extends SimpleXMLReader
     protected $existsEngines;
     protected $existsAdaptAuto;
     protected $existsAdaptEngines;
+    protected $existsBrands;
 
 
     protected $counter = 0;
@@ -61,7 +62,6 @@ class AbarisXMLParserGeneral extends SimpleXMLReader
 
     protected function cbStart($reader)
     {
-        echo "Подождите...\n";
         return true;
     }
 
@@ -327,11 +327,18 @@ class AbarisXMLParserGeneral extends SimpleXMLReader
             $this->existsPositions[$positions[$i]['article_alias']] = array(
                 'id'=>$positions[$i]['id'],
                 'sid'=>$positions[$i]['sid'],
-                'in_stock'=>$positions[$i]['in_stock'],
-                'price'=>$positions[$i]['price']
+                'in_stock'=>$positions[$i]['in_stock']
             );
         }
         unset($positions);
+
+        $brands = Yii::app()->db->createCommand()
+            ->select('alias, id')
+            ->from('{{brands}}')
+            ->queryAll();
+        $this->existsBrands = CHtml::listData($brands, 'alias', 'id');
+        unset($brands);
+
         $categories = Yii::app()->db->createCommand()
             ->select('id, sid')
             ->from('{{detail_category}}')
@@ -356,6 +363,7 @@ class AbarisXMLParserGeneral extends SimpleXMLReader
         unset($this->existsCategories);
         unset($this->existsDepot);
         unset($this->existsStocks);
+        unset($this->existsBrands);
         return true;
     }
 
@@ -401,7 +409,11 @@ class AbarisXMLParserGeneral extends SimpleXMLReader
         $attributes = $xml->attributes();
         $depotSid = trim( (string)$attributes->{'КодСклада'} );
         $inStock = (int)$attributes->{'Остаток'};
-        $this->currentStocks[$depotSid] = $inStock;
+        $price = (float)$attributes->{'Цена'};
+        $this->currentStocks[$depotSid] = array(
+            'in_stock'=>$inStock,
+            'price'=>$price
+        );
         $this->currentFullStock += $inStock;
         return true;
     }
@@ -424,14 +436,25 @@ class AbarisXMLParserGeneral extends SimpleXMLReader
         $sid = $this->currentPosition['Код'];
         $name = $this->currentPosition['Наименование'];
         $categorySid = $this->currentPosition['Родитель'];
-        $price = (float)$this->currentPosition['Цена'];
+
         if ( isset($this->currentPosition['producer']) ) {
             $producerName = trim($this->currentPosition['producer']['Производитель']);
             $producerCountry = trim($this->currentPosition['producer']['Страна']);
+            $producerAlias = strtolower( SiteHelper::translit($producerName) );
+            if ( !isset($this->existsBrands[$producerAlias]) ) {
+                Yii::app()->db->createCommand()->insert('{{brands}}', array(
+                    'alias'=>$producerAlias,
+                    'name'=>$producerName,
+                    'country'=>$producerCountry,
+                ));
+                $brandId = Yii::app()->db->getLastInsertID();
+                $this->existsBrands[$producerAlias] = $brandId;
+            } else {
+                $brandId = $this->existsBrands[$producerAlias];
+            }
             $isOriginal = (int)$this->currentPosition['producer']['Оригинал'];
         } else {
-            $producerName = '';
-            $producerCountry = '';
+            $brandId = 0;
             $isOriginal = 0;
         }
 
@@ -443,25 +466,21 @@ class AbarisXMLParserGeneral extends SimpleXMLReader
                 'article'=>$article,
                 'article_alias'=>$articleAlias,
                 'name'=>$name,
-                'price'=>$price,
                 'sid'=>$sid,
                 'in_stock'=>$this->currentFullStock,
                 'category_id'=>$categoryId,
-                'producer_name'=>$producerName,
-                'producer_country'=>$producerCountry,
                 'is_original'=>$isOriginal,
+                'brand_id'=>$brandId,
             ));
             $positionId = Yii::app()->db->getLastInsertID();
             $this->existsPositions[$articleAlias] = array(
                 'id'=>$positionId,
                 'sid'=>$sid,
                 'in_stock'=>$this->currentFullStock,
-                'price'=>$price
             );
-        } else if ( $position['in_stock'] != $this->currentFullStock || $position['price'] != $price || $position['sid'] != $sid ) {
+        } else if ( $position['in_stock'] != $this->currentFullStock || $position['sid'] != $sid ) {
             Yii::app()->db->createCommand()->update('{{details}}', array(
                 'name'=>$name,
-                'price'=>$price,
                 'sid'=>$sid,
                 'in_stock'=>$this->currentFullStock,
             ), 'id=:id', array(':id'=>$position['id']));
@@ -470,24 +489,29 @@ class AbarisXMLParserGeneral extends SimpleXMLReader
                 'id'=>$positionId,
                 'sid'=>$sid,
                 'in_stock'=>$this->currentFullStock,
-                'price'=>$price
             );
         } else {
             $positionId = $position['id'];
         }
 
-        foreach ( $this->currentStocks as $depotSid => $inStock ) {
+
+        foreach ( $this->currentStocks as $depotSid => $depotInfo ) {
             $depotId = $this->existDepot[$depotSid];
             if ( !isset($this->existsStocks[$positionId.$depotId]) ) {
                 Yii::app()->db->createCommand()->insert('{{depot_positions}}', array(
                     'depot_id'=>$depotId,
                     'position_id'=>$positionId,
-                    'stock'=>$inStock
+                    'stock'=>$depotInfo['in_stock'],
+                    'price'=>$depotInfo['price']
                 ));
-                $this->existsStocks[$positionId.$depotId] = $inStock;
-            } else if ( $this->existsStocks[$positionId.$depotId] != $inStock ) {
+                $this->existsStocks[$positionId.$depotId] = array(
+                    'in_stock'=>$depotInfo['in_stock'],
+                    'price'=>$depotInfo['price']
+                );
+            } else if ( $this->existsStocks[$positionId.$depotId]['in_stock'] != $depotInfo['in_stock'] || $this->existsStocks[$positionId.$depotId]['price'] != $depotInfo['price'] ) {
                 Yii::app()->db->createCommand()->update('{{depot_positions}}', array(
-                        'stock'=>$inStock
+                        'stock'=>$depotInfo['in_stock'],
+                        'price'=>$depotInfo['price'],
                     ), 'depot_id=:depot_id AND position_id=:position_id', array(
                         ':depot_id'=>$depotId,
                         ':position_id'=>$positionId)

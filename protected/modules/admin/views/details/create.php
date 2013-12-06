@@ -9,6 +9,6 @@ $this->menu=array(
 );
 ?>
 
-<h1><?php echo $model->translition(); ?> - Добавление</h1>
+<h1>Добавление товара</h1>
 
 <?php echo $this->renderPartial('_form', array('model'=>$model)); ?>

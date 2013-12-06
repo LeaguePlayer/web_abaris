@@ -190,6 +190,17 @@ class CatalogController extends FrontController
             $categoriesList = array($currentCategory->id, $currentSubCategory->id);
         }
         $criteriaDet->addInCondition('category_id', $categoriesList);
+
+//        if ( $engine_id ) {
+//            $sqlCond = 'id IN (SELECT DISTINCT detail_id FROM '.Adaptabillity::model()->tableName().' WHERE engine_model_id=:engine_id)';
+//            $criteriaDet->params[':engine_id'] = $engine_id;
+//            $criteriaDet->addCondition($sqlCond);
+//        } else if ( $model_id ) {
+//            $sqlCond = 'id IN (SELECT DISTINCT detail_id FROM '.Adaptabillity::model()->tableName().' WHERE auto_model_id=:model_id)';
+//            $criteriaDet->params[':model_id'] = $model_id;
+//            $criteriaDet->addCondition($sqlCond);
+//        }
+
         if ( $model_id ) {
             $sqlCond = 'id IN (SELECT DISTINCT detail_id FROM '.Adaptabillity::model()->tableName().' WHERE auto_model_id=:model_id';
             $criteriaDet->params[':model_id'] = $model_id;

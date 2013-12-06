@@ -245,7 +245,11 @@ class Details extends EActiveRecord implements IECartPosition
         }
     }
 
-    public function getStock()
+    /*
+     * 1) Если товар есть на складе выводить информацию о количестве с рабивкой по складам
+     * 2) Если нет
+     */
+    public function toStringStock()
     {
         if ( $this->in_stock > 0 ) {
             return $this->in_stock.' шт.';
@@ -253,21 +257,10 @@ class Details extends EActiveRecord implements IECartPosition
         return '–';
     }
 
-    /*
-     * 1) Если товар есть на складе выводить информацию о количестве с рабивкой по складам
-     * 2) Если нет
-     */
-    public function toStringInStock()
+    public function toStringPrice()
     {
-        return !empty($this->in_stock) ? is_numeric($this->in_stock) ? $this->in_stock.' шт.' : $this->in_stock : '—';
-    }
-
-    public function toStringPrice($price = null)
-    {
-        if ( !is_numeric($price) )
-            $price = $this->price;
-        if ( $price > 0 )
-            return SiteHelper::priceFormat($price, 'руб.');
+        if ( $this->price > 0 )
+            return SiteHelper::priceFormat($this->price, 'руб.');
         else
             return '—';
     }
@@ -315,4 +308,11 @@ class Details extends EActiveRecord implements IECartPosition
 			
             return $detailNoFound;
 	}
+
+    public function duplicate()
+    {
+        $instance = new Details('duplicate');
+        $instance->attributes = $this->attributes;
+        return $instance;
+    }
 }

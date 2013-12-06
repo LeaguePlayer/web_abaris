@@ -23,7 +23,7 @@ class XMLParseCommand extends CConsoleCommand {
                 $timeMark = $dateUpload;
             }
         }
-        echo $lastUploadedFile;
+        echo $lastUploadedFile."\n";
         $file = $dumpPath.$lastUploadedFile;
         try {
             set_time_limit(0);

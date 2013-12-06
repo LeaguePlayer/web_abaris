@@ -2,7 +2,7 @@
 (function() {
   $(function() {
     $.detailGridBinding = function() {
-      var callback;
+      var callback, options;
       callback = function() {
         $('#Adaptabillity_auto_model_id').select2();
         $('#adaptabilliti-form .btn').unbind('click').bind('click', function(e) {
@@ -46,9 +46,13 @@
           return false;
         });
       };
-      return $.bindModal('a.link-modal', function() {
-        return callback();
-      });
+      options = {
+        afterShow: function() {
+          return callback();
+        },
+        width: 500
+      };
+      return $.bindModal('a.link-modal', options);
     };
     return $.detailGridBinding();
   });

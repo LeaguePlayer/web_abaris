@@ -32,7 +32,9 @@ $ ->
 							callback()
 				false
 
-		$.bindModal 'a.link-modal', () ->
-			callback()
+		options =
+			afterShow: () -> callback()
+			width: 500
+		$.bindModal 'a.link-modal', options
 
 	$.detailGridBinding()

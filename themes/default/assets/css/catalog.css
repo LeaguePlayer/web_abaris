@@ -120,7 +120,6 @@
 .catalog-grid .catalog-grid-row .price {
   position: relative; }
   .catalog-grid .catalog-grid-row .price a.to_cart {
-    display: none;
     position: absolute;
     left: 50%;
     top: 50%;
@@ -131,10 +130,6 @@
     background: no-repeat center url("../img/plus_cart.gif"); }
 .catalog-grid .catalog-grid-row .active {
   background-color: #f1f1f1; }
-.catalog-grid .catalog-grid-row:hover .price p {
-  text-indent: -9999px; }
-.catalog-grid .catalog-grid-row:hover a.to_cart {
-  display: block; }
 
 .catalog-grid-header {
   background: white;

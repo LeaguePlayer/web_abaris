@@ -58,11 +58,6 @@
 
 	<?php echo $form->textFieldControlGroup($model,'number_doors',array('class'=>'span8')); ?>
 
-    <?php echo $form->dropDownListControlGroup($model,'engine_model_id', CHtml::listData(Engines::model()->findAll(), 'id', 'name'),array(
-        'class'=>'span8',
-        'empty'=>'Не выбран',
-    )); ?>
-
     <?php echo $form->dropDownListControlGroup($model,'bodytype_id', CHtml::listData(Bodytypes::model()->findAll(), 'id', 'name'),array(
         'class'=>'span8',
         'empty'=>'Не выбран',
@@ -70,8 +65,7 @@
 
 	<?php echo $form->textFieldControlGroup($model,'VIN',array('class'=>'span8','maxlength'=>20)); ?>
 
-	<?php echo $form->dropDownListControlGroup($model, 'status', AutoModels::getStatusAliases(), array('class'=>'span8', 'displaySize'=>1)); ?>
-	<div class="form-actions">
+    <div class="form-actions">
 		<?php echo TbHtml::submitButton('Сохранить', array('color' => TbHtml::BUTTON_COLOR_PRIMARY)); ?>
         <?php echo TbHtml::linkButton('Отмена', array('url'=>'/admin/autoModels/list')); ?>
 	</div>

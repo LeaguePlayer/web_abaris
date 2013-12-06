@@ -7,20 +7,19 @@ $(document).ready(function() {
     });
 
 
-    $.bindModal = function(selector, callback) {
+    $.bindModal = function(selector, options) {
         $(selector).click(function() {
             var self = $(this);
             $.ajax({
                 url: self.attr('href'),
                 type: self.data('method'),
+                beforeSend: function() {
+                    $.fancybox.showLoading();
+                },
                 success: function(data) {
-                    $.fancybox.open({
-                        content: data,
-                        afterShow: function() {
-                            if ( callback !== undefined )
-                                callback.call();
-                        }
-                    });
+                    options = $.extend({content: data}, options);
+                    console.log(options);
+                    $.fancybox.open(options);
                 }
             });
             return false;

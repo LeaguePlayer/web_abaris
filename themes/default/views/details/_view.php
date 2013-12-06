@@ -4,9 +4,9 @@
             if ( $depotPosition->stock == 0 )
                 continue;
 
-            $position = new Details('duplicate');
-            $position->attributes = $data->attributes;
+            $position = $data->duplicate();
             $position->in_stock = $depotPosition->stock;
+            $position->price = $depotPosition->price;
             $position->delivery_time = 0;
             $position->virtualType = Details::VIRTUALTYPE_DEPOT;
             $position->virtualId = $depotPosition->depot_id;

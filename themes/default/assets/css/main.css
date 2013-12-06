@@ -42,6 +42,8 @@ button.b-button {
 .blue-check input[type='checkbox'] {
   display: none; }
   .blue-check input[type='checkbox'] + label {
+    position: relative;
+    z-index: 600;
     display: inline-block;
     width: 31px;
     height: 26px;
@@ -49,9 +51,7 @@ button.b-button {
     .blue-check input[type='checkbox'] + label:hover {
       background-position: 0 -30px; }
   .blue-check input[type='checkbox']:checked + label {
-    background-position: -31px 0;
-    position: relative;
-    z-index: 500; }
+    background-position: -31px 0; }
     .blue-check input[type='checkbox']:checked + label:hover {
       background-position: -64px -30px; }
 
