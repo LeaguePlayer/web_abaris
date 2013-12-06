@@ -77,6 +77,9 @@
     background: no-repeat right center url("../img/field-border.png");
     position: relative;
     text-align: center; }
+    .catalog-grid-row .field .stock_specify {
+      display: block;
+      line-height: 1; }
   .catalog-grid-row.small-height .field {
     height: 60px; }
   .catalog-grid-row .no-background {
@@ -94,13 +97,6 @@
 
 .catalog-grid-row:hover {
   background-color: #f1f1f1; }
-  .catalog-grid-row:hover .price p {
-    position: absolute;
-    text-indent: -9999px;
-    width: 100%;
-    height: 100%;
-    background: no-repeat center url("../img/plus_cart.gif");
-    cursor: pointer; }
 
 .valign-text {
   display: table;
@@ -119,25 +115,26 @@
     .valign-text p a.admin-icon, .valign-text p a.pencil {
       border-bottom: none; }
 
-.catalog-grid .field:last-child {
+.catalog-grid .catalog-grid-row .field:last-child {
   background: none; }
-.catalog-grid .price {
+.catalog-grid .catalog-grid-row .price {
   position: relative; }
-  .catalog-grid .price a.to_cart {
+  .catalog-grid .catalog-grid-row .price a.to_cart {
+    display: none;
     position: absolute;
-    left: 0;
-    top: 0;
-    display: inline-block;
-    width: 100%;
-    height: 100%; }
-.catalog-grid .active {
-  background-color: #f1f1f1; }
-  .catalog-grid .active .price p {
-    position: absolute;
-    text-indent: -9999px;
-    width: 100%;
-    height: 100%;
+    left: 50%;
+    top: 50%;
+    margin-top: -30px;
+    margin-left: -30px;
+    width: 60px;
+    height: 60px;
     background: no-repeat center url("../img/plus_cart.gif"); }
+.catalog-grid .catalog-grid-row .active {
+  background-color: #f1f1f1; }
+.catalog-grid .catalog-grid-row:hover .price p {
+  text-indent: -9999px; }
+.catalog-grid .catalog-grid-row:hover a.to_cart {
+  display: block; }
 
 .catalog-grid-header {
   background: white;

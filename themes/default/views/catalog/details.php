@@ -1,15 +1,18 @@
 <?php
     $this->breadcrumbs = array(
         'Каталог абарис'=>array('catalog/index', 'brand'=>$this->brand['alias']),
-        $autoModel->name=>array('/catalog/engines', 'model_id'=>$autoModel->id, 'brand'=>$this->brand['alias']),
-        $engineModel->name
     );
+    if ( $autoModel )
+        $this->breadcrumbs[$autoModel->name] = array('/catalog/engines', 'model_id'=>$autoModel->id, 'brand'=>$this->brand['alias']);
+    if ( $engineModel )
+        $this->breadcrumbs[] = $engineModel->name;
 ?>
 
 <div class="catalog-container">
     <div class="catalog-model">
         <div class="container">
             <div class="row">
+                <?php if ( $autoModel ): ?>
                 <div class="span6"><?php echo $autoModel->getImage('big'); ?></div>
                 <div class="span4">
                     <div class="auto-title">
@@ -17,6 +20,7 @@
                         <span><?php echo $autoModel->releaseRange; ?></span>
                     </div>
                 </div>
+                <?php endif ?>
             </div>
         </div>
     </div>

@@ -28,11 +28,10 @@ $ ->
 		form.submit ->
 			$.fn.yiiListView.update "#{listId}",
 				data: $(this).serialize()
-			$.scrollTo('#top-grid', 200)
+			$.scrollTo('#top-grid')
 			false
 		form.find('input:text').keyup (e) ->
-			if e.keyCode == 13
-				form.submit()
+			form.submit()
 			false
 		#.change (e) ->
 		#	form.submit()

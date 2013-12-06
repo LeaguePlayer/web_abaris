@@ -21,7 +21,7 @@
             <div class="row num-block">
                 <div class="span6"><p>Запчасти можно легко найти по артикулу:</p>
                     <div class="row">
-                        <form method="GET" action="<?php echo $this->createUrl('/details/view'); ?>" class="abaris-form">
+                        <form method="GET" action="<?php echo $this->createUrl('/catalog/details'); ?>" class="abaris-form">
                             <div class="span4"><input name="article" type="text" value="" class="text-input s-input"></div>
                             <div class="span2"><button type="submit" class="b-button b-button-blue">Найти</button></div>
                         </form>

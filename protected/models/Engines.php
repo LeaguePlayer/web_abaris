@@ -109,6 +109,8 @@ class Engines extends EActiveRecord
 
     public function getFuelType()
     {
+        if ( !$this->fuel )
+            return '–';
         return $this->getFuelTypes($this->fuel);
     }
 }

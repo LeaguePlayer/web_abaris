@@ -9,7 +9,7 @@ class DetailsController extends FrontController
 	{
         $autoModel = $this->loadModel('AutoModels', $model_id, array('with'=>array('bodytype', 'engines')), false);
         if ( !empty($engine_id) ) {
-            foreach ( $this->engines as $engine) {
+            foreach ( $autoModel->engines as $engine) {
                 if ( $engine->id === $engine_id ) {
                     $engineModel = $engine;
                     break;
@@ -45,11 +45,11 @@ class DetailsController extends FrontController
 
         $inStockDetails = array();
         $nonInStockDetails = array();
-        if ( $model->in_stock > 0 ) {
-            $inStockDetails[] = $model;
-        } else {
-            $nonInStockDetails[] = $model;
-        }
+//        if ( $model->in_stock > 0 ) {
+//            $inStockDetails[] = $model;
+//        } else {
+//            $nonInStockDetails[] = $model;
+//        }
         $counterInStock = 0;
         $counterNonInStock = 0;
         $firstAnalogInStockId = 0;

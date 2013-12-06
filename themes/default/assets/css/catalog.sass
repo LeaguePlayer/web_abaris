@@ -86,6 +86,9 @@ $yellow-dark: #fff9bf
     background: no-repeat right center url('../img/field-border.png')
     position: relative
     text-align: center
+    .stock_specify
+      display: block
+      line-height: 1
   &.small-height .field
     height: 60px
   .no-background
@@ -101,14 +104,6 @@ $yellow-dark: #fff9bf
   border: none
 .catalog-grid-row:hover
   background-color: #f1f1f1
-  .price
-    p
-      position: absolute
-      text-indent: -9999px
-      width: 100%
-      height: 100%
-      background: no-repeat center url('../img/plus_cart.gif')
-      cursor: pointer
 
 .valign-text
   display: table
@@ -128,29 +123,29 @@ $yellow-dark: #fff9bf
       border-bottom: none
 
 .catalog-grid
-  .field:last-child
-    background: none
-  .price
-    position: relative
-    a.to_cart
-      position: absolute
-      left: 0
-      top: 0
-      display: inline-block
-      width: 100%
-      height: 100%
-  .active
-    background-color: #f1f1f1
-    // color: #fff
+  .catalog-grid-row
+    .field:last-child
+      background: none
     .price
-      p
+      position: relative
+      a.to_cart
+        display: none
         position: absolute
-        text-indent: -9999px
-        width: 100%
-        height: 100%
+        left: 50%
+        top: 50%
+        margin-top: -30px
+        margin-left: -30px
+        width: 60px
+        height: 60px
         background: no-repeat center url('../img/plus_cart.gif')
-    //.field
-      // background: no-repeat right center url('../img/field-border-active.png')
+    .active
+      background-color: #f1f1f1
+    &:hover
+      .price p
+        text-indent: -9999px
+      a.to_cart
+        display: block
+
 
 .catalog-grid-header
   background: #ffffff

@@ -64,7 +64,7 @@ class AbarisXMLParserAnalogs extends SimpleXMLReader
         if ( isset($this->existsPositions[$positionSid]) ) {
             $this->currentPosId = $this->existsPositions[$positionSid];
         }
-        echo $this->counter++; echo "\n";
+        //echo $this->counter++; echo "\n";
         return true;
     }
 

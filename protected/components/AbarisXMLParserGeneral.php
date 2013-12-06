@@ -67,7 +67,7 @@ class AbarisXMLParserGeneral extends SimpleXMLReader
 
     protected function cbFinish($reader)
     {
-        echo "Готово!\n";
+        //echo "Готово!\n";
         return true;
     }
 
@@ -352,6 +352,7 @@ class AbarisXMLParserGeneral extends SimpleXMLReader
 
     protected function cbPositionsFinish($reader)
     {
+        unset($this->existsPositions);
         unset($this->existsCategories);
         unset($this->existsDepot);
         unset($this->existsStocks);
@@ -413,7 +414,7 @@ class AbarisXMLParserGeneral extends SimpleXMLReader
             return true;
         }
 
-        echo $this->counter++; echo "\n";
+        //echo $this->counter++; echo "\n";
 
         if ( $article === '' )
             $article = $articleAlias;
@@ -500,7 +501,14 @@ class AbarisXMLParserGeneral extends SimpleXMLReader
     protected function cbAdaptStart($reader)
     {
         echo "Обработка применений товаров\n";
-        $this->counter = 0;
+        //$this->counter = 0;
+
+        $positions = Yii::app()->db->createCommand()
+            ->select('id, sid')
+            ->from('{{details}}')
+            ->queryAll();
+        $this->existsPositions = CHtml::listData($positions, 'sid', 'id');
+        unset($positions);
 
         $auto = Yii::app()->db->createCommand()
             ->select('id, sid')
@@ -567,17 +575,17 @@ class AbarisXMLParserGeneral extends SimpleXMLReader
         if ( !isset($this->existsPositions[$positionSid]) ) {
             return true;
         }
-        echo $this->counter++; echo "\n";
-        $positionId = $this->existsPositions[$positionSid]['id'];
+        //echo $this->counter++; echo "\n";
+        $positionId = $this->existsPositions[$positionSid];
 
-        $autoId = $this->existsAuto[$autoSid];
-        $engineId = $this->existsEngines[$engineSid];
+        $autoId = isset($this->existsAuto[$autoSid]) ? $this->existsAuto[$autoSid] : null;
+        $engineId = isset($this->existsEngines[$engineSid]) ? $this->existsEngines[$engineSid] : null;
 
         if ( !$autoId && !$engineId )
             return true;
 
         if ( $autoId ) {
-            if ( !in_array($autoId, $this->existsAdaptAuto[$positionId]) ) {
+            if ( !isset($this->existsAdaptAuto[$positionId]) || !in_array($autoId, $this->existsAdaptAuto[$positionId]) ) {
                 Yii::app()->db->createCommand()->insert('{{adaptabillity}}', array(
                     'detail_id'=>$positionId,
                     'auto_model_id'=>$autoId,
@@ -588,7 +596,7 @@ class AbarisXMLParserGeneral extends SimpleXMLReader
         }
 
         if ( $engineId ) {
-            if ( !in_array($engineId, $this->existsAdaptEngines[$positionId]) ) {
+            if ( !isset($this->existsAdaptEngines[$positionId]) || !in_array($engineId, $this->existsAdaptEngines[$positionId]) ) {
                 Yii::app()->db->createCommand()->insert('{{adaptabillity}}', array(
                     'detail_id'=>$positionId,
                     'auto_model_id'=>null,

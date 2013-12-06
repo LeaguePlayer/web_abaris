@@ -75,33 +75,44 @@ class CatalogController extends FrontController
     }
 
 
-    public function actionDetails($model_id, $engine_id = false)
+    public function actionDetails($model_id = false, $engine_id = false, $article = false)
     {
+        if ( !$model_id && !$engine_id && !$article )
+            throw new CHttpException(403, 'Некорректный запрос');
+
         // Получаем выбранную марку авто и модель двигателя
-        $autoModel = $this->loadModel('AutoModels', $model_id);
+        if ( $model_id )
+            $autoModel = $this->loadModel('AutoModels', $model_id);
         if ( $engine_id ) {
-            foreach ( $autoModel->engines as $engine) {
-                if ( $engine->id === $engine_id ) {
-                    $engineModel = $engine;
-                    break;
+            if ( $autoModel ) {
+                foreach ( $autoModel->engines as $engine) {
+                    if ( $engine->id === $engine_id ) {
+                        $engineModel = $engine;
+                        break;
+                    }
                 }
+            } else {
+                $engineModel = Engines::model()->findByPk($engine_id);
             }
         }
 
         // Сохраняем в истории просмотра
-        if ( !Yii::app()->request->isAjaxRequest ) {
-            $hystory = new AutoModelsHystory(3, $this->brand['id']);
-            $lastAutoModels = $hystory->getAllElements();
-            $exist = false;
-            foreach ( $lastAutoModels as $item ) {
-                if ( $item['id'] == $autoModel->id ) {
-                    $exist = true;
-                    break;
+        if ( $autoModel ) {
+            if ( !Yii::app()->request->isAjaxRequest ) {
+                $hystory = new AutoModelsHystory(3, $this->brand['id']);
+                $lastAutoModels = $hystory->getAllElements();
+                $exist = false;
+                foreach ( $lastAutoModels as $item ) {
+                    if ( $item['id'] == $autoModel->id ) {
+                        $exist = true;
+                        break;
+                    }
                 }
+                if ( !$exist )
+                    $hystory->push($autoModel);
             }
-            if ( !$exist )
-                $hystory->push($autoModel);
         }
+
 
         // Получаем списки категорий
         $criteriaCat = new CDbCriteria;
@@ -166,8 +177,11 @@ class CatalogController extends FrontController
         $criteriaDet->order = 'name';
         $criteriaDet->compare('type', Details::TYPE_DETAIL);
         $criteriaDet->compare('name', $detailFinder->name, true);
-        $criteriaDet->compare('article', $detailFinder->article, true);
-        $criteriaDet->compare('is_original', 1);
+        if ( $article && !isset($_GET['Details']['article']) )
+            $detailFinder->article = $article;
+        $criteriaDet->compare('article_alias', $detailFinder->article, true);
+        if ( !$article )
+            $criteriaDet->compare('is_original', 1);
         if ( $currentCategory->isNewRecord ) {
             $categoriesList = CMap::mergeArray( CHtml::listData($categories, 'id', 'id'), CHtml::listData($childCategories, 'id', 'id') );
         } else if ( $currentSubCategory->isNewRecord ) {
@@ -176,15 +190,23 @@ class CatalogController extends FrontController
             $categoriesList = array($currentCategory->id, $currentSubCategory->id);
         }
         $criteriaDet->addInCondition('category_id', $categoriesList);
-        $sqlCond = 'id IN (SELECT DISTINCT detail_id FROM '.Adaptabillity::model()->tableName().' WHERE auto_model_id=:model_id';
-        $criteriaDet->params[':model_id'] = $model_id;
-        if ( $engine_id ) {
-            $sqlCond .= ' OR engine_model_id=:engine_id)';
+        if ( $model_id ) {
+            $sqlCond = 'id IN (SELECT DISTINCT detail_id FROM '.Adaptabillity::model()->tableName().' WHERE auto_model_id=:model_id';
+            $criteriaDet->params[':model_id'] = $model_id;
+            if ( $engine_id ) {
+                $sqlCond .= ' OR engine_model_id=:engine_id)';
+                $criteriaDet->params[':engine_id'] = $engine_id;
+            } else {
+                $sqlCond .= ')';
+            }
+        } else if ( $engine_id ) {
+            $sqlCond = 'id IN (SELECT DISTINCT detail_id FROM '.Adaptabillity::model()->tableName().' WHERE engine_model_id=:engine_id)';
             $criteriaDet->params[':engine_id'] = $engine_id;
-        } else {
-            $sqlCond .= ')';
         }
-        $criteriaDet->addCondition($sqlCond);
+        if ( $sqlCond ) {
+            $criteriaDet->addCondition($sqlCond);
+        }
+
         $detailsData = new CActiveDataProvider('Details', array(
             'criteria'=>$criteriaDet,
             'pagination'=>array(

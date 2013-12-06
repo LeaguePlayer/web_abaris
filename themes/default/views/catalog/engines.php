@@ -28,15 +28,18 @@ $this->breadcrumbs = array(
         <div class="catalog-grid-header">
             <div class="container">
                 <div class="row-fluid">
-                    <div class="field span2">
-                        <div class="valign-text"><p>Объем двигателя</p></div>
+                    <div class="field span8">
+                        <div class="valign-text"><p>Двигатель</p></div>
                     </div>
-                    <div class="field span2">
-                        <div class="valign-text"><p>Топливо</p></div>
-                    </div>
-                    <div class="field span2">
-                        <div class="valign-text"><p>Мощность Л.С.</p></div>
-                    </div>
+<!--                    <div class="field span2">-->
+<!--                        <div class="valign-text"><p>Объем двигателя</p></div>-->
+<!--                    </div>-->
+<!--                    <div class="field span2">-->
+<!--                        <div class="valign-text"><p>Топливо</p></div>-->
+<!--                    </div>-->
+<!--                    <div class="field span2">-->
+<!--                        <div class="valign-text"><p>Мощность Л.С.</p></div>-->
+<!--                    </div>-->
                     <div class="field span4">
                         <div class="valign-text"></div>
                     </div>

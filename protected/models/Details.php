@@ -231,6 +231,28 @@ class Details extends EActiveRecord implements IECartPosition
         return Yii::app()->urlManager->createUrl('/details/view', array('id', $this->id));
     }
 
+    public function getStockSpecify()
+    {
+        switch ( $this->virtualType ) {
+            case self::VIRTUALTYPE_DEPOT:
+                $depotId = $this->virtualId;
+                $depot = Depot::model()->findByPk($depotId);
+                return $depot->name;
+            case self::VIRTUALTYPE_PROVIDER:
+                return '';
+            default:
+                return '';
+        }
+    }
+
+    public function getStock()
+    {
+        if ( $this->in_stock > 0 ) {
+            return $this->in_stock.' шт.';
+        }
+        return '–';
+    }
+
     /*
      * 1) Если товар есть на складе выводить информацию о количестве с рабивкой по складам
      * 2) Если нет

@@ -1,33 +1,16 @@
-<?php if ( !empty($title) ): ?>
-<div class="container page-title">
-    <h2 class="georgia"><?php echo $title; ?></h2>
-    <div>
-        <span class="blue-line"></span>
-    </div>
-</div>
-<? endif; ?>
-
-
-<div class="catalog-grid">
-    <div class="catalog-grid-header scroll-fixed">
-        <div class="container">
-            <div class="row-fluid">
-                <div class="field span1"><div class="valign-text"><p>Фото продукта</p></div></div>
-                <div class="field span2"><div class="valign-text"><p>Бренд</p></div></div>
-                <div class="field span2"><div class="valign-text"><p>Артикул</p></div></div>
-                <div class="field span2"><div class="valign-text"><p>Наименование</p></div></div>
-                <div class="field span2"><div class="valign-text"><p>В наличии (Адрес)</p></div></div>
-                <div class="field span1"><div class="valign-text"><p>Срок доставки</p></div></div>
-                <div class="field span2"><div class="valign-text"><p>Цена</p></div></div>
-            </div>
+<?php if ( $detailsData->totalItemCount > 0 ): ?>
+    <?php if ( $title ): ?>
+        <div class="container page-title">
+            <h2 class="georgia"><?php echo $title ?></h2>
+            <div><span class="blue-line"></span></div>
         </div>
-    </div>
+    <?php endif ?>
     <?php $this->widget('zii.widgets.CListView', array(
         'id'=>'details-list',
         'template'=>'{items}<div class="catalog-pager">{pager}</div>',
         'dataProvider'=>$detailsData,
         'itemView'=>'_view',
-        'viewData'=>array('findedDetail'=>$findedDetail, 'firstAnalogId' => $firstAnalogId),
+        'viewData'=>array('searchedId' => $searchedId),
         'pagerCssClass'=>'container',
         'emptyTagName'=>'div',
         'emptyText'=>'',
@@ -47,4 +30,4 @@
             ),
         )
     )); ?>
-</div>
+<?php endif ?>

@@ -37,13 +37,11 @@
         $.fn.yiiListView.update("" + listId, {
           data: $(this).serialize()
         });
-        $.scrollTo('#top-grid', 200);
+        $.scrollTo('#top-grid');
         return false;
       });
       return form.find('input:text').keyup(function(e) {
-        if (e.keyCode === 13) {
-          form.submit();
-        }
+        form.submit();
         return false;
       });
     };
