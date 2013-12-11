@@ -36,8 +36,10 @@ class SiteController extends FrontController
             Yii::app()->end();
         }
 
+        $banners = Banner::model()->published()->findAll();
+
         Yii::app()->clientScript->registerCssFile( $this->getAssetsUrl().'/css/main980.css' );
-        $this->render('index');
+        $this->render('index', array('banners'=>$banners));
 	}
 
     public function actionChangeBrand($alias)

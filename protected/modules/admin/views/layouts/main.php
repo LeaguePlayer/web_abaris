@@ -22,6 +22,7 @@
                     array('label'=>'Товары', 'url'=>'/admin/details/list'),
 					array('label'=>'Не найденые запчасти', 'url'=>'/admin/detailsnofound/list'),
                     array('label'=>'Поставщики', 'url'=>'/admin/providers/list'),
+                    array('label'=>'Реклама', 'url'=>'/admin/banner/list'),
 				)),
 			);
 		?>

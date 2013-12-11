@@ -1,6 +1,6 @@
 <?php
 $this->breadcrumbs = array(
-    'Каталог аксессуаров',
+    'Каталог расходных материалов',
 );
 ?>
 
@@ -8,46 +8,46 @@ $this->breadcrumbs = array(
     <div class="catalog-model">
         <div class="container">
             <div class="row">
-                <div class="span6"></div>
-                <div class="span4">
-                    <div class="auto-title">
-                        <h2></h2>
-                        <span></span>
-                    </div>
-                </div>
             </div>
         </div>
     </div>
 
-    <div class="container page-title">
-        <h2 class="georgia">Аксессуары</h2>
+    <div id="top-grid" class="container page-title">
+        <h2 class="georgia">Расходные материалы</h2>
         <div>
             <span class="blue-line"></span>
         </div>
     </div>
 
     <div class="catalog-grid">
-        <div class="catalog-grid-header">
+        <div class="catalog-grid-header scroll-fixed">
             <div class="container">
                 <div class="row-fluid">
-                    <div class="field span2"><div class="valign-text"><p>Фото продукта</p></div></div>
-                    <div class="field span1"><div class="valign-text"><p>Бренд</p></div></div>
-                    <div class="field span2"><div class="valign-text"><p>Артикул</p></div></div>
-                    <div class="field span2"><div class="valign-text"><p>Наименование</p></div></div>
-                    <div class="field span2"><div class="valign-text"><p>В наличии</p></div></div>
-                    <div class="field span1"><div class="valign-text"><p>Срок доставки</p></div></div>
-                    <div class="field span2"><div class="valign-text"><p>Цена</p></div></div>
+                    <?php $form = $this->beginWidget('CActiveForm'); ?>
+                        <div class="field span4">
+                            <div class="valign-text">
+                                <p class="bottom"><?php echo $finder->getAttributeLabel('name');?><br><?php echo $form->textField($finder, 'name'); ?></p>
+                            </div>
+                        </div>
+                        <div class="field span4">
+                            <div class="valign-text">
+                                <p class="bottom"><?php echo $finder->getAttributeLabel('article');?><br><?php echo $form->textField($finder, 'article'); ?></p>
+                            </div>
+                        </div>
+                        <div class="field span3"></div>
+                    <?php $this->endWidget(); ?>
                 </div>
             </div>
         </div>
+
         <?php $this->widget('zii.widgets.CListView', array(
-            'id'=>'details-list',
+            'id'=>'consumable-list',
             'template'=>'{items}<div class="catalog-pager">{pager}</div>',
             'dataProvider'=>$dataProvider,
-            'itemView'=>'_view',
+            'itemView'=>'_consumable_row',
             'pagerCssClass'=>'container',
             'emptyTagName'=>'div',
-            'emptyText'=>'Не найдено',
+            'emptyText'=>'<div class="container">По вашему запросу ничего не найдено</div>',
             'updateSelector'=>'.catalog-pager a',
             'pager'=>array(
                 'class'=>'application.widgets.ELinkPager',
@@ -65,5 +65,4 @@ $this->breadcrumbs = array(
             )
         )); ?>
     </div>
-
 </div>

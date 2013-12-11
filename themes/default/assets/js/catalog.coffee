@@ -22,6 +22,7 @@ $ ->
 
 	filterListView = (listId) ->
 		form = $("##{listId}").parent().find('.catalog-grid-header form')
+		console.log form
 		if form.size() == 0
 			return false
 

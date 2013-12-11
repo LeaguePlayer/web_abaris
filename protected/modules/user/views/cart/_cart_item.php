@@ -1,5 +1,5 @@
 <div class="catalog-grid-row<?php if ( $data->isArchived() ) echo ' archived' ?>"
-     data-price="<?=$data->price;?>"
+     data-price="<?=$data->getPrice();?>"
      data-count="<?=$data->getQuantity();?>"
      data-discount="<?=$data->discount + $userDiscount->discount;?>"
 >
@@ -36,7 +36,7 @@
                     </p>
                 </div>
             </div>
-            <div class="span1 field"><div class="valign-text"><p>14 дней</p></div></div>
+            <div class="span1 field"><div class="valign-text"><p><?php echo $data->delivery_time; ?></p></div></div>
         </div>
     </div>
     <?php if ( $data->isArchived() ): ?>

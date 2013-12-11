@@ -63,6 +63,7 @@ class Details extends EActiveRecord implements IECartPosition
     {
         $this->_cartKey = $key;
         $keyParts = explode('_', $key);
+        $this->id = $keyParts[0];
         $this->virtualType = $keyParts[1];
         $this->virtualId = $keyParts[2];
     }
@@ -85,20 +86,35 @@ class Details extends EActiveRecord implements IECartPosition
         }
     }
 
+    private $_price;
     /**
      * @return float price
      */
     public function getPrice()
     {
-        if ($this->virtualType === null || $this->virtualType === self::VIRTUALTYPE_DEPOT) {
-            return $this->price;
-        } else {
-            foreach ( $this->providerPositions as $providerPos ) {
-                if ( $this->virtualId === $providerPos->provider_id )
-                    return $providerPos->price;
+        if ( $this->_price === null ) {
+            switch ( $this->virtualType ) {
+                case self::VIRTUALTYPE_DEPOT:
+                    foreach ( $this->depotPositions as $depotPos ) {
+                        if ( $this->virtualId === $depotPos->depot_id ) {
+                            $this->_price = $depotPos->price;
+                            break;
+                        }
+                    }
+                    break;
+                case self::VIRTUALTYPE_PROVIDER:
+                    foreach ( $this->providerPositions as $providerPos ) {
+                        if ( $this->virtualId === $providerPos->provider_id ) {
+                            $this->_price = $providerPos->price;
+                            break;
+                        }
+                    }
+                    break;
+                default:
+                    $this->_price = 0;
             }
-            return $this->price;
         }
+        return $this->_price;
     }
 
     public function rules()

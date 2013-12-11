@@ -39,6 +39,7 @@
     'enableAjaxValidation'=>false,
     'htmlOptions'=>array('class'=>'abaris-form')
 )); ?>
+
     <?php $payTypes = Orders::getPaytypes(); ?>
     <div class="row">
         <div class="span4">Наличные</div>
@@ -51,10 +52,10 @@
         <div class="span4">Банковские карты</div>
         <div class="span4">
             <div class="types">
-                <?php echo AbarisHtml::activeRadioButton($model, 'paytype', array('id'=>'radio_visa', 'class'=>'css-checkbox', 'value'=>Orders::PAYTYPE_VISA)); ?>
+                <?php echo AbarisHtml::activeRadioButton($model, 'paytype', array('disabled'=>'disabled', 'id'=>'radio_visa', 'class'=>'css-checkbox', 'value'=>Orders::PAYTYPE_VISA)); ?>
                 <?php echo AbarisHtml::label($payTypes[Orders::PAYTYPE_VISA], 'radio_visa', array('class'=>'css-label')); ?>
                 <br>
-                <?php echo AbarisHtml::activeRadioButton($model, 'paytype', array('id'=>'radio_mastercard', 'class'=>'css-checkbox', 'value'=>Orders::PAYTYPE_MASTERCARD)); ?>
+                <?php echo AbarisHtml::activeRadioButton($model, 'paytype', array('disabled'=>'disabled', 'id'=>'radio_mastercard', 'class'=>'css-checkbox', 'value'=>Orders::PAYTYPE_MASTERCARD)); ?>
                 <?php echo AbarisHtml::label($payTypes[Orders::PAYTYPE_MASTERCARD], 'radio_mastercard', array('class'=>'css-label')); ?>
             </div>
             <div class="cards">
@@ -66,16 +67,16 @@
     <div class="row">
         <div class="span4">Электронные деньги</div>
         <div class="span4">
-            <?php echo AbarisHtml::activeRadioButton($model, 'paytype', array('id'=>'radio_mail', 'class'=>'css-checkbox', 'value'=>Orders::PAYTYPE_MAIL)); ?>
+            <?php echo AbarisHtml::activeRadioButton($model, 'paytype', array('disabled'=>'disabled', 'id'=>'radio_mail', 'class'=>'css-checkbox', 'value'=>Orders::PAYTYPE_MAIL)); ?>
             <?php echo AbarisHtml::label($payTypes[Orders::PAYTYPE_MAIL], 'radio_mail', array('class'=>'css-label')); ?>
             <br>
-            <?php echo AbarisHtml::activeRadioButton($model, 'paytype', array('id'=>'radio_yandex', 'class'=>'css-checkbox', 'value'=>Orders::PAYTYPE_YANDEX)); ?>
+            <?php echo AbarisHtml::activeRadioButton($model, 'paytype', array('disabled'=>'disabled', 'id'=>'radio_yandex', 'class'=>'css-checkbox', 'value'=>Orders::PAYTYPE_YANDEX)); ?>
             <?php echo AbarisHtml::label($payTypes[Orders::PAYTYPE_YANDEX], 'radio_yandex', array('class'=>'css-label')); ?>
             <br>
-            <?php echo AbarisHtml::activeRadioButton($model, 'paytype', array('id'=>'radio_sberbank', 'class'=>'css-checkbox', 'value'=>Orders::PAYTYPE_SBERBANK)); ?>
+            <?php echo AbarisHtml::activeRadioButton($model, 'paytype', array('disabled'=>'disabled', 'id'=>'radio_sberbank', 'class'=>'css-checkbox', 'value'=>Orders::PAYTYPE_SBERBANK)); ?>
             <?php echo AbarisHtml::label($payTypes[Orders::PAYTYPE_SBERBANK], 'radio_sberbank', array('class'=>'css-label')); ?>
             <br>
-            <?php echo AbarisHtml::activeRadioButton($model, 'paytype', array('id'=>'radio_webmoney', 'class'=>'css-checkbox', 'value'=>Orders::PAYTYPE_WEBMONEY)); ?>
+            <?php echo AbarisHtml::activeRadioButton($model, 'paytype', array('disabled'=>'disabled', 'id'=>'radio_webmoney', 'class'=>'css-checkbox', 'value'=>Orders::PAYTYPE_WEBMONEY)); ?>
             <?php echo AbarisHtml::label($payTypes[Orders::PAYTYPE_WEBMONEY], 'radio_webmoney', array('class'=>'css-label')); ?>
         </div>
     </div>

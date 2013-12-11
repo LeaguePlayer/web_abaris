@@ -1,9 +1,13 @@
 <!-- begin main 980-->
 <div class="container banners">
     <div class="row">
-        <div class="span4"><a href="#"><img width="322" src="<?php echo $this->getAssetsUrl(); ?>/img/banner.jpg"></a></div>
-        <div class="span4"><a href="#"><img width="322" src="<?php echo $this->getAssetsUrl(); ?>/img/banner.jpg"></a></div>
-        <div class="span4"><a href="#"><img width="322" src="<?php echo $this->getAssetsUrl(); ?>/img/banner.jpg"></a></div>
+        <?php foreach ( $banners as $banner ): ?>
+            <div class="span4">
+                <a href="<?php echo $banner->url ?>" <?php if ( $banner->target == Banner::TARGET_BLANK ) echo 'target="_blank"' ?>>
+                    <?php echo $banner->getImage('main') ?>
+                </a>
+            </div>
+        <?php endforeach ?>
     </div>
 </div>
 

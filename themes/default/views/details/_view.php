@@ -12,7 +12,7 @@
             $position->virtualId = $depotPosition->depot_id;
             //$position->depotName = $depo
 
-            $this->renderPartial('_grid_row', array(
+            $this->renderPartial('//details/_grid_row', array(
                 'data'=>$position,
                 'searchedId'=>$searchedId,
             ));
@@ -27,7 +27,7 @@
 //            ));
 //        }
     } else {
-        $this->renderPartial('_grid_row', array(
+        $this->renderPartial('//details/_grid_row', array(
             'data'=>$data,
             'searchedId'=>$searchedId,
         ));

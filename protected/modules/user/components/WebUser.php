@@ -82,7 +82,7 @@ class WebUser extends AuthWebUser
         foreach ( $userDetails as $uDetail ) {
             $position = $uDetail->detail;
             if ( $position !== null ) {
-                $position->id = $uDetail->detail_key;
+                $position->setCartKey( $uDetail->detail_key );
                 Yii::app()->cart->update($position, $uDetail->count, false);
             }
             $position = null;
