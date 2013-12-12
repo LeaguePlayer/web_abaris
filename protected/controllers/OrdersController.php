@@ -26,6 +26,10 @@ class OrdersController extends FrontController
 
     public function actionCreate($step = 1)
     {
+        if ( Yii::app()->cart->isEmpty() ) {
+            $this->render('//site/message', array('message'=>'Ваша корзина пуста'));
+            Yii::app()->end();
+        }
         $model = new Orders('step'.$step);
         $model->attributes = Yii::app()->session->get('orderState', array());
         if ( isset(Yii::app()->request->cookies['__prefferedOrder']) ) {
@@ -82,6 +86,7 @@ class OrdersController extends FrontController
                     }
                     Yii::app()->session->remove('orderState');
                     Yii::app()->user->setState('__remindSTO', false);
+                    Yii::app()->cart->clear();
                     $this->redirect('success');
                 }
             }

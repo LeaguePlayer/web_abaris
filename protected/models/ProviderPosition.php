@@ -33,6 +33,7 @@ class ProviderPosition extends CActiveRecord
     public function relations()
     {
         return array(
+            'provider'=>array(self::BELONGS_TO, 'Providers', 'provider_id'),
         );
     }
 

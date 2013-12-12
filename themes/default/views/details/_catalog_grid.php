@@ -9,7 +9,7 @@
         'id'=>'details-list',
         'template'=>'{items}<div class="catalog-pager">{pager}</div>',
         'dataProvider'=>$detailsData,
-        'itemView'=>'//details/_view',
+        'itemView'=>'//details/_grid_row',
         'viewData'=>array('searchedId' => $searchedId),
         'pagerCssClass'=>'container',
         'emptyTagName'=>'div',

@@ -55,6 +55,7 @@ class Providers extends CActiveRecord
             'price_excel_column' => 'Номер колонки для цены товара',
             'instock_excel_column' => 'Номер колонки "В наличии"',
             'start_row' => 'Номер строки, с которой парсер начнет считывать данные',
+            'priceFile' => 'Прайс-лист для загрузки',
         );
     }
 

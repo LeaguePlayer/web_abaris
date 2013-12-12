@@ -10,7 +10,7 @@
                         <b><?php echo $data->toStringStock(); ?></b>
                         <span class="stock_specify"><?php echo $data->getStockSpecify() ?></span>
                     </p></div></div>
-            <div class="span1 field"><div class="valign-text"><p><?php echo $data->delivery_time; ?></p></div></div>
+            <div class="span1 field"><div class="valign-text"><p><?php echo $data->toStringDeliveryTime(); ?></p></div></div>
             <div class="span2 field">
                 <div class="valign-text">
                     <p><?php echo $data->toStringPrice() ?></p>

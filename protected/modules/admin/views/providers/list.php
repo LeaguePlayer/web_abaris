@@ -17,6 +17,14 @@ $this->menu=array(
 		'day_count',
 		array(
 			'class'=>'bootstrap.widgets.TbButtonColumn',
+            'template'=>'{upload}{update}{delete}',
+            'buttons'=>array(
+                'upload'=>array(
+                    'label'=>'Загрузить прайс',
+                    //'imageUrl'=>Yii::app()->request->baseUrl.'/images/email.png',
+                    'url'=>'Yii::app()->createUrl("admin/providers/uploadPrice", array("id"=>$data->id))',
+                )
+            )
 		),
 	),
 )); ?>

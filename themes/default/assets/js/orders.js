@@ -21,7 +21,7 @@
         backgroundColor: "#fff",
         opacity: 0
       });
-      $orderButton.parents('div').append($overlay);
+      $orderButton.parent('div').append($overlay);
       $overlay.click(function(e) {
         var clearShake;
         $shakeElement.addClass('shake animated');

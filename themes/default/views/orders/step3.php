@@ -78,7 +78,7 @@
     <div class="container">
         <div class="row">
             <div class="span8"></div>
-            <div class="span2"><span class="georgia">Сегодня</span> Дата доставки</div>
+            <div class="span2"><span class="georgia"><?php echo Yii::app()->cart->getDeliveryDate() ?></span> Дата доставки</div>
             <div class="span2"><span class="georgia"><?=SiteHelper::priceFormat(Yii::app()->cart->getCost());?> р.</span> Итого</div>
         </div>
     </div>

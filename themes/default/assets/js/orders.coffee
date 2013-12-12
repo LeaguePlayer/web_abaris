@@ -16,7 +16,7 @@ $ ->
 			zIndex: 500
 			backgroundColor: "#fff"
 			opacity: 0
-		$orderButton.parents('div').append $overlay
+		$orderButton.parent('div').append $overlay
 
 		$overlay.click (e) ->
 			$shakeElement.addClass('shake animated')

@@ -32,7 +32,7 @@ class m131118_112440_provider_position extends CDbMigration
             'provider_id' => 'integer NOT NULL COMMENT "Поставщик"',
 			'position_id' => "integer NOT NULL COMMENT 'Товар'",
 			'stock' => "integer DEFAULT 0 COMMENT 'Наличие'",
-			'price' => "decimal COMMENT 'Цена'",
+			'price' => "DECIMAL(10, 2) COMMENT 'Цена'",
 			'delivery_time' => "int(2) DEFAULT 0 COMMENT 'Время доставки(в днях)'",
         ),
         'ENGINE=MyISAM DEFAULT CHARACTER SET = utf8 COLLATE = utf8_general_ci');

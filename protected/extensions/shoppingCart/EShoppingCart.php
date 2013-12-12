@@ -248,11 +248,14 @@ class EShoppingCart extends CMap {
 
     public function getDeliveryDate()
     {
-        $deliveryDate = 0;
+        $deliveryTime = 0;
         foreach ($this->getPositions() as $position) {
-            if ( strtotime( $position->delivery_date ) > $deliveryDate ) {
-                $deliveryDate = strtotime($position->delivery_date);
+            if ( $position->delivery_time > $deliveryTime ) {
+                $deliveryTime = $position->delivery_time;
             }
         }
+        if ( $deliveryTime === 0 )
+            return 'Сегодня';
+        return SiteHelper::russianDate( strtotime('+'.$deliveryTime.'days') );
     }
 }

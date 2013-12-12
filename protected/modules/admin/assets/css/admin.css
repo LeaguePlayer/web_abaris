@@ -86,3 +86,8 @@ form .line{
 .clear {
     clear: both;
 }
+
+.button-column a {
+    display: inline-block;
+    margin: 0 3px;
+}

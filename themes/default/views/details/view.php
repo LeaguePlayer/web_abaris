@@ -51,11 +51,13 @@
         <?php $this->renderPartial('_catalog_grid', array(
             'title' => 'Детали в наличии',
             'detailsData' => $inStockDetailsData,
+            'searchedId' => $findedDetail->id,
         ))  ?>
 
         <?php $this->renderPartial('_catalog_grid', array(
             'title' => 'Вы можете заказать детали, если их нет в наличии',
             'detailsData' => $nonInStockDetailsData,
+            'searchedId' => $findedDetail->id,
         ))  ?>
     </div>
 </div>

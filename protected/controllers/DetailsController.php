@@ -43,32 +43,21 @@ class DetailsController extends FrontController
 			throw new CHttpException(404, 'Запчасть не найдена');
         }
 
+
         $inStockDetails = array();
         $nonInStockDetails = array();
-//        if ( $model->in_stock > 0 ) {
-//            $inStockDetails[] = $model;
-//        } else {
-//            $nonInStockDetails[] = $model;
-//        }
-        $counterInStock = 0;
-        $counterNonInStock = 0;
-        $firstAnalogInStockId = 0;
-        $firstAnalogNonInStockId = 0;
+        if ( $model->in_stock > 0 ) {
+            $this->push_depot_positions($inStockDetails, $model);
+        }
+        $this->push_provider_positions($nonInStockDetails, $model);
         foreach ( $model->analogs as $analog ) {
             if ( $analog->in_stock > 0 ) {
-                $inStockDetails[] = $analog;
-                if ( $counterInStock === 0 ) {
-                    $firstAnalogInStockId = $analog->id;
-                }
-                $counterInStock++;
-            } else {
-                $nonInStockDetails[] = $analog;
-                if ( $counterNonInStock === 0 ) {
-                    $firstAnalogNonInStockId = $analog->id;
-                }
-                $counterNonInStock++;
+                $this->push_depot_positions($inStockDetails, $analog);
             }
+            $this->push_provider_positions($nonInStockDetails, $analog);
         }
+
+
         $inStockDetailsData = new CArrayDataProvider($inStockDetails, array(
             'pagination'=>array('pageSize'=>10000),
         ));
@@ -86,8 +75,36 @@ class DetailsController extends FrontController
             'engineModel'=>$engineModel,
 			'inStockDetailsData'=>$inStockDetailsData,
             'nonInStockDetailsData'=>$nonInStockDetailsData,
-            'firstAnalogInStockId'=>$firstAnalogInStockId,
-            'firstAnalogNonInStockId'=>$firstAnalogNonInStockId
 		));
 	}
+
+    protected function push_depot_positions(&$stockArray, Details $model)
+    {
+        foreach ( $model->depotPositions as $depotPosition ) {
+            if ( $depotPosition->stock == 0 )
+                continue;
+            $position = $model->duplicate();
+            $position->in_stock = $depotPosition->stock;
+            $position->price = $depotPosition->price;
+            $position->delivery_time = 0;
+            $position->virtualType = Details::VIRTUALTYPE_DEPOT;
+            $position->virtualId = $depotPosition->depot_id;
+            $stockArray[] = $position;
+        }
+    }
+
+    protected function push_provider_positions(&$stockArray, Details $model)
+    {
+        foreach ( $model->providerPositions as $providerPosition ) {
+            if ( $providerPosition->stock == 0 )
+                continue;
+            $position = $model->duplicate();
+            $position->in_stock = $providerPosition->stock;
+            $position->price = $providerPosition->price;
+            $position->delivery_time = $providerPosition->delivery_time;
+            $position->virtualType = Details::VIRTUALTYPE_PROVIDER;
+            $position->virtualId = $providerPosition->provider_id;
+            $stockArray[] = $position;
+        }
+    }
 }

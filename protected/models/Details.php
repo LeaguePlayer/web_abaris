@@ -255,7 +255,9 @@ class Details extends EActiveRecord implements IECartPosition
                 $depot = Depot::model()->findByPk($depotId);
                 return $depot->name;
             case self::VIRTUALTYPE_PROVIDER:
-                return '';
+                $providerId = $this->virtualId;
+                $provider = Providers::model()->findByPk($providerId);
+                return $provider->name;
             default:
                 return '';
         }
@@ -279,6 +281,13 @@ class Details extends EActiveRecord implements IECartPosition
             return SiteHelper::priceFormat($this->price, 'руб.');
         else
             return '—';
+    }
+
+    public function toStringDeliveryTime()
+    {
+        if ( $this->delivery_time == 0 )
+            return 'Сегодня';
+        return $this->delivery_time.' дней';
     }
 
     public function isArchived()
