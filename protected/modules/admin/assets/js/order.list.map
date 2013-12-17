@@ -1,0 +1,10 @@
+{
+  "version": 3,
+  "file": "order.list.js",
+  "sourceRoot": "",
+  "sources": [
+    "order.list.coffee"
+  ],
+  "names": [],
+  "mappings": ";AACA;CAAA,CAAA,GAAA,GAAA;CAAA"
+}

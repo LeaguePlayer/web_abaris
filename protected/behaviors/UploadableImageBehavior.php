@@ -164,6 +164,12 @@ class UploadableImageBehavior extends CActiveRecordBehavior
         return CHtml::image($src, $alt, $htmlOptions);
     }
 
+    public function hasImage()
+    {
+        $attr = $this->owner->getAttribute($this->attributeName);
+        return !empty($attr);
+    }
+
     public function getImageUrl($version = false)
     {
         if ($version) {

@@ -28,6 +28,7 @@ $this->breadcrumbs = array(
     </div>
     <?php endif; ?>
     <div class="auto-catalog">
+        <?php $assetsUrl = $this->getAssetsUrl(); ?>
         <!-- begin 1 row -->
         <?php if ( count($lastModels) > 0 ): ?>
         <div class="row active">
@@ -36,7 +37,9 @@ $this->breadcrumbs = array(
                 <div class="row">
                     <div class="span2 img">
                         <div class="valign-text">
-                            <p><a href="<?php echo $this->createUrl('/catalog/engines', array('model_id'=>$item['id'], 'brand'=>$this->brand['alias'])); ?>"><img src='<?php echo $item['photo']; ?>' alt=""></a></p>
+                            <p><a href="<?php echo $this->createUrl('/catalog/engines', array('model_id'=>$item['id'], 'brand'=>$this->brand['alias'])); ?>">
+                                    <img src='<?php echo $item['has_photo'] ? $item['photo'] : $assetsUrl.'/img/no-photo.png'; ?>' style="height:62px;" alt="">
+                                </a></p>
                         </div>
                     </div>
                     <div class="span2">
@@ -68,7 +71,10 @@ $this->breadcrumbs = array(
                     <div class="row">
                         <div class="span2 img">
                             <div class="valign-text">
-                                <p><a href="<?php echo $this->createUrl('/catalog/engines', array('model_id'=>$item->id, 'brand'=>$this->brand['alias'])); ?>"><?php echo $item->getImage('small'); ?></a></p>
+                                <p><a href="<?php echo $this->createUrl('/catalog/engines', array('model_id'=>$item->id, 'brand'=>$this->brand['alias'])); ?>">
+                                        <?php echo ( $item->hasImage() ) ? $item->getImage('small') : CHtml::image($assetsUrl.'/img/no-photo.png', '', array('style'=>'height:62px;'));
+                                        ?>
+                                    </a></p>
                             </div>
                         </div>
                         <div class="span2">

@@ -71,7 +71,8 @@ class OrdersController extends FrontController
                 } else {
                     $model->full_cost = Yii::app()->cart->getCost(true);
                     $model->order_status = Orders::ORDERSTATUS_NOPAYD;
-
+                    $prevSID = Yii::app()->db->createCommand()->select('MAX(sid)')->from('{{orders}}')->queryScalar();
+                    $model->SID = $prevSID + 1;
                     $model->save(false);
                     $userDiscount = Yii::app()->user->getDiscount();
                     foreach (Yii::app()->cart->getPositions() as $position) {

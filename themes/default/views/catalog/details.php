@@ -13,7 +13,7 @@
         <div class="container">
             <div class="row">
                 <?php if ( $autoModel ): ?>
-                <div class="span6"><?php echo $autoModel->getImage('big'); ?></div>
+                <div class="span6"><?php if ( $autoModel->hasImage() ) echo $autoModel->getImage('big'); ?></div>
                 <div class="span4">
                     <div class="auto-title">
                         <h2><?php echo $autoModel->name; ?></h2>

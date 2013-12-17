@@ -28,6 +28,7 @@ class Orders extends EActiveRecord
 {
     public $preffered = false;
     public $confirm;
+    public $recipientFio;
 
     const PAYTYPE_CASH = 'cash';
     const PAYTYPE_VISA = 'visa';
@@ -49,16 +50,37 @@ class Orders extends EActiveRecord
         );
         return ( $type ) ? $paytypes[$type] : $paytypes;
     }
+    public function getCurrentPaytype()
+    {
+        return self::getPaytypes($this->paytype);
+    }
 
 
     const ORDERSTATUS_NOPAYD = 0;
-    const ORDERSTATUS_PAYD = 1;
+    const ORDERSTATUS_WORK = 1;
+    const ORDERSTATUS_PAYD = 2;
     public static function getStatusLabels()
     {
         return array(
             self::ORDERSTATUS_NOPAYD => 'Не оплачено',
             self::ORDERSTATUS_PAYD => 'Оплачено',
+            self::ORDERSTATUS_WORK => 'В работе',
         );
+    }
+
+    public function isPayd()
+    {
+        return $this->order_status == self::ORDERSTATUS_PAYD;
+    }
+
+    public function isNopayd()
+    {
+        return $this->order_status == self::ORDERSTATUS_NOPAYD;
+    }
+
+    public function isWork()
+    {
+        return $this->order_status == self::ORDERSTATUS_WORK;
     }
 
 
@@ -101,7 +123,7 @@ class Orders extends EActiveRecord
             array('paytype, recipient_firstname, recipient_family, recipient_lastname, client_comment, client_email, client_phone', 'safe', 'on'=>'step3'),
             array('confirm', 'required', 'on'=>'step3'),
 
-            array('id, SID, paytype, order_status, cart_id, recipient_firstname, recipient_family, recipient_lastname, client_comment, client_email, client_phone, order_date, delivery_date, status, sort, create_time, update_time', 'safe', 'on'=>'search'),
+            array('id, SID, paytype, order_status, cart_id, recipient_firstname, recipient_family, recipient_lastname, client_comment, client_email, client_phone, order_date, delivery_date, status, sort, create_time, update_time, recipientFio', 'safe', 'on'=>'search'),
         );
     }
 
@@ -137,6 +159,7 @@ class Orders extends EActiveRecord
             'update_time' => 'Дата последнего редактирования',
             'preffered' => 'Использовать условия оплаты и ввденные личные данные этого заказа в качестве предпочтительных',
             'confirm' => 'Я согласен с '.CHtml::link('данными условиями', '#').' (Условия обслуживания)',
+            'recipientFio' => 'Заказчик',
         );
     }
 
@@ -151,21 +174,29 @@ class Orders extends EActiveRecord
 		$criteria->compare('paytype',$this->paytype,true);
 		$criteria->compare('order_status',$this->order_status);
 		$criteria->compare('cart_id',$this->cart_id);
-		$criteria->compare('recipient_firstname',$this->recipient_firstname,true);
-		$criteria->compare('recipient_family',$this->recipient_family,true);
-		$criteria->compare('recipient_lastname',$this->recipient_lastname,true);
+        if ( !empty($this->recipientFio) ) {
+            $queryParts = explode(' ', $this->recipientFio);
+            $sql = '';
+            foreach ( $queryParts as $key => $part ) {
+                if ( $key !== 0 )
+                    $sql .= ' OR ';
+                $sql .= 'recipient_firstname LIKE :part'.$key.' OR recipient_family LIKE :part'.$key.' OR recipient_lastname LIKE :part'.$key;
+                $criteria->params[':part'.$key] = '%'.$part.'%';
+            }
+        }
 		$criteria->compare('client_comment',$this->client_comment,true);
 		$criteria->compare('client_email',$this->client_email,true);
 		$criteria->compare('client_phone',$this->client_phone,true);
-		$criteria->compare('order_date',$this->order_date,true);
+        if ( !empty($this->order_date) ) {
+            $criteria->compare('order_date', date('Y-m-d', strtotime($this->order_date)),true);
+        }
 		$criteria->compare('delivery_date',$this->delivery_date,true);
 		$criteria->compare('full_cost',$this->full_cost);
 		$criteria->compare('status',$this->status);
 		$criteria->compare('sort',$this->sort);
 		$criteria->compare('create_time',$this->create_time);
 		$criteria->compare('update_time',$this->update_time);
-        $criteria->compare('type', $this->type);
-        $criteria->order = 'sort';
+        $criteria->order = 'order_status';
 
         return new CActiveDataProvider($this, array(
             'criteria'=>$criteria,

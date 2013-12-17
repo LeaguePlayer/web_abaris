@@ -28,6 +28,7 @@ class AutoModelsHystory extends Hystory
         $item = array(
             'id'=>$element->id,
             'brand'=>$element->brand->name,
+            'has_photo'=>$element->hasImage(),
             'photo'=>$element->getImageUrl('small'),
             'name'=>$element->name,
             'bodytype'=>$element->bodytype->name,

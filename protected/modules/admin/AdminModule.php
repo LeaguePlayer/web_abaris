@@ -15,16 +15,6 @@ class AdminModule extends EWebModule
             'appext.EPhpThumb.EPhpThumb',
             'appext.yii-select2.Select2',
         ));
-
-        $this->setComponents(array(
-            'errorHandler' => array(
-                'errorAction' => 'admin/user/error'),
-            'user' => array(
-                'class' => 'CWebUser',
-                'loginUrl' => Yii::app()->createUrl('admin/user/login'),
-                'returnUrl' => Yii::app()->createUrl('admin/start/index'),
-            ),
-        ));
 	}
 
 	public function beforeControllerAction($controller, $action)

@@ -50,6 +50,18 @@ class EWebModule extends CWebModule
         $this->setImport(array(
             'bootstrap.helpers.*'
         ));
+        $this->setComponents(array(
+            'widgetFactory'=>array(
+                'widgets'=>array(
+                    'WhDatePicker'=>array(
+                        'pluginOptions' => array(
+                            'format' => 'mm.dd.yyyy',
+                            'language' => 'ru'
+                        )
+                    ),
+                ),
+            ),
+        ));
 
         Yii::app()->getComponent('bootstrap')->register();
     }

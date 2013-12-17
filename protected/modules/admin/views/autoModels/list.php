@@ -26,7 +26,7 @@ $this->menu=array(
             'name'=>'brand_id',
             'type'=>'raw',
             'value'=>'$data->brand->name',
-            'filter'=>CHtml::listData(Brands::model()->findAll(), 'id', 'name')
+            'filter'=>CHtml::listData(Brands::model()->findAll(array('order'=>'name')), 'id', 'name')
         ),
         'name',
 		array(

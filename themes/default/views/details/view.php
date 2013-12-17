@@ -15,7 +15,7 @@
     <div class="catalog-model">
         <div class="container">
             <div class="row">
-                <div class="span6"><?php if ($autoModel) echo $autoModel->getImage('big'); ?></div>
+                <div class="span6"><?php if ( $autoModel->hasImage() ) echo $autoModel->getImage('big'); ?></div>
                 <div class="span4">
                     <div class="auto-title">
                         <h2><?php echo $autoModel->name; ?></h2>
