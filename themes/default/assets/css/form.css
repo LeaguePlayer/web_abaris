@@ -34,7 +34,9 @@
   color: red; }
 .abaris-form .errorMessage {
   color: red;
-  font-size: 12px; }
+  font-size: 12px;
+  line-height: 1;
+  margin-bottom: 5px; }
 .abaris-form .text-input:focus {
   outline: none; }
 .abaris-form input[type=checkbox].css-checkbox,

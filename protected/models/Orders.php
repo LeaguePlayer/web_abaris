@@ -123,6 +123,14 @@ class Orders extends EActiveRecord
             array('paytype, recipient_firstname, recipient_family, recipient_lastname, client_comment, client_email, client_phone', 'safe', 'on'=>'step3'),
             array('confirm', 'required', 'on'=>'step3'),
 
+            array('paytype', 'required', 'on'=>'admin'),
+            array('paytype', 'length', 'max'=>20, 'on'=>'admin'),
+            array('recipient_firstname, recipient_family, recipient_lastname, client_email, client_phone', 'required', 'on'=>'admin'),
+            array('recipient_firstname, recipient_family, recipient_lastname', 'length', 'max'=>45, 'on'=>'admin'),
+            array('client_phone', 'length', 'max'=>20, 'on'=>'admin'),
+            array('client_email', 'length', 'max'=>100, 'on'=>'admin'),
+            array('client_email', 'email', 'on'=>'admin'),
+
             array('id, SID, paytype, order_status, cart_id, recipient_firstname, recipient_family, recipient_lastname, client_comment, client_email, client_phone, order_date, delivery_date, status, sort, create_time, update_time, recipientFio', 'safe', 'on'=>'search'),
         );
     }

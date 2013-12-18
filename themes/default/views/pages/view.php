@@ -13,6 +13,6 @@ $this->breadcrumbs = array(
     </div>
 </div>
 
-<div class="container">
+<div class="container page-container">
     <?php echo $model->wswg_content; ?>
 </div>

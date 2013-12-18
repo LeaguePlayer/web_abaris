@@ -91,3 +91,20 @@ form .line{
     display: inline-block;
     margin: 0 3px;
 }
+
+#admincart-form span.count input {
+    display: inline-block;
+    vertical-align: middle;
+    margin: 0 5px;
+    width: 50px;
+    text-align: right;
+}
+#admincart-form span.count span {
+    display: inline-block;
+    vertical-align: middle;
+}
+#admincart-form .detail-view th {
+    width: 300px;
+    padding-right: 30px;
+    text-align: left;
+}

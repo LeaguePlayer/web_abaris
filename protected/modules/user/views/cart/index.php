@@ -68,11 +68,11 @@
     <?php endif; ?>
     <div class="container dop-info abacus">
         <div class="abacus"></div>
-        <a href="#">Ознакомиться с условиями доставки и возврата</a>
+        <a href="<?php echo $this->createUrl('/pages/view', array('id'=>'usloviya_dostavki')) ?>">Ознакомиться с условиями доставки и возврата</a>
     </div>
     <div class="container dop-info abacus">
         <div class="cog"></div>
-        <a href="#">Запись на станцию технического обслуживания</a>
+        <a href="<?php echo $this->createUrl('/pages/view', array('id'=>'stantsiya_tehnicheskogo_obslujivaniya')) ?>">Запись на станцию технического обслуживания</a>
         <span>У нашей компании есть сеть СТО, на которые Вы можете записаться в удобное время и пройти техническое обслуживание</span>
     </div>
 </div>

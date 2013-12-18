@@ -43,6 +43,7 @@ class EWebModule extends CWebModule
 
     public function registerBootstrap()
     {
+
         $this->setAliases(array(
             'bootstrap'=>'appext.yiistrap',
             'yiiwheels'=>'appext.yiiwheels',

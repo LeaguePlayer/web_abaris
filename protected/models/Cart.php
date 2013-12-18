@@ -31,6 +31,7 @@ class Cart extends CActiveRecord
     {
         return array(
             'cart_details' => array(self::HAS_MANY, 'CartDetails', 'cart_id'),
+            'user' => array(self::BELONGS_TO, 'User', 'user_id'),
         );
     }
 
@@ -38,9 +39,9 @@ class Cart extends CActiveRecord
     public function attributeLabels()
     {
         return array(
-            'id' => 'ID',
+            'id' => 'Номер корзины',
             'SID' => '№ карты',
-            'user_id' => 'Ссылка на пользователя',
+            'user_id' => 'Пользователь',
         );
     }
 
@@ -51,7 +52,7 @@ class Cart extends CActiveRecord
 		$criteria->compare('id',$this->id);
 		$criteria->compare('SID',$this->SID,true);
 		$criteria->compare('user_id',$this->user_id);
-        $criteria->order = 'sort';
+        $criteria->order = 'id';
 
         return new CActiveDataProvider($this, array(
             'criteria'=>$criteria,
@@ -80,5 +81,13 @@ class Cart extends CActiveRecord
     public function updatePosition($position)
     {
 
+    }
+
+    public function getUserEmail()
+    {
+        if ( $this->user )
+            return $this->user->email;
+        else
+            return '';
     }
 }

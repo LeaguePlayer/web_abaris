@@ -16,12 +16,12 @@
                 </div>
             </div>
             <div class="header-block span3 cog">
-                <a href="#">Станция Технического Обслуживания</a>
+                <a href="<?php echo $this->createUrl('/pages/view', array('id'=>'stantsiya_tehnicheskogo_obslujivaniya')) ?>">Станция Технического Обслуживания</a>
             </div>
             <div class="header-block span3">
                 <div class="header-phone">
 
-                    +7 <span>(<?=Settings::getOption('code')?>)</span> <?=Settings::getOption('phone')?><br><a class="feedback" href="<?php echo $this->createUrl('/site/feedback'); ?>">напишите нам</a>
+                    +7 <span>(3452)</span> <?=Settings::getOption('phone')?><br><a class="feedback" href="<?php echo $this->createUrl('/site/feedback'); ?>">напишите нам</a>
 
                 </div>
             </div>

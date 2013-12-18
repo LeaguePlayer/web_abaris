@@ -18,12 +18,13 @@
                     array('label'=>'Двигатели', 'url'=>'/admin/engines/list'),
                     array('label'=>'Категории', 'url'=>'/admin/detailCategory/list'),
                     array('label'=>'Страницы', 'url'=>'/admin/pages/list'),
-                    array('label'=>'Заказы пользователей', 'url'=>'/admin/orders/list'),
                     array('label'=>'Товары', 'url'=>'/admin/details/list'),
 					array('label'=>'Не найденые запчасти', 'url'=>'/admin/detailsnofound/list'),
                     array('label'=>'Поставщики', 'url'=>'/admin/providers/list'),
                     array('label'=>'Реклама', 'url'=>'/admin/banner/list'),
 				)),
+                array('label'=>'Заказы пользователей', 'url'=>'/admin/orders/list'),
+                array('label'=>'Клиентские корзины', 'url'=>'/admin/cart/list'),
 			);
 		?>
 		<?php $this->widget('bootstrap.widgets.TbNavbar', array(
