@@ -86,6 +86,29 @@
         return false;
       });
     };
+    $.bind_ajax_modal('a.send_question', {
+      afterShow: function() {
+        var content;
+        content = $(this.inner);
+        $(content).on('click', 'a.close-box', function(e) {
+          $.fancybox.close();
+          return false;
+        });
+        return $(content).on('click', 'button.next-step', function(e) {
+          var form;
+          form = $('form', content);
+          $.ajax({
+            url: form.attr('action'),
+            type: 'POST',
+            data: form.serialize(),
+            success: function(data) {
+              return content.html(data);
+            }
+          });
+          return false;
+        });
+      }
+    });
     return changeCategory();
   });
 

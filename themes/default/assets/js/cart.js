@@ -22,6 +22,7 @@
           this.cartActiveRows = $('#cart-details-list .catalog-grid-row').not('.archived');
           this.totalCostCounter = $('.summ .number');
           this.userPanelTotalCost = $('#cart-info .cost');
+          this.userPanelTotalCount = $('#cart-info .count');
         }
 
         Cart.prototype.updateCounters = function(actived, archived) {
@@ -39,15 +40,21 @@
           return this.arciveCounters.text(this.archiveSelected);
         };
 
+        Cart.prototype.updateRows = function() {
+          return this.cartActiveRows = $('#cart-details-list .catalog-grid-row').not('.archived');
+        };
+
         Cart.prototype.updateCost = function(currentRow) {
-          var discount, total;
+          var count, discount, total;
           if (currentRow == null) {
             currentRow = false;
           }
           total = 0;
           discount = 0;
+          count = 0;
           this.cartActiveRows.each(function() {
             var currentCost, priceCell, withDiscountCost;
+            count++;
             currentCost = $(this).data('price') * $(this).data('count');
             withDiscountCost = currentCost - (currentCost * $(this).data('discount') / 100);
             total += withDiscountCost;
@@ -56,7 +63,8 @@
             return priceCell.find('.price_with_discount').text(accounting.formatMoney(withDiscountCost, "", 0, " "));
           });
           this.totalCostCounter.text(accounting.formatMoney(total, "", 0, " "));
-          return this.userPanelTotalCost.text(accounting.formatMoney(total, "", 0, " "));
+          this.userPanelTotalCost.text(accounting.formatMoney(total, "", 0, " "));
+          return this.userPanelTotalCount.text(count);
         };
 
         return Cart;
@@ -121,6 +129,7 @@
                 data: form.serialize(),
                 success: function(data) {
                   $('#cart-wrap').replaceWith(data);
+                  cart.updateRows();
                   cart.updateCost();
                   return event_binding();
                 }

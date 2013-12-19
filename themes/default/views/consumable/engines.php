@@ -1,6 +1,6 @@
 <?php
 $this->breadcrumbs = array(
-    'Каталог абарис'=>array('catalog/index', array('brand'=>$this->brand['alias'])),
+    'Каталог расходных материалов'=>array('consumable/index', array('brand'=>$this->brand['alias'])),
     $autoModel->name,
 );
 ?>
@@ -14,10 +14,10 @@ $this->breadcrumbs = array(
                 <h2 class="georgia"><?php echo $autoModel->name; ?></h2>
                 <p><?php echo '<span class="grey">'.$autoModel->startRelease.'</span> - '.$autoModel->endRelease; ?></p>
                 <?php foreach ( $autoModel->detailInfo as $item ): ?>
-                <div class="row">
-                    <div class="span2"><?php echo $item['label']; ?></div>
-                    <div class="span2 grey"><?php echo $item['value']; ?></div>
-                </div>
+                    <div class="row">
+                        <div class="span2"><?php echo $item['label']; ?></div>
+                        <div class="span2 grey"><?php echo $item['value']; ?></div>
+                    </div>
                 <?php endforeach; ?>
             </div>
         </div>
@@ -31,15 +31,15 @@ $this->breadcrumbs = array(
                     <div class="field span8">
                         <div class="valign-text"><p>Двигатель</p></div>
                     </div>
-<!--                    <div class="field span2">-->
-<!--                        <div class="valign-text"><p>Объем двигателя</p></div>-->
-<!--                    </div>-->
-<!--                    <div class="field span2">-->
-<!--                        <div class="valign-text"><p>Топливо</p></div>-->
-<!--                    </div>-->
-<!--                    <div class="field span2">-->
-<!--                        <div class="valign-text"><p>Мощность Л.С.</p></div>-->
-<!--                    </div>-->
+                    <!--                    <div class="field span2">-->
+                    <!--                        <div class="valign-text"><p>Объем двигателя</p></div>-->
+                    <!--                    </div>-->
+                    <!--                    <div class="field span2">-->
+                    <!--                        <div class="valign-text"><p>Топливо</p></div>-->
+                    <!--                    </div>-->
+                    <!--                    <div class="field span2">-->
+                    <!--                        <div class="valign-text"><p>Мощность Л.С.</p></div>-->
+                    <!--                    </div>-->
                     <div class="field span4">
                         <div class="valign-text"></div>
                     </div>
@@ -54,7 +54,7 @@ $this->breadcrumbs = array(
                         <div class="valign-text"></div>
                     </div>
                     <div class="field span4">
-                        <div class="valign-text"><p><a href="<?php echo $this->createurl('/catalog/details', array('model_id'=>$autoModel->id, 'brand'=>$this->brand['alias'])); ?>" class="b-button b-button-blue">Посмотреть все</a></p></div>
+                        <div class="valign-text"><p><a href="<?php echo $this->createurl('/consumable/details', array('model_id'=>$autoModel->id, 'brand'=>$this->brand['alias'])); ?>" class="b-button b-button-blue">Посмотреть все</a></p></div>
                     </div>
                 </div>
             </div>

@@ -1,6 +1,6 @@
 <?php
 $this->breadcrumbs = array(
-    'Каталог абарис'=>array('catalog/index', array('brand'=>$this->brand['alias'])),
+    'Каталог аксессуаров'=>array('accessory/index', array('brand'=>$this->brand['alias'])),
     $autoModel->name,
 );
 ?>
@@ -54,7 +54,7 @@ $this->breadcrumbs = array(
                         <div class="valign-text"></div>
                     </div>
                     <div class="field span4">
-                        <div class="valign-text"><p><a href="<?php echo $this->createurl('/catalog/details', array('model_id'=>$autoModel->id, 'brand'=>$this->brand['alias'])); ?>" class="b-button b-button-blue">Посмотреть все</a></p></div>
+                        <div class="valign-text"><p><a href="<?php echo $this->createurl('/accessory/details', array('model_id'=>$autoModel->id, 'brand'=>$this->brand['alias'])); ?>" class="b-button b-button-blue">Посмотреть все</a></p></div>
                     </div>
                 </div>
             </div>

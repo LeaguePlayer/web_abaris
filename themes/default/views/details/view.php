@@ -15,13 +15,15 @@
     <div class="catalog-model">
         <div class="container">
             <div class="row">
-                <div class="span6"><?php if ( $autoModel->hasImage() ) echo $autoModel->getImage('big'); ?></div>
-                <div class="span4">
-                    <div class="auto-title">
-                        <h2><?php echo $autoModel->name; ?></h2>
-                        <span><?php echo $autoModel->releaseRange; ?></span>
+                <?php if ( $autoModel ): ?>
+                    <div class="span6"><?php if ( $autoModel->hasImage() ) echo $autoModel->getImage('big'); ?></div>
+                    <div class="span4">
+                        <div class="auto-title">
+                            <h2><?php echo $autoModel->name; ?></h2>
+                            <span><?php echo $autoModel->releaseRange; ?></span>
+                        </div>
                     </div>
-                </div>
+                <?php endif ?>
             </div>
         </div>
     </div>
@@ -42,17 +44,20 @@
             </div>
         </div>
 
-        <?php $this->renderPartial('_catalog_grid', array(
-            'title' => 'Запрошенный артикул',
-            'detailsData' => new CArrayDataProvider(array($findedDetail)),
-            'searchedId' => $findedDetail->id,
-        ))  ?>
-
-        <?php $this->renderPartial('_catalog_grid', array(
-            'title' => 'Детали в наличии',
-            'detailsData' => $inStockDetailsData,
-            'searchedId' => $findedDetail->id,
-        ))  ?>
+        <?php
+            if ( $model->in_stock == 0 )
+                $this->renderPartial('_catalog_grid', array(
+                    'title' => 'Запрошенный артикул',
+                    'detailsData' => new CArrayDataProvider(array($findedDetail)),
+                    'searchedId' => $findedDetail->id,
+                ));
+            else
+                $this->renderPartial('_catalog_grid', array(
+                    'title' => 'Детали в наличии',
+                    'detailsData' => $inStockDetailsData,
+                    'searchedId' => $findedDetail->id,
+                ));
+        ?>
 
         <?php $this->renderPartial('_catalog_grid', array(
             'title' => 'Вы можете заказать детали, если их нет в наличии',

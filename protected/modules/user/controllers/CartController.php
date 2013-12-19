@@ -128,7 +128,7 @@ class CartController extends FrontController
         } else {
             $parts = explode('_', $key);
             $posId = $parts[0];
-            $position = Details::model()->with('cartInfo')->findByPk($posId);
+            $position = Details::model()->findByPk($posId);
             if ( $position === null ) {
                 throw new CHttpException(404, 'Не найдена деталь');
             }
@@ -158,6 +158,7 @@ class CartController extends FrontController
         foreach ( $postItems['checked'] as $positionKey )
         {
             $position = $cart->itemAt($positionKey);
+//            print_r($position->getPrice()); die();
             if ( !$position or $position->cartInfo->status == CartDetails::STATUS_ARCHIVED )
                 continue;
             $detailInfo = $position->cartInfo;

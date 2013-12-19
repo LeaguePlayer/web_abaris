@@ -159,6 +159,79 @@ class SiteController extends FrontController
     public function actionSearch()
     {
         $this->layout = '//layouts/main';
+    }
 
+    public function actionQuestion($questArticle = false)
+    {
+        $model = new QuestionForm();
+        $model->questArticle = $questArticle;
+
+        if ( isset($_POST['QuestionForm']) ) {
+            $model->attributes = $_POST['QuestionForm'];
+            if ( $model->validate() ) {
+
+                $detail = Details::model()->findByAttributes(array(
+                    'article'=>$questArticle
+                ));
+
+                $template_email_for_admin =
+                    "Добрый день!<br><br>
+                    На Ваш сайт поступил вопрос о поступлениях товара с артикулом <strong>%article%</strong> (%name%)
+                    <br>
+                    Телефон пользователя: <strong>%phone%</strong>,
+                    <br>";
+                if ( !empty($model->email) ) {
+                    $template_email_for_admin .=
+                        "E-mail пользователя: <a href='mailto:%email%?subject=Ответ на ваше сообщение с сайта abarisparts.ru'>%email%</a><br>";
+                }
+                $template_email_for_admin .=
+                    "Комментарий пользователя:
+                    <br>
+                    <strong>%comment%</strong>
+                    ";
+                $replaces = array(
+                    "%article%" => $questArticle,
+                    "%name%" => $detail->name,
+                    "%phone%" => $model->phone,
+                    "%email%" => $model->email,
+                    "%comment%" => $model->comment);
+                $template_email_for_admin = strtr($template_email_for_admin, $replaces);
+                SiteHelper::sendMail("Обратная связь с сайта abarisparts.ru", $template_email_for_admin, Settings::getOption('email_admin'));
+
+                if ( !empty($model->email) ) {
+                    $template_email_for_user = "
+                        Вы обратились по вопросу наличия товара с артикулом <strong>%article%</strong> (%name%). Мы благодарим за обращение в нашу компанию. Абарис заботится о каждом своем клиенте. Мы постараемся обработать вашу заявку как можно быстрее.
+                        <br>
+                        Данные полученные нами:
+                        <br>
+                        <strong>Телефон:</strong> %phone%
+                        <br>
+                        <strong>Email:</strong> %email%
+                        <br>
+                        <strong>Текст сообщения: </strong>
+                        <br>
+                        %comment%
+                        ";
+
+                    $replaces = array(
+                        "%article%" => $questArticle,
+                        "%name%" => $detail->name,
+                        "%phone%" => $model->phone,
+                        "%email%" => $model->email,
+                        "%comment%" => $model->comment);
+                    $template_email_for_user = strtr($template_email_for_user, $replaces);
+
+                    SiteHelper::sendMail("Обратная связь с сайта abarisparts.ru", $template_email_for_user, $model->email);
+                }
+
+                $this->renderPartial('thanks');
+                Yii::app()->end();
+            }
+
+
+        }
+
+        $this->renderPartial('question', array('model'=>$model));
+        Yii::app()->end();
     }
 }

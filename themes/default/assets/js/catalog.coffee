@@ -72,4 +72,23 @@ $ ->
 					filterListView('details-list')
 			false
 
+
+	$.bind_ajax_modal 'a.send_question',
+		afterShow: () ->
+			content = $(@.inner)
+			$(content).on 'click', 'a.close-box', (e) ->
+				$.fancybox.close()
+				false
+
+			$(content).on 'click', 'button.next-step', (e) ->
+				form = $('form', content)
+				$.ajax
+					url: form.attr 'action'
+					type: 'POST'
+					data: form.serialize()
+					success: (data) ->
+						content.html data
+				false
+
+
 	changeCategory()

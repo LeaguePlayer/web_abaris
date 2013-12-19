@@ -137,13 +137,12 @@ class Details extends EActiveRecord implements IECartPosition
 
     public function relations()
     {
-        $cart = Yii::app()->user->getDbCart();
         return array(
             'brand'=>array(self::BELONGS_TO, 'Brands', 'brand_id'),
             'category'=>array(self::BELONGS_TO, 'DetailCategory', 'category_id'),
             'adaptAutoModels'=>array(self::MANY_MANY, 'AutoModels', Adaptabillity::model()->tableName().'(detail_id, auto_model_id)'),
             'analogs'=>array(self::MANY_MANY, 'Details', AnalogDetails::model()->tableName().'(original_id, analog_id)'),
-            'cartInfo'=>array(self::HAS_ONE, 'CartDetails', 'detail_id', 'condition'=>'cart_id=:cart_id', 'params'=>array(':cart_id'=>$cart->id)),
+//            'cartInfo'=>array(self::HAS_ONE, 'CartDetails', '', 'on'=>'cartInfo.detail_key=:detail_key', 'condition'=>'cart_id=:cart_id', 'params'=>array(':cart_id'=>$cart->id, ':detail_key'=>$this->getId())),
             'adaptAutoModels'=>array(self::MANY_MANY, 'AutoModels', Adaptabillity::model()->tableName().'(detail_id, auto_model_id)'),
             'depot'=>array(self::MANY_MANY, 'Depot', DepotPosition::model()->tableName().'(position_id, depot_id)'),
             'depotPositions'=>array(self::HAS_MANY, 'DepotPosition', 'position_id'),
@@ -339,5 +338,18 @@ class Details extends EActiveRecord implements IECartPosition
         $instance = new Details('duplicate');
         $instance->attributes = $this->attributes;
         return $instance;
+    }
+
+    private $_cartInfo;
+    public function getCartInfo()
+    {
+        if ( $this->_cartInfo === null ) {
+            $cart = Yii::app()->user->getDbCart();
+            $this->_cartInfo = CartDetails::model()->findByAttributes(array(
+                'cart_id' => $cart->id,
+                'detail_key' => $this->getId()
+            ));
+        }
+        return $this->_cartInfo;
     }
 }

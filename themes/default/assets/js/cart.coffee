@@ -19,6 +19,7 @@ $ ->
 				@cartActiveRows = $('#cart-details-list .catalog-grid-row').not('.archived')
 				@totalCostCounter = $('.summ .number')
 				@userPanelTotalCost = $('#cart-info .cost')
+				@userPanelTotalCount = $('#cart-info .count')
 			updateCounters: (actived = 0, archived = 0) ->
 				@generalSelected += (actived + archived)
 				@activeSelected += actived
@@ -26,19 +27,23 @@ $ ->
 				@generalCounters.text @generalSelected
 				@activeCounters.text @activeSelected
 				@arciveCounters.text @archiveSelected
+			updateRows: () ->
+				@cartActiveRows = $('#cart-details-list .catalog-grid-row').not('.archived')
 			updateCost: (currentRow = false) ->
 				total = 0
 				discount = 0
+				count = 0
 				@cartActiveRows.each () ->
+					count++
 					currentCost = $(@).data('price') * $(@).data('count')
 					withDiscountCost = currentCost - ( currentCost * $(@).data('discount') / 100 )
 					total += withDiscountCost
 					priceCell = $(@).find('.field.price_values')
 					priceCell.find('.current_price').text accounting.formatMoney(currentCost, "", 0, " ")
 					priceCell.find('.price_with_discount').text accounting.formatMoney(withDiscountCost, "", 0, " ")
-
 				@totalCostCounter.text accounting.formatMoney(total, "", 0, " ")
 				@userPanelTotalCost.text accounting.formatMoney(total, "", 0, " ")
+				@userPanelTotalCount.text count
 
 
 		cart = new Cart
@@ -94,6 +99,7 @@ $ ->
 							data: form.serialize()
 							success: (data) ->
 								$('#cart-wrap').replaceWith data
+								cart.updateRows()
 								cart.updateCost()
 								event_binding()
 			false

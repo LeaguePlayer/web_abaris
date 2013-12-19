@@ -166,11 +166,12 @@ class WebUser extends AuthWebUser
     public function getCartDetails()
     {
         if ( $this->_cartDetails === null ) {
-            $this->_cartDetails = new CTypedMap('CartDetails');
+            $map = new CTypedMap('CartDetails');
             $cart = $this->getDbCart();
             foreach ( $cart->cart_details as $detail ) {
-                $this->_cartDetails->add($detail->detail_key, $detail);
+                $map->add($detail->detail_key, $detail);
             }
+            $this->_cartDetails = $map;
         }
         return $this->_cartDetails;
     }

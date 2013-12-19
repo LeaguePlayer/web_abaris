@@ -1,13 +1,6 @@
 <?php
-/**
- * Created by JetBrains PhpStorm.
- * User: megakuzmitch
- * Date: 10.09.13
- * Time: 11:32
- * To change this template use File | Settings | File Templates.
- */
 
-class CatalogController extends FrontController
+class CatalogController extends FrontCatalogController
 {
     public $layout = '//layouts/main';
 
@@ -201,19 +194,14 @@ class CatalogController extends FrontController
 //            $criteriaDet->addCondition($sqlCond);
 //        }
 
-        if ( $model_id ) {
-            $sqlCond = 'id IN (SELECT DISTINCT detail_id FROM '.Adaptabillity::model()->tableName().' WHERE auto_model_id=:model_id';
-            $criteriaDet->params[':model_id'] = $model_id;
-            if ( $engine_id ) {
-                $sqlCond .= ' OR engine_model_id=:engine_id)';
-                $criteriaDet->params[':engine_id'] = $engine_id;
-            } else {
-                $sqlCond .= ')';
-            }
-        } else if ( $engine_id ) {
+        if ( $engine_id ) {
             $sqlCond = 'id IN (SELECT DISTINCT detail_id FROM '.Adaptabillity::model()->tableName().' WHERE engine_model_id=:engine_id)';
             $criteriaDet->params[':engine_id'] = $engine_id;
+        } else if ( $model_id ) {
+            $sqlCond = 'id IN (SELECT DISTINCT detail_id FROM '.Adaptabillity::model()->tableName().' WHERE auto_model_id=:model_id)';
+            $criteriaDet->params[':model_id'] = $model_id;
         }
+
         if ( $sqlCond ) {
             $criteriaDet->addCondition($sqlCond);
         }

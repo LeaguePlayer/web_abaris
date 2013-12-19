@@ -1,6 +1,6 @@
 <?php
 $this->breadcrumbs = array(
-    'Каталог аксессуаров'=>array('consumable/index'),
+    'Каталог аксессуаров'=>array('accessory/index'),
     $findedDetail->name
 );
 ?>
@@ -9,6 +9,15 @@ $this->breadcrumbs = array(
     <div class="catalog-model">
         <div class="container">
             <div class="row">
+                <?php if ( $autoModel ): ?>
+                    <div class="span6"><?php if ( $autoModel->hasImage() ) echo $autoModel->getImage('big'); ?></div>
+                    <div class="span4">
+                        <div class="auto-title">
+                            <h2><?php echo $autoModel->name; ?></h2>
+                            <span><?php echo $autoModel->releaseRange; ?></span>
+                        </div>
+                    </div>
+                <?php endif ?>
             </div>
         </div>
     </div>
@@ -38,11 +47,13 @@ $this->breadcrumbs = array(
         <?php $this->renderPartial('//details/_catalog_grid', array(
             'title' => 'Детали в наличии',
             'detailsData' => $inStockDetailsData,
+            'searchedId' => $findedDetail->id,
         ))  ?>
 
         <?php $this->renderPartial('//details/_catalog_grid', array(
             'title' => 'Вы можете заказать детали, если их нет в наличии',
             'detailsData' => $nonInStockDetailsData,
+            'searchedId' => $findedDetail->id,
         ))  ?>
     </div>
 </div>

@@ -1,6 +1,5 @@
 <?php
 $this->breadcrumbs = array(
-
     'Напишите нам',
 );
 ?>
@@ -33,21 +32,18 @@ $this->breadcrumbs = array(
             <div class="span5"><?php echo $form->labelEx($model, 'message'); ?></div>
             <div class="span7"><?php echo $form->textArea($model, 'message', array('class'=>'text-input area')); ?></div>
         </div>
-        
-            
-            
-            <div class="row-fluid req-info">
-                <div class="span12"><span class="required">*</span> Поля обязательные для заполнения</div>
-            </div>
-            <div class="garant">
-                Сайт гарантирует безопасность введенных данных
-            </div>
-            <div class="row-fluid">
-                <div class="span6"><a class="cancel-signup" href="/">Вернуться на главную</a></div>
-                <div class="span6"><button class="next-step">Продолжить <i></i></button></div>
-            </div>
-            
+
+        <div class="row-fluid req-info">
+            <div class="span12"><span class="required">*</span> Поля обязательные для заполнения</div>
         </div>
+        <div class="garant">
+            Сайт гарантирует безопасность введенных данных
+        </div>
+        <div class="row-fluid">
+            <div class="span6"><a class="cancel-signup" href="/">Вернуться на главную</a></div>
+            <div class="span6"><button class="next-step">Продолжить <i></i></button></div>
+        </div>
+
         <?php $this->endWidget(); ?>
     </div>
 </div>
