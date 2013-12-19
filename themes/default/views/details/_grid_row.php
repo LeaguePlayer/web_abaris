@@ -8,7 +8,7 @@
             <div class="span2 field">
                 <div class="valign-text">
                     <p>
-                        <?php if ( $data->in_stock == 0 ): ?>
+                        <?php if ( !$data->isVirtual() ): ?>
                             <a class="send_question" href="<?php echo $this->createUrl('site/question', array('questArticle'=>$data->article)) ?>">Узнать о поступлениях</a>
                         <?php else: ?>
                             <b><?php echo $data->toStringStock(); ?></b>
@@ -20,7 +20,7 @@
             <div class="span1 field">
                 <div class="valign-text">
                     <p>
-                        <?php if ( $data->in_stock == 0 ): ?>
+                        <?php if ( !$data->isVirtual() ): ?>
                             —
                         <?php else: ?>
                             <?php echo $data->toStringDeliveryTime(); ?>

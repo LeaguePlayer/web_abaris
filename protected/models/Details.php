@@ -352,4 +352,9 @@ class Details extends EActiveRecord implements IECartPosition
         }
         return $this->_cartInfo;
     }
+
+    public function isVirtual()
+    {
+        return $this->virtualType !== null;
+    }
 }
