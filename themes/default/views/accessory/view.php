@@ -38,22 +38,26 @@ $this->breadcrumbs = array(
             </div>
         </div>
 
-        <?php $this->renderPartial('//details/_catalog_grid', array(
-            'title' => 'Запрошенный артикул',
-            'detailsData' => new CArrayDataProvider(array($findedDetail)),
-            'searchedId' => $findedDetail->id,
-        ))  ?>
+        <?php
+            if ( $inStockDetailsData->totalItemCount == 0 && $nonInStockDetailsData->totalItemCount == 0 ) {
+                $this->renderPartial('_catalog_grid', array(
+                    'title' => 'Запрошенный артикул',
+                    'detailsData' => new CArrayDataProvider(array($findedDetail)),
+                    'searchedId' => $findedDetail->id,
+                ));
+            } else {
+                $this->renderPartial('_catalog_grid', array(
+                    'title' => 'Детали в наличии',
+                    'detailsData' => $inStockDetailsData,
+                    'searchedId' => $findedDetail->id,
+                ));
 
-        <?php $this->renderPartial('//details/_catalog_grid', array(
-            'title' => 'Детали в наличии',
-            'detailsData' => $inStockDetailsData,
-            'searchedId' => $findedDetail->id,
-        ))  ?>
-
-        <?php $this->renderPartial('//details/_catalog_grid', array(
-            'title' => 'Вы можете заказать детали, если их нет в наличии',
-            'detailsData' => $nonInStockDetailsData,
-            'searchedId' => $findedDetail->id,
-        ))  ?>
+                $this->renderPartial('_catalog_grid', array(
+                    'title' => 'Вы можете заказать детали, если их нет в наличии',
+                    'detailsData' => $nonInStockDetailsData,
+                    'searchedId' => $findedDetail->id,
+                ));
+            }
+        ?>
     </div>
 </div>
