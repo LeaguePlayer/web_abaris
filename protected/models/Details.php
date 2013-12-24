@@ -117,6 +117,32 @@ class Details extends EActiveRecord implements IECartPosition
         return $this->_price;
     }
 
+    private $_delivery_time;
+    /**
+     * @return float price
+     */
+    public function getDeliveryTime()
+    {
+        if ( $this->_delivery_time === null ) {
+            switch ( $this->virtualType ) {
+                case self::VIRTUALTYPE_DEPOT:
+                    $this->_delivery_time = 0;
+                    break;
+                case self::VIRTUALTYPE_PROVIDER:
+                    foreach ( $this->providerPositions as $providerPos ) {
+                        if ( $this->virtualId === $providerPos->provider_id ) {
+                            $this->_delivery_time = $providerPos->delivery_time;
+                            break;
+                        }
+                    }
+                    break;
+                default:
+                    $this->_delivery_time = 0;
+            }
+        }
+        return $this->_delivery_time;
+    }
+
     public function rules()
     {
         return array(
@@ -284,9 +310,9 @@ class Details extends EActiveRecord implements IECartPosition
 
     public function toStringDeliveryTime()
     {
-        if ( $this->delivery_time == 0 )
+        if ( $this->getDeliveryTime() == 0 )
             return 'Сегодня';
-        return $this->delivery_time.' дней';
+        return $this->getDeliveryTime().' дней';
     }
 
     public function isArchived()
