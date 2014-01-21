@@ -67,13 +67,13 @@
             <h3 class="georgia">Расходные материалы можно найти в каталоге:</h3>
             <div class="row">
                 <div class="span6">
-                    <a href="<?php echo $this->createUrl('/consumable/index', array('brand'=>$this->brand['alias'])); ?>" class="b-button b-button-red">Каталог расходных материалов</a>
+                    <a href="<?php echo $this->createUrl('/consumable/index', array('brand'=>$this->brand['alias'])); ?>" class="b-button b-button-green">Каталог расходных материалов</a>
                 </div>
             </div>
             <h3 class="georgia">Также на сайте Вы можете подобрать аксессуары:</h3>
             <div class="row">
                 <div class="span6">
-                    <a href="<?php echo $this->createUrl('/accessory/index', array('brand'=>$this->brand['alias'])); ?>" class="b-button b-button-red">Каталог аксессуаров</a>
+                    <a href="<?php echo $this->createUrl('/accessory/index', array('brand'=>$this->brand['alias'])); ?>" class="b-button b-button-green">Каталог аксессуаров</a>
                 </div>
             </div>
         </div>

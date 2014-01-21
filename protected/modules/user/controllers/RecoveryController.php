@@ -1,8 +1,9 @@
 <?php
 
-class RecoveryController extends Controller
+class RecoveryController extends FrontController
 {
 	public $defaultAction = 'recovery';
+    public $layout = '//layouts/main';
 	
 	/**
 	 * Recovery password

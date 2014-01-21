@@ -50,8 +50,38 @@ class CabinetController extends FrontController
                     break;
             }
         }
+
+        $carsFinder = new UserCars('search');
+        $carsFinder->unsetAttributes();
+        if ( isset( $_GET['UserCars'] ) ) {
+            $carsFinder->attributes = $_GET['UserCars'];
+            $criteria = new CDbCriteria();
+            $criteria->compare('user_id', Yii::app()->user->id);
+            $criteria->compare('brand', $carsFinder->brand, true);
+            $criteria->compare('model', $carsFinder->model, true);
+            $criteria->compare('year', $carsFinder->year);
+            $criteria->compare('VIN', $carsFinder->VIN, true);
+            $criteria->compare('mileage', $carsFinder->mileage);
+            $dataUserListCars = new CActiveDataProvider("UserCars", array(
+                'criteria' => $criteria,
+                "pagination" => array(
+                    "pageSize" => 10,
+                ),
+            ));
+            $this->renderPartial('_cars_grid_body', array(
+                'dataUserListCars' => $dataUserListCars
+            ));
+            Yii::app()->end();
+        }
+
+
 		$criteria = new CDbCriteria();
         $criteria->compare('user_id', Yii::app()->user->id);
+        $criteria->compare('brand', $carsFinder->brand);
+        $criteria->compare('model', $carsFinder->model);
+        $criteria->compare('year', $carsFinder->year);
+        $criteria->compare('VIN', $carsFinder->VIN);
+        $criteria->compare('mileage', $carsFinder->mileage);
 		$dataUserListCars = new CActiveDataProvider("UserCars", array(
             'criteria' => $criteria,
             "pagination" => array(
@@ -60,10 +90,16 @@ class CabinetController extends FrontController
         ));
 
         if ( Yii::app()->request->isAjaxRequest ) {
-            echo $this->renderPartial("cars", array("dataUserListCars" => $dataUserListCars));
+            echo $this->renderPartial("cars", array(
+                'carsFinder' => $carsFinder,
+                "dataUserListCars" => $dataUserListCars
+            ));
             Yii::app()->end();
         }
-		$this->render("cars", array("dataUserListCars" => $dataUserListCars));
+		$this->render("cars", array(
+            'carsFinder' => $carsFinder,
+            "dataUserListCars" => $dataUserListCars
+        ));
 	}
 
 

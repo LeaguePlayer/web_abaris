@@ -11,15 +11,12 @@
     alertify.set({
       buttonReverse: true
     });
-    alertify.set({
-      buttonFocus: "cancel"
-    });
     hide_popover = function() {
       return $('.tooltip-msg').popover('destroy');
     };
     setTimeout(hide_popover, 5000);
     bindCabinetEvents = function() {
-      var deleteCounter, form, grid;
+      var deleteCounter, filterRow, form, grid;
       if ($('.print-page').size() > 0) {
         $('.print-page').printPage();
       }
@@ -69,11 +66,17 @@
           return bindEvents($(this.inner));
         }
       });
-      return $('.subtotal .delete').click(function(e) {
+      $('.subtotal .delete').unbind('click').bind('click', function(e) {
         form = $(this).parents('form');
         if (form.find('.blue-check input:checked').size() === 0) {
+          alertify.set({
+            buttonFocus: "ok"
+          });
           alertify.alert("Вы не выбрали ни одной записи");
         } else {
+          alertify.set({
+            buttonFocus: "cancel"
+          });
           alertify.confirm("Подтвердите удаление выбранных элементов", function(e, str) {
             if (e) {
               form.append($('<input type="hidden" />').attr('name', 'action').attr('value', 'delete'));
@@ -89,6 +92,21 @@
             }
           });
         }
+        return false;
+      });
+      filterRow = $('#usercabinet-wrap .filter');
+      return $('input:text', filterRow).unbind('keyup').bind('keyup', function(e) {
+        var $this, id;
+        $this = $(this);
+        id = $this.attr('id');
+        $.ajax({
+          type: 'GET',
+          data: $('input', filterRow).serialize(),
+          success: function(data) {
+            $('.list-view', '#usercabinet-wrap').replaceWith(data);
+            return bindCabinetEvents();
+          }
+        });
         return false;
       });
     };

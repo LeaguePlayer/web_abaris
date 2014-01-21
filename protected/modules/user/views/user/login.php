@@ -1,10 +1,13 @@
 <!-- login-->
 <div class="container login">
-    <div class="span5 page-title">
-        <h2 class="georgia">Авторизуйтесь на сайте</h2>
-        <div>
-            <span class="blue-line"></span>
+    <div class="span5">
+        <div class="page-title">
+            <h2 class="georgia">Авторизуйтесь на сайте</h2>
+            <div>
+                <span class="blue-line"></span>
+            </div>
         </div>
+
         <?php $form = $this->beginWidget('CActiveForm', array(
             'htmlOptions'=>array('class'=>'login abaris-form')
         )); ?>
@@ -30,7 +33,9 @@
                 </div>
             </div>
             <div class="row-fluid">
-                <div class="span4"><a class="lock" href="<?php echo $this->createUrl('/user/recovery'); ?>">Забыли пароль?</a></div>
+                <div class="span4">
+                    <a class="lock" href="<?php echo $this->createUrl('/user/recovery'); ?>">Забыли пароль?</a>
+                </div>
                 <div class="span8">
                     <a class="fancybox.ajax registrationButton" href="<?php echo $this->createUrl('/user/registration'); ?>">Зарегистироваться</a>
                 </div>
@@ -40,10 +45,13 @@
             </div>
         <?php $this->endWidget(); ?>
     </div>
-    <div class="span5 page-title">
-        <h2 class="georgia">Новый пользователь на сайте?</h2>
-        <div>
-            <span class="blue-line"></span>
+    <div class="span1"></div>
+    <div class="span5">
+        <div class="page-title">
+            <h2 class="georgia">Новый пользователь на сайте?</h2>
+            <div>
+                <span class="blue-line"></span>
+            </div>
         </div>
         <p class="info">Нажмите кнопку ниже чтобы продолжить без регистрации</p>
         <a href="<?php echo Yii::app()->user->returnUrl; ?>" class="b-button b-button-blue">Продолжить как гость</a>

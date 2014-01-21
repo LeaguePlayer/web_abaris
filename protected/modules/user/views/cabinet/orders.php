@@ -1,3 +1,9 @@
+<?php
+$this->breadcrumbs = array(
+    'Личный кабинет - Управление заказов',
+);
+?>
+
 <div id="usercabinet-wrap">
 
     <?php echo $this->renderPartial('_cabinet_steps'); ?>

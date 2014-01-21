@@ -41,7 +41,7 @@ $this->breadcrumbs = array(
         </div>
         <div class="row-fluid">
             <div class="span6"><a class="cancel-signup" href="/">Вернуться на главную</a></div>
-            <div class="span6"><button class="next-step">Продолжить <i></i></button></div>
+            <div class="span6"><button class="next-step b-button-blue">Продолжить <i></i></button></div>
         </div>
 
         <?php $this->endWidget(); ?>

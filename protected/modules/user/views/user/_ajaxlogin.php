@@ -26,7 +26,9 @@
             </div>
         </div>
         <div class="row-fluid">
-            <div class="span4"><a class="lock" href="<?php echo $this->createUrl('/user/recovery'); ?>">Забыли пароль?</a></div>
+            <div class="span4">
+                <a class="lock fancybox.ajax recoveryButton" href="<?php echo $this->createUrl('/user/recovery'); ?>">Забыли пароль?</a>
+            </div>
             <div class="span8">
                 <a class="fancybox.ajax registrationButton" href="<?php echo $this->createUrl('/user/registration'); ?>">Зарегистироваться</a>
             </div>

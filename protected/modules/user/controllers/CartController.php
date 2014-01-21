@@ -158,12 +158,11 @@ class CartController extends FrontController
         foreach ( $postItems['checked'] as $positionKey )
         {
             $position = $cart->itemAt($positionKey);
-//            print_r($position->getPrice()); die();
-            if ( !$position or $position->cartInfo->status == CartDetails::STATUS_ARCHIVED )
+            $cartInfo = $position->getCartInfo();
+            if ( !$position or $cartInfo->status == CartDetails::STATUS_ARCHIVED )
                 continue;
-            $detailInfo = $position->cartInfo;
-            $detailInfo->status = CartDetails::STATUS_ARCHIVED;
-            $detailInfo->save(false);
+            $cartInfo->status = CartDetails::STATUS_ARCHIVED;
+            $cartInfo->save(false);
         }
     }
 
@@ -173,11 +172,11 @@ class CartController extends FrontController
         foreach ( $postItems['checked'] as $positionKey )
         {
             $position = $cart->itemAt($positionKey);
-            if ( !$position or $position->cartInfo->status == CartDetails::STATUS_ACTIVE )
+            $cartInfo = $position->getCartInfo();
+            if ( !$position or $cartInfo->status == CartDetails::STATUS_ACTIVE )
                 continue;
-            $detailInfo = $position->cartInfo;
-            $detailInfo->status = CartDetails::STATUS_ACTIVE;
-            $detailInfo->save(false);
+            $cartInfo->status = CartDetails::STATUS_ACTIVE;
+            $cartInfo->save(false);
         }
     }
 

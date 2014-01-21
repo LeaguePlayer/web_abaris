@@ -1,7 +1,7 @@
 <?php
-/*$this->breadcrumbs = array(
-    'Личный кабинет - Управление автомобилями',
-);*/
+$this->breadcrumbs = array(
+    'Личный кабинет - Управление счетами',
+);
 ?>
 
 <div id="usercabinet-wrap">

@@ -1,8 +1,12 @@
 @import "helper"
 
 $blue: #296bb1
+$blue-lite: #3482e2
 $grey: #717171
 $red: #ff665d
+$red-lite: #ff8d80
+$green: #6dbc75
+$green-lite: #84c783
 
 html, body
   height: 100%
@@ -35,10 +39,20 @@ button.b-button
 .b-button-blue
   background-color: $blue
   border: none
+  &:hover
+    background-color: $blue-lite
 
 .b-button-red
   background-color: $red
   border: none
+  &:hover
+    background-color: $red-lite
+
+.b-button-green
+  background-color: $green
+  border: none
+  &:hover
+    background-color: $green-lite
 
 .blue-check
   input[type='checkbox']

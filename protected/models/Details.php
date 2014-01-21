@@ -130,7 +130,7 @@ class Details extends EActiveRecord implements IECartPosition
                     break;
                 case self::VIRTUALTYPE_PROVIDER:
                     foreach ( $this->providerPositions as $providerPos ) {
-                        if ( $this->virtualId === $providerPos->provider_id ) {
+                        if ( $this->virtualId == $providerPos->provider_id ) {
                             $this->_delivery_time = $providerPos->delivery_time;
                             break;
                         }
@@ -317,30 +317,35 @@ class Details extends EActiveRecord implements IECartPosition
 
     public function isArchived()
     {
-        return $this->cartInfo->isArchived();
+        $cartInfo = $this->getCartInfo();
+        return $cartInfo->isArchived();
     }
 
     public function archivate()
     {
         if ( $this->isArchived() )
             return true;
-        $this->cartInfo->status = CartDetails::STATUS_ARCHIVED;
-        $this->cartInfo->save(false);
+        $cartInfo = $this->getCartInfo();
+        $cartInfo->status = CartDetails::STATUS_ARCHIVED;
+        $cartInfo->save(false);
     }
 
     public function unarchivate()
     {
         if ( !$this->isArchived() )
             return true;
-        $this->cartInfo->status = CartDetails::STATUS_ACTIVE;
-        $this->cartInfo->save(false);
+        $cartInfo = $this->getCartInfo();
+        $cartInfo->status = CartDetails::STATUS_ACTIVE;
+        $cartInfo->save(false);
     }
 
     public function cmpStatus($a, $b)
     {
-        if ( $a->cartInfo->status == $b->cartInfo->status )
+        $cartInfo_a = $a->getCartInfo();
+        $cartInfo_b = $b->getCartInfo();
+        if ( $cartInfo_a->status == $cartInfo_b->status )
             return 0;
-        else if ($a->cartInfo->status > $b->cartInfo->status)
+        else if ( $cartInfo_a->status > $cartInfo_b->status )
             return -1;
         else
             return 1;
@@ -369,14 +374,19 @@ class Details extends EActiveRecord implements IECartPosition
     private $_cartInfo;
     public function getCartInfo()
     {
-        if ( $this->_cartInfo === null ) {
+//        if ( $this->_cartInfo === null ) {
             $cart = Yii::app()->user->getDbCart();
             $this->_cartInfo = CartDetails::model()->findByAttributes(array(
                 'cart_id' => $cart->id,
                 'detail_key' => $this->getId()
             ));
-        }
+//        }
         return $this->_cartInfo;
+    }
+
+    public function setCartInfo(CartDetails $cartInfo)
+    {
+        $this->_cartInfo = $cartInfo;
     }
 
     public function isVirtual()

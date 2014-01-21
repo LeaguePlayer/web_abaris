@@ -13,6 +13,13 @@ $this->menu=array(
     array('label'=>UserModule::t('Logout'), 'url'=>array('/user/logout')),
 );*/
 ?>
+
+<?php
+$this->breadcrumbs = array(
+    'Личный кабинет - Редактирование профиля',
+);
+?>
+
 <?php echo $this->renderPartial('/cabinet/_cabinet_steps'); ?>
 <? /*<h1><?php echo UserModule::t('Edit profile'); ?></h1>*/?>
 <!-- begin list-->

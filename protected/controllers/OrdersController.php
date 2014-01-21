@@ -26,7 +26,15 @@ class OrdersController extends FrontController
 
     public function actionCreate($step = 1)
     {
-        if ( Yii::app()->cart->isEmpty() ) {
+        $count = 0;
+        $archived = 0;
+        foreach ( Yii::app()->cart->getPositions() as $position ) {
+            if ( !$position->isArchived() )
+                $count++;
+            else
+                $archived++;
+        }
+        if ( $count == 0 ) {
             $this->render('//site/message', array('message'=>'Ваша корзина пуста'));
             Yii::app()->end();
         }
@@ -76,18 +84,21 @@ class OrdersController extends FrontController
                     $model->save(false);
                     $userDiscount = Yii::app()->user->getDiscount();
                     foreach (Yii::app()->cart->getPositions() as $position) {
+                        if ( $position->isArchived() )
+                            continue;
                         $orderPosition = new OrderPositions();
                         $orderPosition->order_id = $model->id;
                         $orderPosition->position_id = $position->id;
+                        $orderPosition->position_key = $position->getId();
                         $orderPosition->name = $position->name;
                         $orderPosition->count = $position->getQuantity();
                         $orderPosition->cost = $position->getPrice();
                         $orderPosition->discount = $position->discount + $userDiscount;
                         $orderPosition->save();
+                        Yii::app()->cart->remove($position->getId());
                     }
                     Yii::app()->session->remove('orderState');
                     Yii::app()->user->setState('__remindSTO', false);
-                    Yii::app()->cart->clear();
                     $this->redirect('success');
                 }
             }

@@ -3,7 +3,6 @@ $ ->
 		ok     : "Ок"
 		cancel : "Отмена"
 	alertify.set buttonReverse: true
-	alertify.set buttonFocus: "cancel"
 
 	hide_popover = () -> $('.tooltip-msg').popover('destroy')
 	setTimeout hide_popover, 5000
@@ -69,11 +68,13 @@ $ ->
 
 
 
-		$('.subtotal .delete').click (e) ->
+		$('.subtotal .delete').unbind('click').bind 'click', (e) ->
 			form = $(@).parents('form')
 			if ( form.find('.blue-check input:checked').size() == 0 )
+				alertify.set buttonFocus: "ok"
 				alertify.alert "Вы не выбрали ни одной записи"
 			else
+				alertify.set buttonFocus: "cancel"
 				alertify.confirm "Подтвердите удаление выбранных элементов", (e, str) ->
 					if e
 						form.append $('<input type="hidden" />').attr('name', 'action').attr('value', 'delete')
@@ -86,6 +87,18 @@ $ ->
 								bindCabinetEvents()
 			false
 
+
+		filterRow = $('#usercabinet-wrap .filter')
+		$('input:text', filterRow).unbind('keyup').bind 'keyup', (e) ->
+			$this = $(@)
+			id = $this.attr 'id'
+			$.ajax
+				type: 'GET'
+				data: $('input', filterRow).serialize()
+				success: (data) ->
+					$('.list-view', '#usercabinet-wrap').replaceWith data
+					bindCabinetEvents()
+			return false
 
 
 	bindCabinetEvents()

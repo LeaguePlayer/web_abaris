@@ -16,31 +16,31 @@ $this->breadcrumbs = array(
 
                 <div class="catalog-grid-header">
                     <div class="container">
-                        <div class="row-fluid">
+                        <div class="row-fluid filter">
                             <div class="field span1"><div class="valign-text"><p><span class="check grey-check"></span></p></div></div>
                             <div class="field span3">
                                 <div class="valign-text">
-                                    <p>Марка<br><input type="text"></p>
+                                    <p>Марка<br><?= CHtml::activeTextField($carsFinder, 'brand') ?></p>
                                 </div>
                             </div>
                             <div class="field span1">
                                 <div class="valign-text">
-                                    <p>Модель<br><input type="text"></p>
+                                    <p>Модель<br><?= CHtml::activeTextField($carsFinder, 'model') ?></p>
                                 </div>
                             </div>
                             <div class="field span1">
                                 <div class="valign-text">
-                                    <p>Пробег<br><input type="text"></p>
+                                    <p>Пробег<br><?= CHtml::activeTextField($carsFinder, 'mileage') ?></p>
                                 </div>
                             </div>
                             <div class="field span1">
                                 <div class="valign-text">
-                                    <p>Год<br><input type="text"></p>
+                                    <p>Год<br><?= CHtml::activeTextField($carsFinder, 'year') ?></p>
                                 </div>
                             </div>
                             <div class="field span3">
                                 <div class="valign-text">
-                                    <p>VIN номер<br><input type="text"></p>
+                                    <p>VIN номер<br><?= CHtml::activeTextField($carsFinder, 'VIN') ?></p>
                                 </div>
                             </div>
                             <div class="field span1">
@@ -52,15 +52,9 @@ $this->breadcrumbs = array(
                     </div>
                 </div>
 
-                <?php $this->widget('zii.widgets.CListView', array(
-                    'id'=>'cars-list',
-                    'template'=>'{items}',
-                    'dataProvider'=>$dataUserListCars,
-                    'itemView'=>'_item_list_cars_user',
-                    'emptyTagName'=>'div',
-                    'emptyText'=>'<div class="container">Нет автомобилей</div>',
-                    'updateSelector'=>'.catalog-pager a',
-                )); ?>
+                <?php echo $this->renderPartial('_cars_grid_body', array(
+                    'dataUserListCars' => $dataUserListCars
+                )) ?>
 
             </div>
         </div>

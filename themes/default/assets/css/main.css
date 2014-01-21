@@ -34,10 +34,20 @@ button.b-button {
 .b-button-blue {
   background-color: #296bb1;
   border: none; }
+  .b-button-blue:hover {
+    background-color: #3482e2; }
 
 .b-button-red {
   background-color: #ff665d;
   border: none; }
+  .b-button-red:hover {
+    background-color: #ff8d80; }
+
+.b-button-green {
+  background-color: #6dbc75;
+  border: none; }
+  .b-button-green:hover {
+    background-color: #84c783; }
 
 .blue-check input[type='checkbox'] {
   display: none; }

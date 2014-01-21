@@ -39,7 +39,7 @@ class DetailsController extends FrontCatalogController
         if ( $model === null ) {
 			// ЕСЛИ ЗАПЧАСТЬ НЕ НАЙДЕНА
 			$detailNotFound = Details::detailNotFound($article);
-            $this->render('nofounddetail', array('detailNotFound'=>$detailNotFound) );
+            $this->render( 'nofounddetail', array('detailNotFound'=>$detailNotFound) );
 			throw new CHttpException(404, 'Запчасть не найдена');
         }
 
