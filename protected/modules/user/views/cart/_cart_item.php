@@ -16,7 +16,7 @@
                     </p>
                 </div>
             </div>
-            <div class="span2 field img no-background"><?php echo $data->getImage('small'); ?></div>
+            <div class="span2 field img no-background"><?php if ( !empty($data->img_photo) ) echo $data->getImage('small'); ?></div>
             <div class="span4 field left">
                 <div class="valign-text">
                     <p><a href="<?php echo $data->url; ?>"><?php echo $data->name; ?></a><br>производитель <?php echo $data->brand->name; ?><br>код: <?php echo $data->article; ?></p>
