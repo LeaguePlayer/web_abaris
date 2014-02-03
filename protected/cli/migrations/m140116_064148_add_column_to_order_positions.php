@@ -11,13 +11,11 @@ class m140116_064148_add_column_to_order_positions extends CDbMigration
     {
 //        $this->dropPrimaryKey('orderpos_id_pk', '{{order_positions}}');
         $this->addColumn('{{order_positions}}', 'position_key', 'varchar(40)');
-        $this->addPrimaryKey('orderpos_id_pk', '{{order_positions}}', 'order_id, position_key');
     }
  
     public function safeDown()
     {
 //        $this->dropPrimaryKey('orderpos_id_pk', '{{order_positions}}');
-        $this->addPrimaryKey('orderpos_id_pk', '{{order_positions}}', 'order_id, position_id');
         $this->dropColumn('{{order_positions}}', 'position_key');
     }
  
