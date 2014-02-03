@@ -18,6 +18,7 @@ $ ->
 				@arciveCounters = cartAction.find('.item.archive span.text .selected_count')
 				@cartActiveRows = $('#cart-details-list .catalog-grid-row').not('.archived')
 				@totalCostCounter = $('.summ .number')
+				@totalCostLabel = $('.summ').next '.text'
 				@userPanelTotalCost = $('#cart-info .cost')
 				@userPanelTotalCount = $('#cart-info .count')
 			updateCounters: (actived = 0, archived = 0) ->
@@ -103,5 +104,26 @@ $ ->
 								cart.updateCost()
 								event_binding()
 			false
+
+
+		$('input#Cart_self_transport').change (e) ->
+			$this = $(@)
+			$.ajax
+				url: '/user/cart/setSelfTransport',
+				type: 'POST',
+				data: Cart: self_transport: +$this.prop 'checked'
+				dataType: 'json'
+				success: (data) ->
+					if !data.success
+						$this.prop 'checked', false
+						return
+					total = data.cart_cost + data.delivery_price
+					cart.totalCostCounter.text accounting.formatMoney(total, "", 0, " ")
+					cart.userPanelTotalCost.text accounting.formatMoney(total, "", 0, " ")
+
+					if +data.self_transport
+						cart.totalCostLabel.text "Итого"
+					else
+						cart.totalCostLabel.text "Итого (доставка + #{accounting.formatMoney(data.delivery_price, "", 0, " ")} р.)"
 
 	event_binding()

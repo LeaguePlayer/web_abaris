@@ -75,7 +75,7 @@ class SMSSender extends CComponent
     {
         if ( is_array($sendTo) )
             $phones = $sendTo;
-        else if (is_numeric($sendTo))
+        else if ( $sendTo )
             $phones = array($sendTo);
         else
             $phones = $this->getPhones();

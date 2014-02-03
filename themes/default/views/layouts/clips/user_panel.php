@@ -26,8 +26,10 @@
                 <?php
                     $cartCount = Yii::app()->cart->getCount();
                     $cartCost = Yii::app()->cart->getCost();
+                    $dbCart = Yii::app()->user->getDbCart();
+                    $deliveryCost = $dbCart->getDeliveryPrice($cartCost);
                 ?>
-                <li id="cart-info" class="up-item"><a href="<?php echo $this->createUrl('/user/cart'); ?>"><i class="icon i-cart"></i>Ваша корзина <span class="count"><?php echo $cartCount; ?></span> <?php echo SiteHelper::pluralize($cartCount, array('товар', 'товара', 'товаров')) ?> <span class="cost"><?php echo SiteHelper::priceFormat($cartCost); ?></span> р.</a></li>
+                <li id="cart-info" class="up-item"><a href="<?php echo $this->createUrl('/user/cart'); ?>"><i class="icon i-cart"></i>Ваша корзина <span class="count"><?php echo $cartCount; ?></span> <?php echo SiteHelper::pluralize($cartCount, array('товар', 'товара', 'товаров')) ?> <span class="cost"><?php echo SiteHelper::priceFormat($cartCost + $deliveryCost); ?></span> р.</a></li>
                 <?php if ( Yii::app()->user->isGuest ): ?>
                     <li class="up-item"><a class="login-button" href="<?php echo $this->createUrl('/user/login'); ?>"><i class="icon i-auth"></i>Вход</a></li>
                 <?php else: ?>

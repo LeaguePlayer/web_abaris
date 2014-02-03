@@ -65,11 +65,11 @@ class RegistrationForm extends User {
 
     public function updateSMSCode($phone)
     {
-        $this->smsCode = 23;//SiteHelper::genRandomDigit();
+        $this->smsCode = SiteHelper::genRandomDigit();
         $cookie = new CHttpCookie('_smsCodeLife', true);
         $cookie->expire = time() + $this->smsCodeExpire;
         Yii::app()->request->cookies['_smsCodeLife'] = $cookie;
-        //$smsSender = Yii::app()->sms;
-        //$smsSender->send($this->smsCode, $phone);
+        $smsSender = Yii::app()->sms;
+        $smsSender->send($this->smsCode, $phone);
     }
 }

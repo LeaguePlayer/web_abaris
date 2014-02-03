@@ -23,7 +23,7 @@
                         <?php if ( !$data->isVirtual() ): ?>
                             —
                         <?php else: ?>
-                            <?php echo $data->toStringDeliveryTime(); ?>
+                            <?php echo $data->delivery_time > 0 ? $data->delivery_time.' дней' : 'Сегодня' ?>
                         <?php endif ?>
                     </p>
                 </div>

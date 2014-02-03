@@ -52,8 +52,25 @@
                         <span class="icon cart-icon delete-icon"></span>
                         <span class="text">Удалить (<span class="selected_count">0</span>)</span>
                     </button>
-                    <div class="span4"></div>
-                    <div class="span2 item"><span class="georgia summ"><span class="number"><?=SiteHelper::priceFormat(Yii::app()->cart->getCost());?></span> р.</span> Итого</div>
+                    <div class="span3"></div>
+                    <div class="span1 item transport">
+                        <span class="icon"></span>
+                        <span class="text">
+                            <?= CHtml::activeCheckBox($cart, 'self_transport') ?>
+                            <?= CHtml::activeLabelEx($cart, 'self_transport') ?>
+                        </span>
+                    </div>
+                    <div class="span2 item">
+                        <?php
+                            $cost = Yii::app()->cart->getCost();
+                            $dbCart = Yii::app()->user->getDbCart();
+                            $deliveryCost = $dbCart->getDeliveryPrice($cost);
+                        ?>
+                        <span class="georgia summ">
+                            <span class="number"><?=SiteHelper::priceFormat($cost + $deliveryCost);?></span> р.
+                        </span>
+                        <span class="text">Итого<? if ( !$dbCart->self_transport ) echo " (доставка +".SiteHelper::priceFormat( $deliveryCost )." р.)" ?></span>
+                    </div>
                     <a href="<?=$this->createUrl('/orders/create')?>" class="span1 item pay"><span class="icon cart-icon pay-icon"></span><span class="text">Оплатить</span></a>
                 </div>
             </div>

@@ -308,18 +308,23 @@ button.b-button {
 .brends-block {
   margin: 20px auto;
   max-width: 1200px;
-  text-align: center; }
+  text-align: center;
+  font-size: 0;
+  line-height: 0; }
   .brends-block .row-rhombs {
     display: inline-block; }
   .brends-block .offset {
-    margin-top: -150px; }
+    margin-top: -148px; }
   .brends-block .rhomb {
     width: 313px;
     height: 313px;
-    background: no-repeat center url("../img/rhomb.png");
+    background: no-repeat 0 0 url("../img/rhomb.png");
     display: inline-block;
     vertical-align: middle;
-    text-align: center; }
+    text-align: center;
+    margin: 0 8px; }
+    .brends-block .rhomb:hover {
+      background-position: 0 -318px; }
     .brends-block .rhomb a {
       position: relative; }
     .brends-block .rhomb img {

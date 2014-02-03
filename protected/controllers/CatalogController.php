@@ -20,7 +20,7 @@ class CatalogController extends FrontCatalogController
             $criteria->addCondition("name LIKE :letter");
             $criteria->params[':letter'] =  $chooseLetter.'%';
         }
-        $criteria->order = 'dt_release_date';
+        $criteria->order = 'name, dt_release_date';
         $autoModels = AutoModels::model()->findAll($criteria);
         $hystory = new AutoModelsHystory(3, $this->brand['id']);
 

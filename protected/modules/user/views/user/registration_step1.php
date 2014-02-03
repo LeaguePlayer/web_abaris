@@ -36,6 +36,13 @@ $this->breadcrumbs = array(
             </div>
         </div>
         <div class="row-fluid">
+            <div class="span5"><?php echo $form->labelEx($profile, 'father_name'); ?></div>
+            <div class="span7">
+                <?php echo $form->textField($profile, 'father_name', array('class'=>'text-input')); ?>
+                <?php echo $form->error($profile, 'father_name'); ?>
+            </div>
+        </div>
+        <div class="row-fluid">
             <div class="span5"><?php echo $form->labelEx($model, 'email'); ?></div>
             <div class="span7">
                 <?php echo $form->textField($model, 'email', array('class'=>'text-input')); ?>
@@ -72,7 +79,7 @@ $this->breadcrumbs = array(
             $profileFields=Profile::getFields();
             if ($profileFields) {
                 foreach($profileFields as $field) {
-                    if ( in_array($field->varname, array('phone', 'first_name', 'last_name')) )
+                    if ( in_array($field->varname, array('phone', 'first_name', 'last_name', 'father_name')) )
                         continue;
                     ?>
                     <div class="row-fluid">

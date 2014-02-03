@@ -83,6 +83,24 @@ $grey: #717171
 	span.text
 		display: inline-block
 		width: 100%
+	.transport
+		input[type="checkbox"]
+			display: none
+			& ~ label
+				position: relative
+				&:before
+					content: ""
+					display: block
+					position: absolute
+					top: -40px
+					left: 50%
+					margin-left: -12px
+					width: 31px
+					height: 32px
+					background: url('../img/white_checkbox.png') no-repeat 0 0
+			&:checked ~ label:before
+				background-position: 0 -38px
+
 
 .catalog-grid
 	.catalog-grid-row

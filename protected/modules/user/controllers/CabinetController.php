@@ -108,12 +108,11 @@ class CabinetController extends FrontController
 		if ($id){
 			$user_car = UserCars::model()->findByPk($id);
 		} else {
-			$user_car = new UserCars;
+			$user_car = new UserCars('add');
 		}
 		
 		if (isset($_POST["UserCars"])){
             $user_car->attributes=$_POST['UserCars'];
-
             if($user_car->save()){
                 $this->redirect(array('/user/cabinet'));
             }
@@ -127,7 +126,7 @@ class CabinetController extends FrontController
 
 
 	
-	public function actionSto ()
+	public function actionSto()
     {
         $stoFinder = new UserCarsSTO();
         if ( isset($_POST['UserSTO']) and !empty($_POST['UserSTO']['checked']) ) {

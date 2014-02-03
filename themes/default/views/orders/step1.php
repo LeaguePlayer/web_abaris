@@ -17,13 +17,17 @@
 <div class="subtotal">
     <div class="container">
         <?php
+            $dbCart = Yii::app()->user->getDbCart();
+            $cost = Yii::app()->cart->getCost(true);
+            $deliveryCost = $dbCart->getDeliveryPrice($cost);
             $count = Yii::app()->cart->getCount();
             $user = Yii::app()->user->model();
             $userDiscount = $user !== null ? ($user->discount) ? $user->discount : '0' : '0';
         ?>
         <div class="span1"><span class="georgia"><?php echo SiteHelper::priceFormat($count); ?></span> <?php echo SiteHelper::pluralize($count, array('Товар', 'Товара', 'Товаров')) ?></div>
         <div class="span1"><span class="georgia"><?php echo $userDiscount; ?></span> Скидка</div>
-        <div class="span2"><span class="georgia"><?php echo SiteHelper::priceFormat(Yii::app()->cart->getCost(true)); ?> р.</span> Итого</div>
+        <div class="span2"><span class="georgia"><?php echo SiteHelper::priceFormat($deliveryCost); ?> р.</span> Доставка</div>
+        <div class="span2"><span class="georgia"><?php echo SiteHelper::priceFormat($cost + $deliveryCost); ?> р.</span> Итого</div>
     </div>
 </div>
 

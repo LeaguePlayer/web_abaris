@@ -26,7 +26,7 @@ class UserCars extends EActiveRecord
     public function rules()
     {
         return array(
-            array('brand, model', 'required'),
+            array('brand, model', 'required', 'on' => 'add'),
             array('year, status, sort, create_time, update_time', 'numerical', 'integerOnly'=>true),
             array('mileage', 'numerical'),
             array('brand, model', 'length', 'max'=>45),

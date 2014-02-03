@@ -269,7 +269,7 @@ class Details extends EActiveRecord implements IECartPosition
 
     public function getUrl()
     {
-        return Yii::app()->urlManager->createUrl('/details/view', array('id', $this->id));
+        return Yii::app()->urlManager->createUrl('/details/view', array('article' => $this->article));
     }
 
     public function getStockSpecify()

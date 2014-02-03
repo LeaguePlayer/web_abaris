@@ -27,13 +27,16 @@ class CartController extends FrontController
     {
         return array(
             'loginControll + index',
-            'ajaxOnly + update',
+            'ajaxOnly + update, setSelfTransport',
+            'postOnly + setSelfTransport',
         );
     }
 
 
     public function actionIndex()
     {
+        $cart = Yii::app()->user->getDbCart();
+
         if ( isset($_POST['CartItems']) and !empty($_POST['CartItems']['checked']) ) {
             switch ( $_POST['CartItems']['action'] ) {
                 case 'delete':
@@ -85,6 +88,7 @@ class CartController extends FrontController
         $this->render('index', array(
             'cartDataProvider'=>$cartDataProvider,
             'userDiscount'=>$userDiscount,
+            'cart' => $cart,
         ));
     }
 
@@ -92,7 +96,8 @@ class CartController extends FrontController
 
     public function actionPut($key)
     {
-        if ( Yii::app()->cart->contains($key) ) {
+        $cart = Yii::app()->cart;
+        if ( $cart->contains($key) ) {
             $position = Yii::app()->cart->itemAt($key);
             $position->unarchivate();
         } else {
@@ -104,7 +109,7 @@ class CartController extends FrontController
                 Yii::app()->end();
             }
             $position->setCartKey($key);
-            Yii::app()->cart->put($position);
+            $cart->put($position);
         }
 
         if ( Yii::app()->request->isAjaxRequest ) {
@@ -188,5 +193,26 @@ class CartController extends FrontController
         }
 
         $this->render('_remind_sto');
+    }
+
+    public function actionSetSelfTransport()
+    {
+        if ( isset( $_POST['Cart'] ) ) {
+            $cart = Yii::app()->user->getDbCart();
+            $cart->self_transport = $_POST['Cart']['self_transport'];
+            $cartCost = Yii::app()->cart->getCost();
+            if ( $cart->save() ) {
+                echo CJSON::encode(array(
+                    'success' => true,
+                    'self_transport' => $cart->self_transport,
+                    'cart_cost' => $cartCost,
+                    'delivery_price' => $cart->getDeliveryPrice( $cartCost ),
+                ));
+                Yii::app()->end();
+            }
+        }
+        echo CJSON::encode(array(
+            'success' => false
+        ));
     }
 }

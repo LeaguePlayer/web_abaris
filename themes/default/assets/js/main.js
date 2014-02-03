@@ -183,7 +183,7 @@
           return false;
         });
         $.mask.definitions['d'] = "[0-9]";
-        return form.find('#Profile_phone').mask("dddddddddd");
+        return form.find('#Profile_phone').mask("+7 (ddd)-ddd-dd-dd");
       };
       return $.bind_ajax_modal('.registrationButton', {
         afterShow: function() {

@@ -7,6 +7,13 @@
     </div>
     <div class="step-type georgia">Подтверждение заказа</div>
 </div>
+
+<?php
+    $cost = Yii::app()->cart->getCost();
+    $dbCart = Yii::app()->user->getDbCart();
+    $deliveryCost = $dbCart->getDeliveryPrice($cost);
+?>
+
 <div class="order container order-step3">
     <!-- <form class="abaris-form" action="" method="POST"> -->
     <div class="row">
@@ -34,9 +41,12 @@
     </div>
     <div class="row">
         <div class="span12 black">Состав заказа (<a href="<?php echo $this->createUrl('/user/cart'); ?>">изменить</a>): </div>
+        <div class="span2 black">Самовывоз:</div>
+        <div class="span4"><?php echo $bdCart->self_transport ? 'Да' : 'Нет' ?></div>
     </div>
     <!-- </form> -->
 </div>
+
 <div class="catalog-container">
     <div class="catalog-grid">
         <div class="catalog-grid-header">
@@ -78,8 +88,10 @@
     <div class="container">
         <div class="row">
             <div class="span8"></div>
-            <div class="span2"><span class="georgia"><?php echo Yii::app()->cart->getDeliveryDate() ?></span> Дата доставки</div>
-            <div class="span2"><span class="georgia"><?=SiteHelper::priceFormat(Yii::app()->cart->getCost());?> р.</span> Итого</div>
+            <div class="span2"><span class="georgia"><?= Yii::app()->cart->getDeliveryDate() ?></span> Дата доставки</div>
+            <div class="span2">
+                <span class="georgia"><?= SiteHelper::priceFormat( $cost + $deliveryCost );?> р.</span> Итого<? if ( !$dbCart->self_transport ) echo " (доставка +".SiteHelper::priceFormat( $deliveryCost )." р.)" ?>
+            </div>
         </div>
     </div>
 </div>

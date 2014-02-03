@@ -149,7 +149,7 @@ $ ->
 				false
 
 			$.mask.definitions['d'] = "[0-9]"
-			form.find('#Profile_phone').mask "dddddddddd"
+			form.find('#Profile_phone').mask "+7 (ddd)-ddd-dd-dd"
 
 		$.bind_ajax_modal '.registrationButton', afterShow: () -> bindEvents $(@.inner)
 

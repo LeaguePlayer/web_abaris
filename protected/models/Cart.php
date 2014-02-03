@@ -19,7 +19,7 @@ class Cart extends CActiveRecord
     public function rules()
     {
         return array(
-            array('user_id', 'numerical', 'integerOnly'=>true),
+            array('user_id, self_transport', 'numerical', 'integerOnly'=>true),
             array('SID', 'length', 'max'=>20),
             // The following rule is used by search().
             array('id, SID, user_id', 'safe', 'on'=>'search'),
@@ -42,6 +42,7 @@ class Cart extends CActiveRecord
             'id' => 'Номер корзины',
             'SID' => '№ карты',
             'user_id' => 'Пользователь',
+            'self_transport' => 'Самовывоз',
         );
     }
 
@@ -52,6 +53,7 @@ class Cart extends CActiveRecord
 		$criteria->compare('id',$this->id);
 		$criteria->compare('SID',$this->SID,true);
 		$criteria->compare('user_id',$this->user_id);
+		$criteria->compare('self_transport',$this->user_id);
         $criteria->order = 'id';
 
         return new CActiveDataProvider($this, array(
@@ -89,5 +91,36 @@ class Cart extends CActiveRecord
             return $this->user->email;
         else
             return '';
+    }
+
+    public function getDeliveryPrice($price)
+    {
+        if ( $this->self_transport ) {
+            return 0;
+        }
+        $priceRanges = array(
+            array(
+                'from' => 0,
+                'to' => 2500,
+                'price' => 1000,
+            ),
+            array(
+                'from' => 2500,
+                'to' => 5000,
+                'price' => 500,
+            ),
+            array(
+                'from' => 5000,
+                'to' => 9999999999,
+                'price' => 0,
+            ),
+        );
+
+        foreach ( $priceRanges as $range ) {
+            if ( $range['from'] < $price && $price <= $range['to'] )
+                return $range['price'];
+        }
+
+        return 0;
     }
 }

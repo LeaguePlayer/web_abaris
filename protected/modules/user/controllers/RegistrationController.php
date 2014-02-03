@@ -42,14 +42,14 @@ class RegistrationController extends FrontController
         }
 
         if ( isset($_POST['UpdateSmsCode']) ) {
-            $model->updateSMSCode('7'.$profile->phone);
+            $model->updateSMSCode($profile->phone);
             $registrationState['smsCode'] = $model->smsCode;
             Yii::app()->session->add('registrationState', $registrationState);
             $this->refresh();
         }
 
         // ajax validator
-        if(isset($_POST['ajax']) && $_POST['ajax']==='registration-form')
+        if (isset($_POST['ajax']) && $_POST['ajax']==='registration-form')
         {
             echo UActiveForm::validate(array($model,$profile));
             Yii::app()->end();
@@ -72,7 +72,7 @@ class RegistrationController extends FrontController
                     }
                     if ( $step == 1 ) {
                         if ( $model->smsCode === null )
-                            $model->updateSMSCode('7'.$profile->phone);
+                            $model->updateSMSCode($profile->phone);
                         $registrationState['smsCode'] = $model->smsCode;
                     }
                     Yii::app()->session->add('registrationState', $registrationState);
@@ -124,6 +124,7 @@ class RegistrationController extends FrontController
             }
             $this->cs->registerCssFile($this->getAssetsUrl().'/css/registration.css');
             $this->cs->registerScriptFile($this->getAssetsUrl('application').'/js/sign_up.js', CClientScript::POS_END);
+            $this->cs->registerScriptFile($this->getAssetsUrl().'/js/registration.js', CClientScript::POS_END);
             $this->render('/user/registration_step'.$step,array('model'=>$model,'profile'=>$profile, 'userCars'=>$userCars));
         }
 	}

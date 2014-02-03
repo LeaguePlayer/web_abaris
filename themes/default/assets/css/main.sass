@@ -337,17 +337,22 @@ button.b-button
   margin: 20px auto
   max-width: 1200px
   text-align: center
+  font-size: 0
+  line-height: 0
   .row-rhombs
     display: inline-block
   .offset
-    margin-top: -150px
+    margin-top: -148px
   .rhomb
     width: 313px
     height: 313px
-    background: no-repeat center url('../img/rhomb.png')
+    background: no-repeat 0 0 url('../img/rhomb.png')
     display: inline-block
     vertical-align: middle
     text-align: center
+    margin: 0 8px
+    &:hover
+      background-position: 0 -318px
     a
       position: relative
     img
