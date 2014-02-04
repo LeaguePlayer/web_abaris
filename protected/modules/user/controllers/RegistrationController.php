@@ -94,9 +94,10 @@ class RegistrationController extends FrontController
                     $model->superuser=0;
                     $model->status=User::STATUS_ACTIVE;
 
-                    if ($model->save()) {
+                    if ($model->save(false)) {
                         $profile->user_id=$model->id;
-                        $profile->save();
+                        $profile->phone = str_replace(array("+7", " ", "(", ")", "-"), "", $profile->phone);
+                        $profile->save(false);
                         if ( isset($_POST['UserCars']) ) {
                             foreach ( $_POST['UserCars'] as $postCar ) {
                                 $emptyRecord = empty($postCar['brand'])
