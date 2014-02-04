@@ -211,3 +211,8 @@ $ ->
 		trigger: 'hover'
 	$('.tooltip-msg').popover('show')
 
+
+	$('.rhomb a').hover (e) ->
+		$(@).closest('.rhomb').addClass 'active'
+	, (e) ->
+		$(@).closest('.rhomb').removeClass 'active'

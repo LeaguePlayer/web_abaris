@@ -248,7 +248,12 @@
       html: true,
       trigger: 'hover'
     });
-    return $('.tooltip-msg').popover('show');
+    $('.tooltip-msg').popover('show');
+    return $('.rhomb a').hover(function(e) {
+      return $(this).closest('.rhomb').addClass('active');
+    }, function(e) {
+      return $(this).closest('.rhomb').removeClass('active');
+    });
   });
 
 }).call(this);

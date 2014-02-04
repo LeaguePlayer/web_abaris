@@ -8,6 +8,7 @@ $cs->registerCssFile($this->getAssetsUrl().'/css/main.css');
 $cs->registerCssFile($this->getAssetsUrl().'/css/form.css');
 
 $cs->registerCoreScript('jquery');
+$cs->registerScriptFile($this->getAssetsUrl().'/js/vendor/jquery-ui-1.9.2.custom.js', CClientScript::POS_HEAD);
 $cs->registerScriptFile($this->getAssetsUrl().'/js/vendor/fancybox/jquery.fancybox.pack.js', CClientScript::POS_END);
 $cs->registerScriptFile($this->getAssetsUrl().'/js/vendor/bootstrap.min.js', CClientScript::POS_END);
 $cs->registerScriptFile($this->getAssetsUrl().'/js/main.js', CClientScript::POS_END);

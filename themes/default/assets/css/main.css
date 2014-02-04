@@ -323,7 +323,7 @@ button.b-button {
     vertical-align: middle;
     text-align: center;
     margin: 0 8px; }
-    .brends-block .rhomb:hover {
+    .brends-block .rhomb.active {
       background-position: 0 -318px; }
     .brends-block .rhomb a {
       position: relative; }
