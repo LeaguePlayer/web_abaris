@@ -58,6 +58,13 @@ $this->breadcrumbs = array(
                     </div>
                 </div>
                 <div class="row-fluid">
+                    <div class="span4"><?=$form->labelEx($profile,'father_name')?></div>
+                    <div class="span8">
+                        <?=$form->textField($profile, 'father_name',array('size'=>60, 'class' => 'text-input'));?>
+                        <?=$form->error($profile,'father_name')?>
+                    </div>
+                </div>
+                <div class="row-fluid">
                     <div class="span4"><?=$form->labelEx($model,'email')?></div>
                     <div class="span8">
                         <?=$form->textField($model, 'email',array('class' => 'text-input'));?>
@@ -71,7 +78,7 @@ $this->breadcrumbs = array(
 							$this->widget('CMaskedTextField', array(
 							'model' => $profile,
 							'attribute' => 'phone',
-							'mask' => '9999999999',
+							'mask' => '+7 (ddd)-ddd-dd-dd',
 							'htmlOptions' => array('size' => 10, 'class' => 'text-input')));
 						?>
                         <?=$form->error($profile,'phone')?>
@@ -93,7 +100,7 @@ $this->breadcrumbs = array(
                     $profileFields=Profile::getFields();
                     if ($profileFields) {
                         foreach($profileFields as $field) {
-                            if ( in_array($field->varname, array('phone', 'first_name', 'last_name')) )
+                            if ( in_array($field->varname, array('phone', 'first_name', 'last_name', 'father_name')) )
                                 continue;
                             ?>
                             <div class="row-fluid">

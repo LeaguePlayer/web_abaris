@@ -67,8 +67,9 @@ class ProfileController extends FrontController
             }
 			$profile->attributes=$_POST['Profile'];
 			if($model->validate()&&$profile->validate()) {
-				$model->save();
-				$profile->save();
+                $profile->phone = str_replace(array("+7", " ", "(", ")", "-"), "", $profile->phone);
+				$model->save(false);
+				$profile->save(false);
 				Yii::app()->user->setFlash('profileMessage',UserModule::t("Changes is saved."));
 				$this->redirect(array('/user/profile'));
 			} else $profile->validate();

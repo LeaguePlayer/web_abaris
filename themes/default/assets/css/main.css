@@ -632,6 +632,19 @@ a, a:visited {
     margin-left: -5px;
     border-bottom-color: #ff7067; }
 
+table.orders-table {
+  border-spacing: 0;
+  width: 100%; }
+  table.orders-table th {
+    text-align: left;
+    padding: 2px 4px; }
+  table.orders-table td {
+    padding: 2px 4px;
+    border-top: 1px solid #717171; }
+    table.orders-table td.total {
+      color: #296bb1;
+      font-weight: bold; }
+
 /* ==========================================================================
  * Media Queries
  * ========================================================================== */

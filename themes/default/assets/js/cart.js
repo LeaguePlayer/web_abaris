@@ -45,10 +45,13 @@
           return this.cartActiveRows = $('#cart-details-list .catalog-grid-row').not('.archived');
         };
 
-        Cart.prototype.updateCost = function(currentRow) {
+        Cart.prototype.updateCost = function(self_transport, delivery_price) {
           var count, discount, total;
-          if (currentRow == null) {
-            currentRow = false;
+          if (self_transport == null) {
+            self_transport = true;
+          }
+          if (delivery_price == null) {
+            delivery_price = 0;
           }
           total = 0;
           discount = 0;
@@ -63,6 +66,12 @@
             priceCell.find('.current_price').text(accounting.formatMoney(currentCost, "", 0, " "));
             return priceCell.find('.price_with_discount').text(accounting.formatMoney(withDiscountCost, "", 0, " "));
           });
+          if (!self_transport && delivery_price) {
+            total += delivery_price;
+            this.totalCostLabel.text("Итого (доставка + " + (accounting.formatMoney(delivery_price, "", 0, " ")) + " р.)");
+          } else {
+            this.totalCostLabel.text("Итого");
+          }
           this.totalCostCounter.text(accounting.formatMoney(total, "", 0, " "));
           this.userPanelTotalCost.text(accounting.formatMoney(total, "", 0, " "));
           return this.userPanelTotalCount.text(count);
@@ -109,7 +118,7 @@
             success: function(data) {
               if (!data.error) {
                 $this.parents('.catalog-grid-row').data('count', ui.value);
-                return cart.updateCost();
+                return cart.updateCost(+data.self_transport, +data.delivery_price);
               }
             }
           });

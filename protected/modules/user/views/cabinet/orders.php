@@ -17,22 +17,30 @@ $this->breadcrumbs = array(
                         <div class="row-fluid">
                             <div class="field span1">
                                 <div class="valign-text">
-                                    <p class="bottom">Номер заказа<br><input type="text"></p>
+                                    <p class="">Номер заказа
+<!--                                        <br><input type="text">-->
+                                    </p>
                                 </div>
                             </div>
                             <div class="field span2">
                                 <div class="valign-text">
-                                    <p class="bottom">Даты оформление заказа<br><input type="text"></p>
+                                    <p class="">Даты оформление заказа
+<!--                                        <br><input type="text">-->
+                                    </p>
                                 </div>
                             </div>
                             <div class="field span2">
                                 <div class="valign-text">
-                                    <p class="bottom">Примерная дата доставки<br><input type="text"></p>
+                                    <p class="">Примерная дата доставки
+<!--                                        <br><input type="text">-->
+                                    </p>
                                 </div>
                             </div>
                             <div class="field span1">
                                 <div class="valign-text">
-                                    <p class="bottom">Стоимость<br><input type="text"></p>
+                                    <p class="">Стоимость
+<!--                                        <br><input type="text">-->
+                                    </p>
                                 </div>
                             </div>
                             <div class="field span1">
@@ -42,12 +50,13 @@ $this->breadcrumbs = array(
                             </div>
                             <div class="field span2">
                                 <div class="valign-text">
-                                    <p class="bottom">Статус<br>
-                                        <select name="" id="">
-                                            <option value="">Отправлено</option>
-                                            <option value="">Отправлено</option>
-                                            <option value="">Отправлено</option>
-                                        </select>
+                                    <p class="">Статус
+<!--                                        <br>-->
+<!--                                        <select name="" id="">-->
+<!--                                            <option value="">Отправлено</option>-->
+<!--                                            <option value="">Отправлено</option>-->
+<!--                                            <option value="">Отправлено</option>-->
+<!--                                        </select>-->
                                     </p>
                                 </div>
                             </div>

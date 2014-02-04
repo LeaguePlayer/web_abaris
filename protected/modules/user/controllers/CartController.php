@@ -72,6 +72,7 @@ class CartController extends FrontController
             $this->renderPartial('index', array(
                 'cartDataProvider'=>$cartDataProvider,
                 'userDiscount'=>$userDiscount,
+                'cart' => $cart,
             ));
             Yii::app()->end();
         }
@@ -140,8 +141,14 @@ class CartController extends FrontController
             $position->setCartKey($key);
         }
         $cart->update($position, $count);
+        $cost = $cart->getCost();
+        $dbCart = Yii::app()->user->getDbCart();
 
-        $response['count'] = $position->getQuantity();
+        $response = array(
+            'count' => $position->getQuantity(),
+            'self_transport' => $dbCart->self_transport,
+            'delivery_price' => $dbCart->getDeliveryPrice($cost)
+        );
         echo CJSON::encode($response);
     }
 

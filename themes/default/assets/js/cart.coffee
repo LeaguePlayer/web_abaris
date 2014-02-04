@@ -30,7 +30,7 @@ $ ->
 				@arciveCounters.text @archiveSelected
 			updateRows: () ->
 				@cartActiveRows = $('#cart-details-list .catalog-grid-row').not('.archived')
-			updateCost: (currentRow = false) ->
+			updateCost: (self_transport = true, delivery_price = 0) ->
 				total = 0
 				discount = 0
 				count = 0
@@ -42,6 +42,13 @@ $ ->
 					priceCell = $(@).find('.field.price_values')
 					priceCell.find('.current_price').text accounting.formatMoney(currentCost, "", 0, " ")
 					priceCell.find('.price_with_discount').text accounting.formatMoney(withDiscountCost, "", 0, " ")
+
+				if !self_transport && delivery_price
+					total += delivery_price
+					@totalCostLabel.text "Итого (доставка + #{accounting.formatMoney(delivery_price, "", 0, " ")} р.)"
+				else
+					@totalCostLabel.text "Итого"
+
 				@totalCostCounter.text accounting.formatMoney(total, "", 0, " ")
 				@userPanelTotalCost.text accounting.formatMoney(total, "", 0, " ")
 				@userPanelTotalCount.text count
@@ -82,7 +89,7 @@ $ ->
 					success: (data) ->
 						if (!data.error)
 							$this.parents('.catalog-grid-row').data 'count', ui.value
-							cart.updateCost()
+							cart.updateCost(+data.self_transport, +data.delivery_price)
 
 
 

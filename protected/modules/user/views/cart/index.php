@@ -69,7 +69,7 @@
                         <span class="georgia summ">
                             <span class="number"><?=SiteHelper::priceFormat($cost + $deliveryCost);?></span> р.
                         </span>
-                        <span class="text">Итого<? if ( !$dbCart->self_transport ) echo " (доставка +".SiteHelper::priceFormat( $deliveryCost )." р.)" ?></span>
+                        <span class="text">Итого<? if ( !(+$dbCart->self_transport) ) echo " (доставка +".SiteHelper::priceFormat( $deliveryCost )." р.)" ?></span>
                     </div>
                     <a href="<?=$this->createUrl('/orders/create')?>" class="span1 item pay"><span class="icon cart-icon pay-icon"></span><span class="text">Оплатить</span></a>
                 </div>

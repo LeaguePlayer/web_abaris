@@ -55,6 +55,7 @@ class OrdersController extends FrontController
             $user = Yii::app()->user->model();
             $model->recipient_firstname = $user->profile->first_name;
             $model->recipient_family = $user->profile->last_name;
+            $model->recipient_lastname = $user->profile->father_name;
             $model->client_email = $user->email;
             $model->client_phone = $user->profile->phone;
         }
@@ -77,7 +78,13 @@ class OrdersController extends FrontController
                 if ( $step < 3 ) {
                     $this->redirect($this->createUrl('/orders/create', array('step'=>$step + 1)));
                 } else {
-                    $model->full_cost = Yii::app()->cart->getCost(true);
+                    $cost = Yii::app()->cart->getCost(true);
+                    $dbCart = Yii::app()->user->getDbCart();
+                    $delivery_price = $dbCart->getDeliveryPrice($cost);
+
+                    $model->self_transport = $dbCart->self_transport;
+                    $model->delivery_price = $delivery_price;
+                    $model->full_cost = $cost + $delivery_price;
                     $model->order_status = Orders::ORDERSTATUS_NOPAYD;
                     $prevSID = Yii::app()->db->createCommand()->select('MAX(sid)')->from('{{orders}}')->queryScalar();
                     $model->SID = $prevSID + 1;

@@ -95,24 +95,24 @@ class Cart extends CActiveRecord
 
     public function getDeliveryPrice($price)
     {
-        if ( $this->self_transport ) {
+        if ( +$this->self_transport ) {
             return 0;
         }
         $priceRanges = array(
             array(
                 'from' => 0,
-                'to' => 2500,
+                'to' => 5000,
                 'price' => 1000,
             ),
             array(
-                'from' => 2500,
-                'to' => 5000,
+                'from' => 5000,
+                'to' => 10000,
                 'price' => 500,
             ),
             array(
-                'from' => 5000,
+                'from' => 10000,
                 'to' => 9999999999,
-                'price' => 0,
+                'price' => 200,
             ),
         );
 

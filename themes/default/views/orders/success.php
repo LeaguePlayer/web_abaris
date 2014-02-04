@@ -10,7 +10,7 @@
         </div>
     <?php else: ?>
         <div class="row-fluid">
-            <div class="span12"><a href="<?php echo $this->createUrl('/user/cabinet'); ?>">Перейти в личный кабинет</a></div>
+            <div class="span12"><a href="<?php echo $this->createUrl('/user/cabinet/orders'); ?>">Перейти в личный кабинет</a></div>
         </div>
         <div class="row-fluid">
             <div class="span12"><a href="<?php echo $this->createUrl('/pages/sto'); ?>" class="blue-button">Записаться на СТО</a></div>

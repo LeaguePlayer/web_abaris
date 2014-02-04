@@ -192,7 +192,7 @@ class CabinetController extends FrontController
     {
         $criteria = new CDbCriteria();
         $criteria->compare('cart_id', Yii::app()->user->dbCart->id);
-        $criteria->order = 'archived';
+        $criteria->order = 'archived, id DESC';
         $ordersDataProvider = new CActiveDataProvider("Orders", array(
             'criteria' => $criteria,
             "pagination" => array(
