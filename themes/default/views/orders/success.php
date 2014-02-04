@@ -13,7 +13,7 @@
             <div class="span12"><a href="<?php echo $this->createUrl('/user/cabinet/orders'); ?>">Перейти в личный кабинет</a></div>
         </div>
         <div class="row-fluid">
-            <div class="span12"><a href="<?php echo $this->createUrl('/pages/sto'); ?>" class="blue-button">Записаться на СТО</a></div>
+            <div class="span12"><a href="<?php echo $this->createUrl('/pages/stantsiya_tehnicheskogo_obslujivaniya'); ?>" class="blue-button">Записаться на СТО</a></div>
         </div>
     <?php endif; ?>
 </div>
